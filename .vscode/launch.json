@@ -1,0 +1,25 @@
+{
+   "version": "0.2.0",
+   "configurations": [
+      {
+         "name": "Debug PrT",
+         "request": "launch",
+         "type": "dart",
+         "flutterMode": "debug"
+      },
+      {
+         "name": "Profile PrT",
+         "request": "launch",
+         "type": "dart",
+         "flutterMode": "profile"
+      },
+      {
+         "name": "Debug Storybook",
+         "request": "launch",
+         "type": "dart",
+         "program": "storybook/main.dart",
+         "flutterMode": "debug",
+         "args": []
+      },
+   ]
+}
