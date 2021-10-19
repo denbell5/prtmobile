@@ -29,6 +29,7 @@ class _ExpandableExampleState extends State<ExpandableExample> {
             child: const Text('expand'),
           );
         }),
+        body: Container(),
       ),
     );
   }
@@ -36,7 +37,7 @@ class _ExpandableExampleState extends State<ExpandableExample> {
 
 class ExpandableStories implements StorybookStory {
   @override
-  String title = 'Date Picker';
+  String title = 'Expandable';
 
   @override
   List<StorybookStoryDefinition> getVariations() {
