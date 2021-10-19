@@ -61,6 +61,15 @@ class _ExpandableListPocExampleState extends State<ExpandableListPocExample> {
     );
   }
 
+  Widget buildListHeader() {
+    return Column(
+      children: const [
+        Text('Text information 1.'),
+        Text('Text information 2.'),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -103,6 +112,7 @@ class _ExpandableListPocExampleState extends State<ExpandableListPocExample> {
                 expandables: [
                   ...List.generate(20, (i) => buildListItem(i)),
                 ],
+                listHeader: buildListHeader(),
               ),
             ),
           ),

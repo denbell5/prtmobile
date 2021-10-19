@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:prtmobile/components/components.dart';
 
 import 'expandable.dart';
 
@@ -11,13 +12,15 @@ typedef ExpandableListBuilder = Expandable Function(
 class ExpandableList extends StatefulWidget {
   const ExpandableList({
     Key? key,
-    required this.expandables,
+    this.listHeader,
     this.controller,
+    required this.expandables,
     required this.expandableHeaderExtent,
   }) : super(key: key);
 
-  final List<Expandable> expandables;
+  final Widget? listHeader;
   final ScrollController? controller;
+  final List<Expandable> expandables;
   final double expandableHeaderExtent;
 
   @override
@@ -26,6 +29,7 @@ class ExpandableList extends StatefulWidget {
 
 class ExpandableListState extends State<ExpandableList> {
   late ScrollController _controller;
+  var listHeaderHeight = 0.0;
 
   @override
   void initState() {
@@ -34,7 +38,7 @@ class ExpandableListState extends State<ExpandableList> {
   }
 
   void scrollToToggled(int index) {
-    final value = index * widget.expandableHeaderExtent;
+    final value = index * widget.expandableHeaderExtent + listHeaderHeight;
     _controller.jumpTo(value);
   }
 
@@ -45,6 +49,15 @@ class ExpandableListState extends State<ExpandableList> {
         return CustomScrollView(
           controller: _controller,
           slivers: [
+            if (widget.listHeader != null)
+              SliverToBoxAdapter(
+                child: IntrinsicSize(
+                  onChange: (size) {
+                    listHeaderHeight = size.height;
+                  },
+                  child: widget.listHeader!,
+                ),
+              ),
             SliverList(
               delegate: SliverChildListDelegate(
                 widget.expandables.map((item) {
