@@ -37,13 +37,12 @@ class _StorybookAppState extends State<StorybookApp> {
     );
 
     for (var story in stories) {
-      final storiesHeader = dashbook
-          .storiesOf(
-            story.title,
-          )
-          .decorator(
-            CenterDecorator(),
-          );
+      final storiesHeader = dashbook.storiesOf(
+        story.title,
+      );
+      // .decorator(
+      //   CenterDecorator(),
+      // );
 
       story.getVariations().forEach((
         storyVariant,

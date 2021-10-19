@@ -14,6 +14,7 @@ class ExpandableList extends StatefulWidget {
     Key? key,
     this.listHeader,
     this.controller,
+    this.animationData,
     required this.expandables,
     required this.expandableHeaderExtent,
   }) : super(key: key);
@@ -22,6 +23,7 @@ class ExpandableList extends StatefulWidget {
   final ScrollController? controller;
   final List<Expandable> expandables;
   final double expandableHeaderExtent;
+  final AnimationData? animationData;
 
   @override
   ExpandableListState createState() => ExpandableListState();
@@ -45,14 +47,34 @@ class ExpandableListState extends State<ExpandableList> {
     required int index,
     required bool isExpanded,
   }) {
-    if (isExpanded) {
-      expandedIndex = index;
+    setState(() {
+      expandedIndex = isExpanded ? index : null;
+    });
+    if (expandedIndex != null) {
       final value = index * widget.expandableHeaderExtent + listHeaderHeight;
-      _controller.jumpTo(value);
-    } else {
-      expandedIndex = null;
+      _scrollTo(value);
     }
-    setState(() {});
+  }
+
+  void _scrollTo(double offset) {
+    if (widget.animationData == null) {
+      _controller.jumpTo(offset);
+    } else {
+      final data = widget.animationData!;
+      _controller.animateTo(
+        offset,
+        duration: data.duration,
+        curve: data.curve,
+      );
+    }
+  }
+
+  Widget _buildExtraScrollableSpace(BoxConstraints constraints) {
+    return SliverToBoxAdapter(
+      child: SizedBox(
+        height: constraints.maxHeight,
+      ),
+    );
   }
 
   @override
@@ -82,6 +104,10 @@ class ExpandableListState extends State<ExpandableList> {
                 }).toList(),
               ),
             ),
+            if (expandedIndex != null)
+              _buildExtraScrollableSpace(
+                constraints,
+              )
           ],
         );
       },

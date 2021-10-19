@@ -20,12 +20,15 @@ class _ExpandableListPocExampleState extends State<ExpandableListPocExample> {
   final scrollController = ScrollController();
   final itemExtent = 50.0;
   final listKey = GlobalKey<ExpandableListState>();
+  final animationData = AnimationData(
+    curve: Curves.linear,
+    duration: const Duration(milliseconds: 300),
+  );
 
   void onToggle({
     required int index,
     required bool isExpanded,
   }) {
-    print('toggle $index');
     listKey.currentState!.onToggle(
       index: index,
       isExpanded: isExpanded,
@@ -37,6 +40,7 @@ class _ExpandableListPocExampleState extends State<ExpandableListPocExample> {
       onToggle: (isExpanded) {
         onToggle(index: index, isExpanded: isExpanded);
       },
+      animationData: animationData,
       header: Builder(
         builder: (context) {
           return SizedBox(
@@ -117,6 +121,7 @@ class _ExpandableListPocExampleState extends State<ExpandableListPocExample> {
                   ...List.generate(20, (i) => buildListItem(i)),
                 ],
                 listHeader: buildListHeader(),
+                animationData: animationData,
               ),
             ),
           ),

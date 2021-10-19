@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:prtmobile/components/components.dart';
 
@@ -20,16 +21,32 @@ class _ExpandableExampleState extends State<ExpandableExample> {
         top: 100,
       ),
       child: Expandable(
+        animationData: AnimationData(
+          curve: Curves.linear,
+          duration: const Duration(
+            milliseconds: 300,
+          ),
+        ),
         header: Builder(builder: (context) {
           return GestureDetector(
             onTap: () {
               final state = ExpandableState.of(context);
               state!.toggle();
             },
-            child: const Text('expand'),
+            child: Container(
+              margin: const EdgeInsets.all(1),
+              decoration: const BoxDecoration(
+                color: Colors.cyan,
+              ),
+              child: const Text('expandable header'),
+            ),
           );
         }),
-        body: Container(),
+        body: Container(
+          decoration: const BoxDecoration(
+            color: Colors.amber,
+          ),
+        ),
       ),
     );
   }
