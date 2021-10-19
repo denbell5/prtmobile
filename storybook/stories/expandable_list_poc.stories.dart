@@ -21,17 +21,21 @@ class _ExpandableListPocExampleState extends State<ExpandableListPocExample> {
   final itemExtent = 50.0;
   final listKey = GlobalKey<ExpandableListState>();
 
-  void onToggle(int index) {
+  void onToggle({
+    required int index,
+    required bool isExpanded,
+  }) {
     print('toggle $index');
-    listKey.currentState!.scrollToToggled(index);
+    listKey.currentState!.onToggle(
+      index: index,
+      isExpanded: isExpanded,
+    );
   }
 
   Expandable buildListItem(int index) {
     return Expandable(
       onToggle: (isExpanded) {
-        if (isExpanded) {
-          onToggle(index);
-        }
+        onToggle(index: index, isExpanded: isExpanded);
       },
       header: Builder(
         builder: (context) {

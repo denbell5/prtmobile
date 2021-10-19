@@ -30,6 +30,10 @@ class ExpandableList extends StatefulWidget {
 class ExpandableListState extends State<ExpandableList> {
   late ScrollController _controller;
   var listHeaderHeight = 0.0;
+  int? expandedIndex;
+
+  ScrollPhysics? get scrollPhysics =>
+      expandedIndex == null ? null : const NeverScrollableScrollPhysics();
 
   @override
   void initState() {
@@ -37,9 +41,18 @@ class ExpandableListState extends State<ExpandableList> {
     _controller = widget.controller ?? ScrollController();
   }
 
-  void scrollToToggled(int index) {
-    final value = index * widget.expandableHeaderExtent + listHeaderHeight;
-    _controller.jumpTo(value);
+  void onToggle({
+    required int index,
+    required bool isExpanded,
+  }) {
+    if (isExpanded) {
+      expandedIndex = index;
+      final value = index * widget.expandableHeaderExtent + listHeaderHeight;
+      _controller.jumpTo(value);
+    } else {
+      expandedIndex = null;
+    }
+    setState(() {});
   }
 
   @override
@@ -48,6 +61,7 @@ class ExpandableListState extends State<ExpandableList> {
       builder: (context, constraints) {
         return CustomScrollView(
           controller: _controller,
+          physics: scrollPhysics,
           slivers: [
             if (widget.listHeader != null)
               SliverToBoxAdapter(
