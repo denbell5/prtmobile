@@ -4,6 +4,7 @@ import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/colors.dart';
 import 'package:prtmobile/styles/layout.dart';
 import 'package:prtmobile/styles/styles.dart';
+import 'package:prtmobile/utils/utils.dart';
 
 final kTracksetExpandAnimationData = AnimationData(
   curve: Curves.decelerate,
@@ -21,6 +22,10 @@ class TracksetView extends StatelessWidget {
   final void Function(bool) onToggle;
 
   Widget _buildHeader(BuildContext context) {
+    final startDate = formatDate(trackset.startAt);
+    final endDate = formatDate(trackset.endAt);
+    final dateRange = '$startDate - $endDate';
+
     return TouchableColor(
       child: Padding(
         padding: const EdgeInsets.symmetric(
@@ -35,7 +40,7 @@ class TracksetView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(trackset.name, style: AppTypography.h3),
-                  Text(trackset.startAt.toString()),
+                  Text(dateRange),
                 ],
               ),
             ],
