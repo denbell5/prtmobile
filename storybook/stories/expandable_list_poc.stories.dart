@@ -3,13 +3,17 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:prtmobile/components/components.dart';
+import 'package:prtmobile/styles/styles.dart';
 
 import '../storybook.dart';
 
 class ExpandableListPocExample extends StatefulWidget {
   const ExpandableListPocExample({
     Key? key,
+    this.isSeparated = false,
   }) : super(key: key);
+
+  final bool isSeparated;
 
   @override
   _ExpandableListPocExampleState createState() =>
@@ -50,12 +54,15 @@ class _ExpandableListPocExampleState extends State<ExpandableListPocExample> {
                 ExpandableState.of(context)!.toggle();
               },
               child: Container(
-                margin: const EdgeInsets.all(1),
                 decoration: const BoxDecoration(
                   color: Colors.cyan,
                   //border: Border.all(color: Colors.black),
                 ),
-                child: Text(Random().nextDouble().toString()),
+                child: Row(
+                  children: [
+                    Text(Random().nextDouble().toString()),
+                  ],
+                ),
               ),
             ),
           );
@@ -75,6 +82,19 @@ class _ExpandableListPocExampleState extends State<ExpandableListPocExample> {
         Text('Text information 1.'),
         Text('Text information 2.'),
       ],
+    );
+  }
+
+  Widget buildSeparator() {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(
+            width: kDividerHeight,
+            color: AppColors.black,
+          ),
+        ),
+      ),
     );
   }
 
@@ -118,10 +138,11 @@ class _ExpandableListPocExampleState extends State<ExpandableListPocExample> {
                 controller: scrollController,
                 expandableHeaderExtent: itemExtent,
                 expandables: [
-                  ...List.generate(20, (i) => buildListItem(i)),
+                  ...List.generate(1000, (i) => buildListItem(i)),
                 ],
                 listHeader: buildListHeader(),
                 animationData: animationData,
+                separator: widget.isSeparated ? buildSeparator() : null,
               ),
             ),
           ),
@@ -142,6 +163,14 @@ class ExpandableListPocStories implements StorybookStory {
         type: 'default',
         contentBuilder: (context) {
           return const ExpandableListPocExample();
+        },
+      ),
+      StorybookStoryDefinition(
+        type: 'separated',
+        contentBuilder: (context) {
+          return const ExpandableListPocExample(
+            isSeparated: true,
+          );
         },
       ),
     ];
