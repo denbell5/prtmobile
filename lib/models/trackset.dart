@@ -11,7 +11,7 @@ class Trackset extends Equatable {
 
   const Trackset({
     required this.id,
-    required this.userId,
+    this.userId = 'user',
     required this.name,
     required this.startAt,
     required this.endAt,
