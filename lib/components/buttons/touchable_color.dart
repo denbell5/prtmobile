@@ -21,6 +21,7 @@ class TouchableColor extends StatefulWidget {
 class _TouchableColorState extends State<TouchableColor> {
   var isTouched = false;
   Color get activeColor => isTouched ? widget.touchColor : widget.color;
+  int get durationMs => isTouched ? 30 : 200;
 
   void setIsTouched(bool value) {
     setState(() {
@@ -31,6 +32,7 @@ class _TouchableColorState extends State<TouchableColor> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: widget.onPressed,
       onTapDown: (details) {
         setIsTouched(true);
       },
@@ -42,7 +44,7 @@ class _TouchableColorState extends State<TouchableColor> {
       },
       child: AnimatedContainer(
         curve: Curves.decelerate,
-        duration: const Duration(milliseconds: 200),
+        duration: Duration(milliseconds: durationMs),
         color: activeColor,
         child: widget.child,
       ),
