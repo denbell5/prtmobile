@@ -36,6 +36,7 @@ class ExpandableListState extends State<ExpandableList> {
   var listHeaderHeight = 0.0;
   var separatorHeight = 0.0;
   int? expandedIndex;
+  double previousOffset = 0.0;
 
   ScrollPhysics? get scrollPhysics =>
       expandedIndex == null ? null : const NeverScrollableScrollPhysics();
@@ -61,9 +62,12 @@ class ExpandableListState extends State<ExpandableList> {
       expandedIndex = isExpanded ? index : null;
     });
     if (expandedIndex != null) {
+      previousOffset = _controller.offset;
       _scrollTo(
         _calcScrollToToggledOffset(index),
       );
+    } else {
+      _scrollTo(previousOffset);
     }
   }
 

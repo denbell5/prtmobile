@@ -129,21 +129,16 @@ class _ExpandableListPocExampleState extends State<ExpandableListPocExample> {
             ],
           ),
           Flexible(
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.amber),
-              ),
-              child: ExpandableList(
-                key: listKey,
-                controller: scrollController,
-                expandableHeaderExtent: itemExtent,
-                expandables: [
-                  ...List.generate(1000, (i) => buildListItem(i)),
-                ],
-                listHeader: buildListHeader(),
-                animationData: animationData,
-                separator: widget.isSeparated ? buildSeparator() : null,
-              ),
+            child: ExpandableList(
+              key: listKey,
+              controller: scrollController,
+              expandableHeaderExtent: itemExtent,
+              expandables: [
+                ...List.generate(1000, (i) => buildListItem(i)),
+              ],
+              listHeader: buildListHeader(),
+              animationData: animationData,
+              separator: widget.isSeparated ? buildSeparator() : null,
             ),
           ),
         ],
