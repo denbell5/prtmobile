@@ -11,7 +11,7 @@ class TracksetFactory {
     final now = DateTime.now();
     return Trackset(
       id: '$index',
-      name: name ?? 'trackset-$index',
+      name: name ?? 'Trackset-$index',
       startAt: now,
       endAt: now.add(const Duration(days: 7)),
       tracks: normalizedTracks,
