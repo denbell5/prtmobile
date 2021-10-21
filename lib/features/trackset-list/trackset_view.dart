@@ -5,6 +5,11 @@ import 'package:prtmobile/styles/colors.dart';
 import 'package:prtmobile/styles/layout.dart';
 import 'package:prtmobile/styles/styles.dart';
 
+final kTracksetExpandAnimationData = AnimationData(
+  curve: Curves.decelerate,
+  duration: const Duration(milliseconds: 300),
+);
+
 class TracksetView extends StatelessWidget {
   const TracksetView({
     Key? key,
@@ -57,10 +62,7 @@ class TracksetView extends StatelessWidget {
           color: Colors.amber,
         ),
       ),
-      animationData: AnimationData(
-        curve: Curves.linear,
-        duration: const Duration(milliseconds: 1000),
-      ),
+      animationData: kTracksetExpandAnimationData,
     );
   }
 }
