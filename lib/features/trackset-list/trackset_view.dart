@@ -9,11 +9,6 @@ import 'package:prtmobile/utils/utils.dart';
 
 const kTracksetHeaderHeight = 60.0;
 
-final kTracksetExpandAnimationData = AnimationData(
-  curve: Curves.decelerate,
-  duration: const Duration(milliseconds: 300),
-);
-
 class TracksetView extends StatelessWidget {
   const TracksetView({
     Key? key,
@@ -63,7 +58,7 @@ class TracksetView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expandable(
       onToggle: onToggle,
-      animationData: kTracksetExpandAnimationData,
+      animationData: kExpandAnimationData,
       header: Builder(builder: (context) {
         return _buildHeader(context);
       }),
