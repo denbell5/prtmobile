@@ -33,7 +33,12 @@ class _TracksetListState extends State<TracksetList> {
   }
 
   List<Trackset> getTracksets() {
-    return TracksetFactory.buildTracksets(5);
+    var tracksets = TracksetFactory.buildTracksets(5);
+    final tracks = TrackFactory.buildTracks(5);
+    final normalizedTracks = normalizeTracks(tracks);
+    tracksets =
+        tracksets.map((e) => e.copyWith(tracks: normalizedTracks)).toList();
+    return tracksets;
   }
 
   void onToggle({
