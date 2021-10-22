@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/components/text/text.dart';
-import 'package:prtmobile/features/trackset-list/trackset_view.dart';
+
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/styles.dart';
 import 'package:prtmobile/utils/utils.dart';
+
+import 'trackset_view.dart';
 
 class TracksetList extends StatefulWidget {
   const TracksetList({Key? key}) : super(key: key);

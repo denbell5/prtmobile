@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:prtmobile/components/components.dart';
-import 'package:prtmobile/features/trackset-list/trackset_body.dart';
+
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/colors.dart';
 import 'package:prtmobile/styles/layout.dart';
 import 'package:prtmobile/styles/styles.dart';
 import 'package:prtmobile/utils/utils.dart';
+
+import 'trackset_body.dart';
 
 const kTracksetHeaderHeight = 60.0;
 
