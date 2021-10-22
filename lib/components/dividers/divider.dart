@@ -13,7 +13,7 @@ class HorizontalDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _color = color ?? AppColors.black;
+    final _color = color ?? AppColors.lightGrey;
     return Container(
       decoration: BoxDecoration(
         border: Border(

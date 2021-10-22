@@ -6,6 +6,8 @@ import 'package:prtmobile/styles/layout.dart';
 import 'package:prtmobile/styles/styles.dart';
 import 'package:prtmobile/utils/utils.dart';
 
+const kTracksetHeaderHeight = 60.0;
+
 final kTracksetExpandAnimationData = AnimationData(
   curve: Curves.decelerate,
   duration: const Duration(milliseconds: 300),
@@ -37,7 +39,7 @@ class TracksetView extends StatelessWidget {
           horizontal: kHorizontalPadding,
         ),
         child: SizedBox(
-          height: 50,
+          height: kTracksetHeaderHeight,
           child: Row(
             children: [
               Column(
@@ -45,6 +47,7 @@ class TracksetView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(trackset.name, style: AppTypography.h3),
+                  const SizedBox(height: 3),
                   Text(dateRange),
                 ],
               ),
