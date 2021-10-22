@@ -9,14 +9,14 @@ class Trackset extends Equatable {
   final DateTime endAt;
   final NormalizedList<Track, String> tracks;
 
-  const Trackset({
+  Trackset({
     required this.id,
     this.userId = 'user',
     required this.name,
     required this.startAt,
     required this.endAt,
-    this.tracks = const NormalizedList<Track, String>(),
-  });
+    NormalizedList<Track, String>? tracks,
+  }) : tracks = tracks ?? NormalizedList.createEmpty<Track, String>();
 
   Trackset copyWith({
     NormalizedList<Track, String>? tracks,

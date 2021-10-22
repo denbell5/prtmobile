@@ -9,9 +9,18 @@ class NormalizedList<T, I> extends Equatable {
   List<T> get entities => all.map((id) => byId[id]!).toList();
 
   const NormalizedList({
-    this.byId = const {},
-    this.all = const {},
+    required this.byId,
+    required this.all,
   });
+
+  static NormalizedList<T, I> createEmpty<T, I>() {
+    final byId = <I, T>{};
+    final all = <I>{};
+    return NormalizedList<T, I>(
+      byId: byId,
+      all: all,
+    );
+  }
 
   NormalizedList<T, I> addAll(
     List<T> entities,
@@ -63,10 +72,7 @@ class NormalizedList<T, I> extends Equatable {
     List<T> collection,
     NomalizedListIdGetter<T, I> idGetter,
   ) {
-    final normalizedData = NormalizedList<T, I>(
-      all: const {},
-      byId: const {},
-    );
+    final normalizedData = NormalizedList.createEmpty<T, I>();
 
     if (collection.isEmpty) {
       return normalizedData;
@@ -75,6 +81,10 @@ class NormalizedList<T, I> extends Equatable {
     for (var element in collection) {
       final id = idGetter(element);
 
+      final da = <I>{};
+      final da2 = <String>{};
+      da.add(id);
+      da2.add(id as String);
       normalizedData.all.add(id);
       normalizedData.byId[id] = element;
     }
