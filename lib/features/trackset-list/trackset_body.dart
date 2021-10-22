@@ -1,16 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/components/text/text.dart';
+import 'package:prtmobile/features/track/track_view.dart';
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/layout.dart';
+import 'package:prtmobile/styles/styles.dart';
 
-class TracksetBody extends StatelessWidget {
+class TracksetBody extends StatefulWidget {
   const TracksetBody({
     Key? key,
     required this.trackset,
   }) : super(key: key);
 
   final Trackset trackset;
+
+  @override
+  State<TracksetBody> createState() => _TracksetBodyState();
+}
+
+class _TracksetBodyState extends State<TracksetBody> {
+  final trackListKey = GlobalKey<ExpandableListState>();
+
+  void onToggle({
+    required int index,
+    required bool isExpanded,
+  }) {
+    trackListKey.currentState!.onToggle(
+      index: index,
+      isExpanded: isExpanded,
+    );
+  }
 
   Widget _buildTracksetControls(BuildContext context) {
     return Padding(
@@ -67,9 +86,33 @@ class TracksetBody extends StatelessWidget {
     );
   }
 
+  List<Widget> _buildTrackList(BuildContext context) {
+    final tracks = widget.trackset.tracks.entities;
+    final trackViews = tracks
+        .asMap()
+        .map(
+          (index, tr) => MapEntry(
+            index,
+            TrackView(
+              track: tr,
+              onToggle: (isExpanded) {
+                onToggle(
+                  index: index,
+                  isExpanded: isExpanded,
+                );
+              },
+            ),
+          ),
+        )
+        .values
+        .toList();
+    return trackViews;
+  }
+
   @override
   Widget build(BuildContext context) {
     return ExpandableList(
+      key: trackListKey,
       listHeader: Column(
         children: [
           _buildTracksetControls(context),
@@ -77,8 +120,10 @@ class TracksetBody extends StatelessWidget {
           _buildTrackListHeader(context),
         ],
       ),
-      expandables: const [],
-      expandableHeaderExtent: 0,
+      expandables: _buildTrackList(context),
+      expandableHeaderExtent: kTrackHeaderHeight,
+      separator: const HorizontalDivider(),
+      animationData: kExpandAnimationData,
     );
   }
 }
