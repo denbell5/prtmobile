@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:prtmobile/components/components.dart';
+import 'package:prtmobile/components/text/text.dart';
 import 'package:prtmobile/features/trackset-list/trackset_view.dart';
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/styles.dart';
-import 'package:prtmobile/styles/typography.dart';
 import 'package:prtmobile/utils/utils.dart';
 
 class TracksetList extends StatefulWidget {
@@ -24,21 +24,9 @@ class _TracksetListState extends State<TracksetList> {
           right: kHorizontalPadding,
           top: kHorizontalPadding,
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Tracksets',
-              style: AppTypography.bodyText.bold(),
-            ),
-            TouchableOpacity(
-              child: Text(
-                'Add',
-                style: AppTypography.bodyText.greyed(),
-              ),
-              onPressed: () {},
-            ),
-          ],
+        child: ListHeader(
+          text: 'Tracksets',
+          onAddTap: () {},
         ),
       ),
     ];

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prtmobile/components/components.dart';
+import 'package:prtmobile/features/trackset-list/trackset_body.dart';
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/colors.dart';
 import 'package:prtmobile/styles/layout.dart';
@@ -62,15 +63,11 @@ class TracksetView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expandable(
       onToggle: onToggle,
+      animationData: kTracksetExpandAnimationData,
       header: Builder(builder: (context) {
         return _buildHeader(context);
       }),
-      body: Container(
-        decoration: const BoxDecoration(
-          color: Colors.amber,
-        ),
-      ),
-      animationData: kTracksetExpandAnimationData,
+      body: TracksetBody(trackset: trackset),
     );
   }
 }
