@@ -36,7 +36,11 @@ class _TracksetListState extends State<TracksetList> {
 
   List<Trackset> getTracksets() {
     var tracksets = TracksetFactory.buildTracksets(5);
-    final tracks = TrackFactory.buildTracks(5);
+    var tracks = TrackFactory.buildTracks(5);
+    final subtracks = SubtrackFactory.buildSubtracks(5);
+    final normalizedSubtracks = normalizeSubtracks(subtracks);
+    tracks =
+        tracks.map((e) => e.copyWith(subtracks: normalizedSubtracks)).toList();
     final normalizedTracks = normalizeTracks(tracks);
     tracksets =
         tracksets.map((e) => e.copyWith(tracks: normalizedTracks)).toList();

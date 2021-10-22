@@ -5,6 +5,8 @@ import 'package:prtmobile/styles/colors.dart';
 import 'package:prtmobile/styles/layout.dart';
 import 'package:prtmobile/styles/styles.dart';
 
+import 'track_body.dart';
+
 const kTrackHeaderHeight = 60.0;
 
 class TrackView extends StatelessWidget {
@@ -54,7 +56,7 @@ class TrackView extends StatelessWidget {
       header: Builder(builder: (context) {
         return _buildHeader(context);
       }),
-      body: Container(),
+      body: TrackBody(track: track),
     );
   }
 }
