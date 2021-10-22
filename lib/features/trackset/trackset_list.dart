@@ -87,7 +87,7 @@ class _TracksetListState extends State<TracksetList> {
       ),
       expandables: tracksetViews,
       expandableHeaderExtent: kTracksetHeaderHeight,
-      separator: const HorizontalDivider(),
+      divider: const HorizontalDivider(),
       animationData: kExpandAnimationData,
     );
   }

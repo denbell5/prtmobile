@@ -17,7 +17,7 @@ class ExpandableList extends StatefulWidget {
     this.animationData,
     required this.expandables,
     required this.expandableHeaderExtent,
-    this.separator,
+    this.divider,
   }) : super(key: key);
 
   final Widget? listHeader;
@@ -25,13 +25,13 @@ class ExpandableList extends StatefulWidget {
   final List<Widget> expandables;
   final double expandableHeaderExtent;
   final AnimationData? animationData;
-  final Widget? separator;
+  final Widget? divider;
 
   @override
   ExpandableListState createState() => ExpandableListState();
 }
 
-class ExpandableListState extends State<ExpandableList> {
+class ExpandableListState extends State<ExpandableList> with ListBuilder {
   late ScrollController _controller;
   var listHeaderHeight = 0.0;
   var separatorHeight = 0.0;
@@ -103,41 +103,24 @@ class ExpandableListState extends State<ExpandableList> {
     );
   }
 
-  List<Widget> buildList({
+  List<Widget> _buildList({
     required BoxConstraints constraints,
   }) {
-    if (widget.expandables.isEmpty) {
-      return [];
-    }
-    if (widget.separator == null) {
-      final items = widget.expandables.map((item) {
-        return ConstrainedBox(
-          constraints: constraints,
-          child: item,
-        );
-      }).toList();
-      return items;
-    }
-    final separator = widget.separator!;
-    final list = <Widget>[];
-    list.add(
-      IntrinsicSize(
+    return buildList(
+      isDivided: widget.divider != null,
+      itemCount: widget.expandables.length,
+      itemBuilder: (index) => ConstrainedBox(
+        constraints: constraints,
+        child: widget.expandables[index],
+      ),
+      firstDividerBuilder: () => IntrinsicSize(
         onChange: (size) {
           separatorHeight = size.height;
         },
-        child: separator,
+        child: widget.divider!,
       ),
+      dividerBuilder: () => widget.divider!,
     );
-    for (var i = 0; i < widget.expandables.length; i++) {
-      list.add(
-        ConstrainedBox(
-          constraints: constraints,
-          child: widget.expandables[i],
-        ),
-      );
-      list.add(separator);
-    }
-    return list;
   }
 
   @override
@@ -151,7 +134,7 @@ class ExpandableListState extends State<ExpandableList> {
             if (widget.listHeader != null) _buildListHeader(),
             SliverList(
               delegate: SliverChildListDelegate(
-                buildList(constraints: constraints),
+                _buildList(constraints: constraints),
               ),
             ),
             if (expandedIndex != null)

@@ -122,7 +122,7 @@ class _TracksetBodyState extends State<TracksetBody> {
       ),
       expandables: _buildTrackList(context),
       expandableHeaderExtent: kTrackHeaderHeight,
-      separator: const HorizontalDivider(),
+      divider: const HorizontalDivider(),
       animationData: kExpandAnimationData,
     );
   }

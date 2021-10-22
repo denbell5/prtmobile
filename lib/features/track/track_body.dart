@@ -5,7 +5,7 @@ import 'package:prtmobile/features/subtrack.dart/subtrack_view.dart';
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/styles.dart';
 
-class TrackBody extends StatelessWidget {
+class TrackBody extends StatelessWidget with ListBuilder {
   const TrackBody({
     Key? key,
     required this.track,
@@ -69,14 +69,12 @@ class TrackBody extends StatelessWidget {
 
   List<Widget> _buildSubtrackList(BuildContext context) {
     final subtracks = track.subtracks.entities;
-    const divider = HorizontalDivider();
-    final list = <Widget>[];
-    list.add(divider);
-    for (var i = 0; i < subtracks.length; i++) {
-      list.add(SubtrackView(subtrack: subtracks[i]));
-      list.add(divider);
-    }
-    return list;
+    return buildList(
+      isDivided: true,
+      itemCount: subtracks.length,
+      itemBuilder: (index) => SubtrackView(subtrack: subtracks[index]),
+      dividerBuilder: () => const HorizontalDivider(),
+    );
   }
 
   @override
