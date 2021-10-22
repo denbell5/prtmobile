@@ -4,13 +4,13 @@ class TouchableColor extends StatefulWidget {
   const TouchableColor({
     Key? key,
     required this.child,
-    required this.onPressed,
+    required this.onTap,
     required this.color,
     required this.touchColor,
   }) : super(key: key);
 
   final Widget child;
-  final VoidCallback onPressed;
+  final VoidCallback onTap;
   final Color color;
   final Color touchColor;
 
@@ -32,7 +32,7 @@ class _TouchableColorState extends State<TouchableColor> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onPressed,
+      onTap: widget.onTap,
       onTapDown: (details) {
         setIsTouched(true);
       },

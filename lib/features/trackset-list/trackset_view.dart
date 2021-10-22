@@ -27,6 +27,11 @@ class TracksetView extends StatelessWidget {
     final dateRange = '$startDate - $endDate';
 
     return TouchableColor(
+      color: AppColors.white,
+      touchColor: AppColors.lightGrey,
+      onTap: () {
+        ExpandableState.of(context)!.toggle();
+      },
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: kHorizontalPadding,
@@ -47,11 +52,6 @@ class TracksetView extends StatelessWidget {
           ),
         ),
       ),
-      onPressed: () {
-        ExpandableState.of(context)!.toggle();
-      },
-      color: AppColors.white,
-      touchColor: AppColors.lightGrey,
     );
   }
 
