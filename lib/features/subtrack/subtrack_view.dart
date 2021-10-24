@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:prtmobile/components/components.dart';
+import 'package:prtmobile/features/subtrack/subtrack_actions.dart';
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/styles.dart';
 
-class SubtrackView extends StatelessWidget {
+class SubtrackView extends StatefulWidget {
   const SubtrackView({
     Key? key,
     required this.subtrack,
@@ -11,15 +12,32 @@ class SubtrackView extends StatelessWidget {
 
   final Subtrack subtrack;
 
-  Widget _buildControlPanel(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        InlineButton(text: 'Delete', onTap: () {}),
-        const SizedBox(width: kHorizontalPadding),
-        InlineButton(text: 'Edit', onTap: () {}),
-      ],
+  @override
+  State<SubtrackView> createState() => _SubtrackViewState();
+}
+
+class _SubtrackViewState extends State<SubtrackView>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _actionsAnimationController;
+  var isSelected = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _actionsAnimationController = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
     );
+  }
+
+  void onSelectionToggled() {
+    final wasSelected = isSelected;
+    isSelected = !isSelected;
+    if (wasSelected) {
+      _actionsAnimationController.reverse();
+    } else {
+      _actionsAnimationController.forward();
+    }
   }
 
   Widget _buildRange(BuildContext context) {
@@ -28,15 +46,15 @@ class SubtrackView extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          subtrack.start.toString(),
+          widget.subtrack.start.toString(),
           style: textStyle,
         ),
         Text(
-          subtrack.pointer.toString(),
+          widget.subtrack.pointer.toString(),
           style: textStyle,
         ),
         Text(
-          subtrack.end.toString(),
+          widget.subtrack.end.toString(),
           style: textStyle,
         ),
       ],
@@ -58,26 +76,36 @@ class SubtrackView extends StatelessWidget {
     final totalHeight =
         rangeTextHeight + formTextHeight + (verticalPadding * 8);
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: kHorizontalPadding,
-      ),
-      child: SizedBox(
-        height: totalHeight,
-        child: Stack(
-          children: [
-            Positioned(
-              top: verticalPadding,
-              child: _buildControlPanel(context),
-            ),
-            Positioned.fill(
-              child: _buildRange(context),
-            ),
-            const Positioned(
-              bottom: verticalPadding,
-              child: Text('Start must have a value.'),
-            ),
-          ],
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onDoubleTap: onSelectionToggled,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: kHorizontalPadding,
+        ),
+        child: SizedBox(
+          height: totalHeight,
+          child: Stack(
+            children: [
+              SubtrackViewActions(
+                animationView: _actionsAnimationController.view,
+                paddingOffset: verticalPadding,
+                actionsOffset: formTextHeight,
+                actions: [
+                  InlineButton(text: 'Delete', onTap: () {}),
+                  const SizedBox(width: kHorizontalPadding),
+                  InlineButton(text: 'Edit', onTap: () {}),
+                ],
+              ),
+              Positioned.fill(
+                child: _buildRange(context),
+              ),
+              const Positioned(
+                bottom: verticalPadding,
+                child: Text('Start must have a value.'),
+              ),
+            ],
+          ),
         ),
       ),
     );
