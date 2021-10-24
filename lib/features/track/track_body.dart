@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/components/text/text.dart';
-import 'package:prtmobile/features/subtrack.dart/subtrack_view.dart';
+import 'package:prtmobile/features/subtrack/subtrack_view.dart';
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/styles.dart';
 
