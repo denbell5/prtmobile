@@ -10,14 +10,17 @@ class AppEditableText extends StatefulWidget {
     Color? decorationColor,
     Color? focusedDecorationColor,
     this.decorationHeight = kInputDecorationHeight,
+    Color? cursorColor,
   })  : decorationColor = decorationColor ?? AppColors.lightGrey,
         focusedDecorationColor = focusedDecorationColor ?? AppColors.grey,
+        cursorColor = cursorColor ?? AppColors.grey,
         super(key: key);
 
   final TextStyle? style;
   final Color decorationColor;
   final Color focusedDecorationColor;
   final double decorationHeight;
+  final Color cursorColor;
 
   @override
   State<AppEditableText> createState() => _AppEditableTextState();
@@ -57,6 +60,7 @@ class _AppEditableTextState extends State<AppEditableText> {
         TextField(
           expands: false,
           decoration: null,
+          cursorColor: widget.cursorColor,
           focusNode: focusNode,
           style: widget.style,
         ),
