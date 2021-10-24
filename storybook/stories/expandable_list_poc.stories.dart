@@ -139,6 +139,8 @@ class _ExpandableListPocExampleState extends State<ExpandableListPocExample> {
               listHeader: buildListHeader(),
               animationData: animationData,
               divider: widget.isSeparated ? buildSeparator() : null,
+              itemCount: 1000,
+              itemBuilder: (index) => buildListItem(index),
             ),
           ),
         ],

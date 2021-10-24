@@ -18,6 +18,8 @@ class ExpandableList extends StatefulWidget {
     required this.expandables,
     required this.expandableHeaderExtent,
     this.divider,
+    required this.itemCount,
+    required this.itemBuilder,
   }) : super(key: key);
 
   final Widget? listHeader;
@@ -26,6 +28,8 @@ class ExpandableList extends StatefulWidget {
   final double expandableHeaderExtent;
   final AnimationData? animationData;
   final Widget? divider;
+  final int itemCount;
+  final ListItemBuilder itemBuilder;
 
   @override
   ExpandableListState createState() => ExpandableListState();
@@ -108,10 +112,10 @@ class ExpandableListState extends State<ExpandableList> with ListBuilder {
   }) {
     return buildList(
       isDivided: widget.divider != null,
-      itemCount: widget.expandables.length,
+      itemCount: widget.itemCount,
       itemBuilder: (index) => ConstrainedBox(
         constraints: constraints,
-        child: widget.expandables[index],
+        child: widget.itemBuilder(index),
       ),
       firstDividerBuilder: () => IntrinsicSize(
         onChange: (size) {

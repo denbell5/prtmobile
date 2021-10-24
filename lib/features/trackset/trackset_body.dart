@@ -111,6 +111,7 @@ class _TracksetBodyState extends State<TracksetBody> {
 
   @override
   Widget build(BuildContext context) {
+    final trackViews = _buildTrackList(context);
     return ExpandableList(
       key: trackListKey,
       listHeader: Column(
@@ -124,6 +125,8 @@ class _TracksetBodyState extends State<TracksetBody> {
       expandableHeaderExtent: kTrackHeaderHeight,
       divider: const HorizontalDivider(),
       animationData: kExpandAnimationData,
+      itemCount: trackViews.length,
+      itemBuilder: (index) => trackViews[index],
     );
   }
 }
