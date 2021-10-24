@@ -3,7 +3,13 @@ import 'package:flutter/widgets.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/styles/styles.dart';
 
-class AppEditableText extends StatefulWidget {
+class AppEditableText extends FormField<String> {
+  final TextStyle? style;
+  final double decorationHeight;
+  final bool isEnabled;
+  final String initialText;
+  final void Function(String? text)? onErrorTextChanged;
+
   AppEditableText({
     Key? key,
     this.style,
@@ -13,31 +19,55 @@ class AppEditableText extends StatefulWidget {
     Color? cursorColor,
     this.isEnabled = true,
     this.initialText = '',
-  })  : decorationColor = decorationColor ?? AppColors.lightGrey,
-        focusedDecorationColor = focusedDecorationColor ?? AppColors.grey,
-        cursorColor = cursorColor ?? AppColors.grey,
-        super(key: key);
-
-  final TextStyle? style;
-  final Color decorationColor;
-  final Color focusedDecorationColor;
-  final double decorationHeight;
-  final Color cursorColor;
-  final bool isEnabled;
-  final String initialText;
+    String? Function(String?)? validator,
+    void Function(String?)? onSaved,
+    this.onErrorTextChanged,
+  }) : super(
+            key: key,
+            initialValue: initialText,
+            validator: validator,
+            onSaved: onSaved,
+            builder: (field) {
+              decorationColor = decorationColor ?? AppColors.lightGrey;
+              focusedDecorationColor = focusedDecorationColor ?? AppColors.grey;
+              cursorColor = cursorColor ?? AppColors.grey;
+              final state = field as _AppEditableTextState;
+              return Column(
+                children: [
+                  TextField(
+                    expands: false,
+                    decoration: null,
+                    cursorColor: cursorColor,
+                    focusNode: state.focusNode,
+                    style: style,
+                    enabled: isEnabled,
+                    controller: state.controller,
+                    onChanged: (value) {
+                      state.didChange(value);
+                    },
+                  ),
+                  if (isEnabled)
+                    HorizontalDivider(
+                      height: decorationHeight,
+                      color: state.isFocused
+                          ? focusedDecorationColor
+                          : decorationColor,
+                    )
+                  else
+                    SizedBox(height: decorationHeight),
+                ],
+              );
+            });
 
   @override
-  State<AppEditableText> createState() => _AppEditableTextState();
+  _AppEditableTextState createState() => _AppEditableTextState();
 }
 
-class _AppEditableTextState extends State<AppEditableText> {
+class _AppEditableTextState extends FormFieldState<String> {
   var isFocused = false;
   late FocusNode focusNode;
   late TextEditingController controller;
-
-  Color get activeDecorationColor =>
-      isFocused ? widget.focusedDecorationColor : widget.decorationColor;
-
+  String? lastErrorText;
   int buildCounter = 0;
 
   @override
@@ -49,7 +79,7 @@ class _AppEditableTextState extends State<AppEditableText> {
         isFocused = focusNode.hasFocus;
       });
     });
-    controller = TextEditingController(text: widget.initialText);
+    controller = TextEditingController(text: widget.initialValue);
   }
 
   @override
@@ -59,27 +89,12 @@ class _AppEditableTextState extends State<AppEditableText> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    print('build ${buildCounter++}');
-    return Column(
-      children: [
-        TextField(
-          expands: false,
-          decoration: null,
-          cursorColor: widget.cursorColor,
-          focusNode: focusNode,
-          style: widget.style,
-          enabled: widget.isEnabled,
-          controller: controller,
-        ),
-        if (widget.isEnabled)
-          HorizontalDivider(
-            height: widget.decorationHeight,
-            color: activeDecorationColor,
-          )
-        else
-          SizedBox(height: widget.decorationHeight),
-      ],
-    );
+  bool validate() {
+    final result = super.validate();
+    if (lastErrorText != errorText) {
+      (widget as AppEditableText).onErrorTextChanged?.call(errorText);
+    }
+    lastErrorText = errorText;
+    return result;
   }
 }

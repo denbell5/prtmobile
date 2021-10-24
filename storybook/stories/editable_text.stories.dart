@@ -19,6 +19,7 @@ class _EditableTextExampleState extends State<EditableTextExample> {
   var textSize = const Size(0.0, 0.0);
 
   var isInputEnabled = false;
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -28,45 +29,66 @@ class _EditableTextExampleState extends State<EditableTextExample> {
         left: 50,
         right: 50,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TouchableOpacity(
-            child: const Text('Toggle input'),
-            onPressed: () {
-              setState(() {
-                isInputEnabled = !isInputEnabled;
-              });
-            },
-          ),
-          const SizedBox(height: 15),
-          IntrinsicSize(
-            onChange: (size) {
-              setState(() {
-                textSize = size;
-              });
-            },
-            child: Text(
-              'Example text',
-              style: AppTypography.h2,
+      child: Form(
+        key: formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TouchableOpacity(
+              child: const Text('Toggle input'),
+              onPressed: () {
+                setState(() {
+                  isInputEnabled = !isInputEnabled;
+                });
+              },
             ),
-          ),
-          IntrinsicSize(
-            onChange: (size) {
-              setState(() {
-                inputSize = size;
-              });
-            },
-            child: AppEditableText(
-              style: AppTypography.h2,
-              isEnabled: isInputEnabled,
-              initialText: 'Example text',
+            TouchableOpacity(
+              child: const Text('Save form'),
+              onPressed: () {
+                formKey.currentState!.save();
+              },
             ),
-          ),
-          const SizedBox(height: 15),
-          Text('Input height - ${inputSize.height}'),
-          Text('Text height - ${textSize.height}'),
-        ],
+            TouchableOpacity(
+              child: const Text('Validate form'),
+              onPressed: () {
+                formKey.currentState!.validate();
+              },
+            ),
+            const SizedBox(height: 15),
+            IntrinsicSize(
+              onChange: (size) {
+                setState(() {
+                  inputSize = size;
+                });
+              },
+              child: AppEditableText(
+                style: AppTypography.h2,
+                isEnabled: isInputEnabled,
+                initialText: 'Example text',
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Value can not be empty';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            IntrinsicSize(
+              onChange: (size) {
+                setState(() {
+                  textSize = size;
+                });
+              },
+              child: Text(
+                'Example text',
+                style: AppTypography.h2,
+              ),
+            ),
+            const SizedBox(height: 15),
+            Text('Input height - ${inputSize.height}'),
+            Text('Text height - ${textSize.height}'),
+          ],
+        ),
       ),
     );
   }
