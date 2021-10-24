@@ -18,6 +18,8 @@ class _EditableTextExampleState extends State<EditableTextExample> {
   var inputSize = const Size(0.0, 0.0);
   var textSize = const Size(0.0, 0.0);
 
+  var isInputEnabled = true;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -27,8 +29,17 @@ class _EditableTextExampleState extends State<EditableTextExample> {
         right: 50,
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ignore: avoid_unnecessary_containers
+          TouchableOpacity(
+            child: const Text('Toggle input'),
+            onPressed: () {
+              setState(() {
+                isInputEnabled = !isInputEnabled;
+              });
+            },
+          ),
+          const SizedBox(height: 15),
           IntrinsicSize(
             onChange: (size) {
               setState(() {
@@ -48,10 +59,9 @@ class _EditableTextExampleState extends State<EditableTextExample> {
             },
             child: AppEditableText(
               style: AppTypography.h2,
+              isEnabled: isInputEnabled,
             ),
           ),
-          const SizedBox(height: 15),
-          AppEditableText(),
           const SizedBox(height: 15),
           Text('Input height - ${inputSize.height}'),
           Text('Text height - ${textSize.height}'),
