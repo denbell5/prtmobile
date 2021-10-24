@@ -61,7 +61,7 @@ class _EditableTextExampleState extends State<EditableTextExample> {
                   inputSize = size;
                 });
               },
-              child: AppEditableText(
+              child: Input(
                 style: AppTypography.h2,
                 isEnabled: isInputEnabled,
                 initialText: 'Example text',

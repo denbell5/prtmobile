@@ -6,4 +6,5 @@ class AppColors {
   static Color get grey => Colors.grey;
   static Color get lightGrey => Colors.grey[200]!;
   static Color get black => Colors.black;
+  static Color get transparent => Colors.transparent;
 }
