@@ -12,6 +12,7 @@ class AppEditableText extends StatefulWidget {
     this.decorationHeight = kInputDecorationHeight,
     Color? cursorColor,
     this.isEnabled = true,
+    this.initialText = '',
   })  : decorationColor = decorationColor ?? AppColors.lightGrey,
         focusedDecorationColor = focusedDecorationColor ?? AppColors.grey,
         cursorColor = cursorColor ?? AppColors.grey,
@@ -23,6 +24,7 @@ class AppEditableText extends StatefulWidget {
   final double decorationHeight;
   final Color cursorColor;
   final bool isEnabled;
+  final String initialText;
 
   @override
   State<AppEditableText> createState() => _AppEditableTextState();
@@ -31,6 +33,7 @@ class AppEditableText extends StatefulWidget {
 class _AppEditableTextState extends State<AppEditableText> {
   var isFocused = false;
   late FocusNode focusNode;
+  late TextEditingController controller;
 
   Color get activeDecorationColor =>
       isFocused ? widget.focusedDecorationColor : widget.decorationColor;
@@ -46,6 +49,7 @@ class _AppEditableTextState extends State<AppEditableText> {
         isFocused = focusNode.hasFocus;
       });
     });
+    controller = TextEditingController(text: widget.initialText);
   }
 
   @override
@@ -66,6 +70,7 @@ class _AppEditableTextState extends State<AppEditableText> {
           focusNode: focusNode,
           style: widget.style,
           enabled: widget.isEnabled,
+          controller: controller,
         ),
         if (widget.isEnabled)
           HorizontalDivider(

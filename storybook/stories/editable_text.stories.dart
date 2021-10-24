@@ -18,7 +18,7 @@ class _EditableTextExampleState extends State<EditableTextExample> {
   var inputSize = const Size(0.0, 0.0);
   var textSize = const Size(0.0, 0.0);
 
-  var isInputEnabled = true;
+  var isInputEnabled = false;
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +60,7 @@ class _EditableTextExampleState extends State<EditableTextExample> {
             child: AppEditableText(
               style: AppTypography.h2,
               isEnabled: isInputEnabled,
+              initialText: 'Example text',
             ),
           ),
           const SizedBox(height: 15),
