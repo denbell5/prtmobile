@@ -32,12 +32,14 @@ class _SubtrackViewState extends State<SubtrackView>
 
   void onSelectionToggled() {
     final wasSelected = isSelected;
-    isSelected = !isSelected;
     if (wasSelected) {
       _actionsAnimationController.reverse();
     } else {
       _actionsAnimationController.forward();
     }
+    setState(() {
+      isSelected = !isSelected;
+    });
   }
 
   Widget _buildRange(BuildContext context) {
@@ -94,15 +96,18 @@ class _SubtrackViewState extends State<SubtrackView>
                 actions: [
                   InlineButton(text: 'Delete', onTap: () {}),
                   const SizedBox(width: kHorizontalPadding),
-                  InlineButton(text: 'Edit', onTap: () {}),
+                  InlineButton(text: 'Cancel', onTap: () {}),
+                  const SizedBox(width: kHorizontalPadding),
+                  InlineButton(text: 'Save', onTap: () {}),
                 ],
               ),
               Positioned.fill(
                 child: _buildRange(context),
               ),
+              // error message
               const Positioned(
                 bottom: verticalPadding,
-                child: Text('Start must have a value.'),
+                child: Text(''),
               ),
             ],
           ),
