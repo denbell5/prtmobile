@@ -39,6 +39,7 @@ class _TouchableOpacityState extends State<TouchableOpacity>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      behavior: HitTestBehavior.translucent,
       onTap: widget.onPressed,
       onTapDown: animation.handleTapDown,
       onTapUp: animation.handleTapUp,
