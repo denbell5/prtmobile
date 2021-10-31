@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:prtmobile/styles/styles.dart';
 
 class FontSizes {
-  static const double body = 16;
-  static const double h2 = 24;
-  static const double h3 = 20;
+  static const double body = 14;
+  static const double h2 = 22;
+  static const double h3 = 18;
+  static const double h4 = 16;
 }
 
 class AppTypography {
@@ -20,6 +21,11 @@ class AppTypography {
       );
   static TextStyle get h3 => const TextStyle(
         fontSize: FontSizes.h3,
+        height: kFontHeight,
+      );
+
+  static TextStyle get h4 => const TextStyle(
+        fontSize: FontSizes.h4,
         height: kFontHeight,
       );
 }

@@ -44,9 +44,8 @@ class TracksetView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(trackset.name, style: AppTypography.h3),
-                  const SizedBox(height: 3),
-                  Text(dateRange),
+                  Text(trackset.name, style: AppTypography.h4),
+                  Text(dateRange, style: AppTypography.bodyText.greyed()),
                 ],
               ),
             ],
