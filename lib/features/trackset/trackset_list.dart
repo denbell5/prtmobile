@@ -24,7 +24,6 @@ class _TracksetListState extends State<TracksetList> {
         padding: const EdgeInsets.only(
           left: kHorizontalPadding,
           right: kHorizontalPadding,
-          top: kHorizontalPadding,
         ),
         child: ListHeader(
           text: 'Tracksets',
