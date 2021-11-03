@@ -14,15 +14,22 @@ class ListHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          text,
-          style: AppTypography.h4.bold(),
-        ),
-        InlineButton(text: 'Add', onTap: onAddTap),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: kHorizontalPadding,
+        right: kHorizontalPadding,
+        bottom: kHorizontalPadding / 2,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            text,
+            style: AppTypography.h4.bold(),
+          ),
+          InlineButton(text: 'Add', onTap: onAddTap),
+        ],
+      ),
     );
   }
 }

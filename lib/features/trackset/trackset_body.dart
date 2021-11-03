@@ -36,7 +36,6 @@ class _TracksetBodyState extends State<TracksetBody> {
       padding: const EdgeInsets.only(
         left: kHorizontalPadding,
         right: kHorizontalPadding,
-        top: kHorizontalPadding / 4,
         bottom: kHorizontalPadding,
       ),
       child: Row(
@@ -73,16 +72,9 @@ class _TracksetBodyState extends State<TracksetBody> {
   }
 
   Widget _buildTrackListHeader(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        left: kHorizontalPadding,
-        right: kHorizontalPadding,
-        top: kHorizontalPadding,
-      ),
-      child: ListHeader(
-        text: 'Tracks',
-        onAddTap: () {},
-      ),
+    return ListHeader(
+      text: 'Tracks',
+      onAddTap: () {},
     );
   }
 

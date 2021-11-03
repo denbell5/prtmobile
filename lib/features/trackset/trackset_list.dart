@@ -20,15 +20,9 @@ class _TracksetListState extends State<TracksetList> {
 
   Iterable<Widget> _buildTracksetListHeader() {
     return [
-      Padding(
-        padding: const EdgeInsets.only(
-          left: kHorizontalPadding,
-          right: kHorizontalPadding,
-        ),
-        child: ListHeader(
-          text: 'Tracksets',
-          onAddTap: () {},
-        ),
+      ListHeader(
+        text: 'Tracksets',
+        onAddTap: () {},
       ),
     ];
   }

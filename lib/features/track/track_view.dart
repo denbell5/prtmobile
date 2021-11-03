@@ -38,7 +38,7 @@ class TrackView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(track.name, style: AppTypography.h3),
+                  Text(track.name, style: AppTypography.h4),
                 ],
               ),
             ],

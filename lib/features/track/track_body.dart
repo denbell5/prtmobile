@@ -54,15 +54,9 @@ class TrackBody extends StatelessWidget with ListBuilder {
   }
 
   Widget _buildTrackListHeader(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        left: kHorizontalPadding,
-        right: kHorizontalPadding,
-      ),
-      child: ListHeader(
-        text: 'Subtracks',
-        onAddTap: () {},
-      ),
+    return ListHeader(
+      text: 'Subtracks',
+      onAddTap: () {},
     );
   }
 
