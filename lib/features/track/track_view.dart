@@ -42,6 +42,10 @@ class TrackView extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
+                    Text(
+                      '${track.done}/${track.length} points',
+                      style: AppTypography.bodyText.greyed(),
+                    ),
                   ],
                 ),
               ),

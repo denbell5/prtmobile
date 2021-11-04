@@ -1,38 +1,63 @@
+import 'dart:math';
+
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/utils/utils.dart';
+
+Subtrack _generateRange({
+  required int minValue,
+}) {
+  final start = minValue + 1 + Random(minValue).nextInt(50);
+  final end = start + 1 + Random(minValue).nextInt(100);
+  final pointer = start + Random(minValue).nextInt(end - start);
+  return Subtrack(
+    id: DateTime.now().microsecondsSinceEpoch.toString(),
+    start: start,
+    end: end,
+    pointer: pointer,
+  );
+}
+
+List<Subtrack> _generangeRangeList() {
+  final list = <Subtrack>[];
+  final length = Random().nextInt(10);
+  for (var i = 1; i < length + 1; i++) {
+    list.add(_generateRange(minValue: i * 100));
+  }
+  return list;
+}
 
 NormalizedList<Trackset, String> getRealWorldTracksets() {
   final tracks = <Track>[
     Track(
       id: '1',
       name: 'Read "Davies A. Async in C# 5.0"',
-      subtracks: NormalizedList.createEmpty(),
+      subtracks: normalizeSubtracks(_generangeRangeList()),
     ),
     Track(
       id: '2',
       name: 'Read Entity Framework Core In Action by Jon P Smith',
-      subtracks: NormalizedList.createEmpty(),
+      subtracks: normalizeSubtracks(_generangeRangeList()),
     ),
     Track(
       id: '3',
       name: 'Watch series in english',
-      subtracks: NormalizedList.createEmpty(),
+      subtracks: normalizeSubtracks(_generangeRangeList()),
     ),
     Track(
       id: '4',
       name: 'Reach 4 kyu on codewars.com',
-      subtracks: NormalizedList.createEmpty(),
+      subtracks: normalizeSubtracks(_generangeRangeList()),
     ),
     Track(
       id: '5',
       name:
           'Read “The Clean Coder: A Code of Conduct for Professional Programmers”',
-      subtracks: NormalizedList.createEmpty(),
+      subtracks: normalizeSubtracks(_generangeRangeList()),
     ),
     Track(
       id: '6',
       name: 'Read Pro Git book by Scott Chacon and Ben Straub',
-      subtracks: NormalizedList.createEmpty(),
+      subtracks: normalizeSubtracks(_generangeRangeList()),
     ),
   ];
   final normalizedTracks = normalizeTracks(tracks);

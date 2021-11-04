@@ -25,7 +25,7 @@ class ListHeader extends StatelessWidget {
         children: [
           Text(
             text,
-            style: AppTypography.h4.bold(),
+            style: AppTypography.h4,
           ),
           InlineButton(text: 'Add', onTap: onAddTap),
         ],

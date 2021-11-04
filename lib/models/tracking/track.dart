@@ -24,4 +24,11 @@ class Track extends Equatable {
 
   @override
   List<Object?> get props => [id, name, subtracks];
+
+  int get length =>
+      subtracks.entities.fold(0, (sum, subtrack) => sum += subtrack.length);
+  int get done =>
+      subtracks.entities.fold(0, (sum, subtrack) => sum += subtrack.done);
+  int get left =>
+      subtracks.entities.fold(0, (sum, subtrack) => sum += subtrack.left);
 }

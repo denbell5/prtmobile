@@ -73,7 +73,7 @@ class _TracksetBodyState extends State<TracksetBody> {
 
   Widget _buildTrackListHeader(BuildContext context) {
     return ListHeader(
-      text: 'Tracks',
+      text: 'Track List',
       onAddTap: () {},
     );
   }
@@ -110,6 +110,7 @@ class _TracksetBodyState extends State<TracksetBody> {
         children: [
           _buildTracksetControls(context),
           _buildTracksetStats(context),
+          const SizedBox(height: kHorizontalPadding),
           _buildTrackListHeader(context),
         ],
       ),
