@@ -4,6 +4,7 @@ import 'package:prtmobile/components/text/text.dart';
 
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/styles.dart';
+import 'package:prtmobile/utils/__mocks__/real_world.dart';
 import 'package:prtmobile/utils/utils.dart';
 
 import 'trackset_view.dart';
@@ -21,23 +22,24 @@ class _TracksetListState extends State<TracksetList> {
   Iterable<Widget> _buildTracksetListHeader() {
     return [
       ListHeader(
-        text: 'Tracksets',
+        text: 'Trackset List',
         onAddTap: () {},
       ),
     ];
   }
 
-  List<Trackset> getTracksets() {
-    var tracksets = TracksetFactory.buildTracksets(5);
-    var tracks = TrackFactory.buildTracks(5);
-    final subtracks = SubtrackFactory.buildSubtracks(5);
-    final normalizedSubtracks = normalizeSubtracks(subtracks);
-    tracks =
-        tracks.map((e) => e.copyWith(subtracks: normalizedSubtracks)).toList();
-    final normalizedTracks = normalizeTracks(tracks);
-    tracksets =
-        tracksets.map((e) => e.copyWith(tracks: normalizedTracks)).toList();
-    return tracksets;
+  NormalizedList<Trackset, String> getTracksets() {
+    // var tracksets = TracksetFactory.buildTracksets(5);
+    // var tracks = TrackFactory.buildTracks(5);
+    // final subtracks = SubtrackFactory.buildSubtracks(5);
+    // final normalizedSubtracks = normalizeSubtracks(subtracks);
+    // tracks =
+    //     tracks.map((e) => e.copyWith(subtracks: normalizedSubtracks)).toList();
+    // final normalizedTracks = normalizeTracks(tracks);
+    // tracksets =
+    //     tracksets.map((e) => e.copyWith(tracks: normalizedTracks)).toList();
+    // return tracksets;
+    return getRealWorldTracksets();
   }
 
   void onToggle({
@@ -53,7 +55,7 @@ class _TracksetListState extends State<TracksetList> {
   @override
   Widget build(BuildContext context) {
     final tracksets = getTracksets();
-    final tracksetViews = tracksets
+    final tracksetViews = tracksets.entities
         .asMap()
         .map(
           (index, tr) => MapEntry(
@@ -80,9 +82,8 @@ class _TracksetListState extends State<TracksetList> {
       ),
       expandables: tracksetViews,
       expandableHeaderExtent: kTracksetHeaderHeight,
-      divider: const HorizontalDivider(),
       animationData: kExpandAnimationData,
-      itemCount: tracksets.length,
+      itemCount: tracksets.all.length,
       itemBuilder: (index) => tracksetViews[index],
     );
   }

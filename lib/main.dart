@@ -15,7 +15,24 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: AppColors.lightGrey,
+        primaryColor: AppColors.mineShaft,
+        backgroundColor: AppColors.mineShaft,
+        scaffoldBackgroundColor: AppColors.mineShaft,
+        colorScheme: ColorScheme(
+          primary: AppColors.white,
+          primaryVariant: AppColors.white,
+          secondary: AppColors.lightGrey,
+          secondaryVariant: AppColors.grey,
+          surface: AppColors.tundora,
+          background: AppColors.mineShaft,
+          error: AppColors.flory,
+          onPrimary: AppColors.mineShaft,
+          onSecondary: AppColors.mineShaft,
+          onSurface: AppColors.white,
+          onBackground: AppColors.white,
+          onError: AppColors.white,
+          brightness: Brightness.dark,
+        ),
         textTheme: TextTheme(
           bodyText2: AppTypography.bodyText,
         ),

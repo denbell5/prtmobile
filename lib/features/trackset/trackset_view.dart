@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prtmobile/components/components.dart';
-
 import 'package:prtmobile/models/models.dart';
-import 'package:prtmobile/styles/colors.dart';
 import 'package:prtmobile/styles/layout.dart';
 import 'package:prtmobile/styles/styles.dart';
 import 'package:prtmobile/utils/utils.dart';
@@ -26,10 +24,8 @@ class TracksetView extends StatelessWidget {
     final endDate = formatDate(trackset.endAt);
     final dateRange = '$startDate - $endDate';
 
-    return TouchableColor(
-      color: AppColors.white,
-      touchColor: AppColors.lightGrey,
-      onTap: () {
+    return TouchableOpacity(
+      onPressed: () {
         ExpandableState.of(context)!.toggle();
       },
       child: Padding(

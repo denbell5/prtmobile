@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/models/models.dart';
-import 'package:prtmobile/styles/colors.dart';
 import 'package:prtmobile/styles/layout.dart';
 import 'package:prtmobile/styles/styles.dart';
 
@@ -20,10 +19,8 @@ class TrackView extends StatelessWidget {
   final void Function(bool) onToggle;
 
   Widget _buildHeader(BuildContext context) {
-    return TouchableColor(
-      color: AppColors.white,
-      touchColor: AppColors.lightGrey,
-      onTap: () {
+    return TouchableOpacity(
+      onPressed: () {
         ExpandableState.of(context)!.toggle();
       },
       child: Padding(
@@ -34,12 +31,19 @@ class TrackView extends StatelessWidget {
           height: kTrackHeaderHeight,
           child: Row(
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(track.name, style: AppTypography.h4),
-                ],
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      track.name,
+                      style: AppTypography.h4,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

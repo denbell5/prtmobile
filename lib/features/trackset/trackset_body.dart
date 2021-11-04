@@ -115,7 +115,6 @@ class _TracksetBodyState extends State<TracksetBody> {
       ),
       expandables: _buildTrackList(context),
       expandableHeaderExtent: kTrackHeaderHeight,
-      divider: const HorizontalDivider(),
       animationData: kExpandAnimationData,
       itemCount: trackViews.length,
       itemBuilder: (index) => trackViews[index],
