@@ -13,6 +13,22 @@ class SubtrackRange extends Equatable {
 
   @override
   List<Object?> get props => [start, end, pointer];
+
+  bool get isOnStart => pointer == start;
+  bool get isOnEnd => pointer == end;
+
+  int get length => end - start + 1;
+  int get done {
+    if (isOnStart) return 0;
+    if (isOnEnd) return length;
+    return pointer - start;
+  }
+
+  int get left {
+    if (isOnStart) return length;
+    if (isOnEnd) return 0;
+    return end - pointer + 1;
+  }
 }
 
 class Subtrack extends SubtrackRange {
@@ -32,7 +48,7 @@ class Subtrack extends SubtrackRange {
   @override
   List<Object?> get props => [...super.props, id];
 
-  SubtrackRange get range => SubtrackRange(
+  SubtrackRange get baseRange => SubtrackRange(
         start: start,
         end: end,
         pointer: pointer,

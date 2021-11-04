@@ -1,6 +1,6 @@
 import 'package:prtmobile/models/models.dart';
 
-import 'utils.dart';
+import '../utils.dart';
 
 class TrackFactory {
   static Track buildTrack(
