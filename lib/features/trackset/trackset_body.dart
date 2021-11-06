@@ -119,6 +119,7 @@ class _TracksetBodyState extends State<TracksetBody> {
       animationData: kExpandAnimationData,
       itemCount: trackViews.length,
       itemBuilder: (index) => trackViews[index],
+      divider: const HorizontalDivider(),
     );
   }
 }
