@@ -42,11 +42,8 @@ class ExpandableListState extends State<ExpandableList> with ListBuilder {
   int? expandedIndex;
   double previousOffset = 0.0;
 
-  ScrollPhysics? get scrollPhysics => expandedIndex == null
-      ? const BouncingScrollPhysics(
-          parent: AlwaysScrollableScrollPhysics(),
-        )
-      : const NeverScrollableScrollPhysics();
+  ScrollPhysics? get scrollPhysics =>
+      expandedIndex == null ? null : const NeverScrollableScrollPhysics();
 
   @override
   void initState() {
