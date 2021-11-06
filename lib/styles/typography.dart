@@ -33,6 +33,7 @@ class AppTypography {
 extension TextStyleExtensions on TextStyle {
   TextStyle greyed() => copyWith(color: AppColors.grey);
   TextStyle bold() => copyWith(fontWeight: FontWeight.bold);
+  TextStyle white() => copyWith(color: AppColors.white);
 }
 
 double calcTextSize({
