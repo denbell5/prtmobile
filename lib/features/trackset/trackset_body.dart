@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prtmobile/components/components.dart';
+import 'package:prtmobile/components/text/highlighted.dart';
 import 'package:prtmobile/components/text/text.dart';
 import 'package:prtmobile/features/track/track_view.dart';
 import 'package:prtmobile/models/models.dart';
@@ -62,8 +63,23 @@ class _TracksetBodyState extends State<TracksetBody> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
-              Text('34 days of the trackset are behind,'),
-              Text('67 days left.'),
+              Highlighted(
+                child: Text(
+                  '34 days passed, 67 days  left',
+                ),
+              ),
+              SizedBox(height: kHorizontalPadding / 2),
+              Highlighted(
+                child: Text(
+                  '356/1678 points done',
+                ),
+              ),
+              SizedBox(height: kHorizontalPadding / 2),
+              Highlighted(
+                child: Text(
+                  '48 points to complete daily',
+                ),
+              ),
             ],
           ),
         ],

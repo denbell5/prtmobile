@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prtmobile/components/components.dart';
+import 'package:prtmobile/components/text/highlighted.dart';
 import 'package:prtmobile/features/subtrack/subtrack_view.dart';
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/styles.dart';
@@ -43,9 +44,17 @@ class TrackBody extends StatelessWidget with ListBuilder {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
-              Text('256 points in total,'),
-              Text('13 complete,'),
-              Text('243 left,'),
+              Highlighted(
+                child: Text(
+                  '6 subtracks',
+                ),
+              ),
+              SizedBox(height: kHorizontalPadding / 2),
+              Highlighted(
+                child: Text(
+                  '258/345 points done, 134 left',
+                ),
+              ),
             ],
           ),
         ],
@@ -55,7 +64,7 @@ class TrackBody extends StatelessWidget with ListBuilder {
 
   Widget _buildTrackListHeader(BuildContext context) {
     return ListHeader(
-      text: 'Subtracks',
+      text: 'Subtrack List',
       onAddTap: () {},
     );
   }
@@ -79,6 +88,9 @@ class TrackBody extends StatelessWidget with ListBuilder {
         ),
         SliverToBoxAdapter(
           child: _buildTrackStats(context),
+        ),
+        const SliverPadding(
+          padding: EdgeInsets.only(top: kHorizontalPadding),
         ),
         SliverToBoxAdapter(
           child: _buildTrackListHeader(context),
