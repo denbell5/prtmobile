@@ -18,28 +18,36 @@ class _HomeScreenState extends State<HomeScreen> {
     final formatted = formatDate(now);
     return Text(
       'Today is $formatted',
-      style: AppTypography.h3,
+      style: AppTypography.h3.white(),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final topBarPadding = MediaQuery.of(context).padding.top;
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                top: kHorizontalPadding * 1.5,
-                bottom: kHorizontalPadding,
-              ),
-              child: _buildTodayText(),
+      body: Column(
+        children: [
+          PhysicalModel(
+            color: Theme.of(context).colorScheme.primary,
+            elevation: 1,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: topBarPadding + kHorizontalPadding * 1.5,
+                    bottom: kHorizontalPadding,
+                  ),
+                  child: _buildTodayText(),
+                ),
+              ],
             ),
-            const Flexible(
-              child: TracksetList(),
-            ),
-          ],
-        ),
+          ),
+          const Flexible(
+            child: TracksetList(),
+          ),
+        ],
       ),
     );
   }

@@ -5,7 +5,6 @@ import 'package:prtmobile/components/text/text.dart';
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/styles.dart';
 import 'package:prtmobile/utils/__mocks__/real_world.dart';
-import 'package:prtmobile/utils/utils.dart';
 
 import 'trackset_view.dart';
 
@@ -21,9 +20,14 @@ class _TracksetListState extends State<TracksetList> {
 
   Iterable<Widget> _buildTracksetListHeader() {
     return [
-      ListHeader(
-        text: 'Trackset List',
-        onAddTap: () {},
+      Padding(
+        padding: const EdgeInsets.only(
+          top: kHorizontalPadding,
+        ),
+        child: ListHeader(
+          text: 'Trackset List',
+          onAddTap: () {},
+        ),
       ),
     ];
   }
