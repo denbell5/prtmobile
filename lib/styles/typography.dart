@@ -3,6 +3,7 @@ import 'package:prtmobile/styles/styles.dart';
 
 class FontSizes {
   static const double body = 14;
+  static const double h1 = 36;
   static const double h2 = 22;
   static const double h3 = 18;
   static const double h4 = 16;
@@ -13,6 +14,10 @@ class AppTypography {
 
   static TextStyle get bodyText => const TextStyle(
         fontSize: FontSizes.body,
+        height: kFontHeight,
+      );
+  static TextStyle get h1 => const TextStyle(
+        fontSize: FontSizes.h1,
         height: kFontHeight,
       );
   static TextStyle get h2 => const TextStyle(
