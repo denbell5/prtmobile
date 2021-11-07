@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/components/text/highlighted.dart';
+import 'package:prtmobile/features/subtrack/subtrack_update_form.dart';
 import 'package:prtmobile/features/subtrack/subtrack_view.dart';
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/styles.dart';
@@ -81,25 +82,33 @@ class TrackBody extends StatelessWidget with ListBuilder {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverToBoxAdapter(
-          child: _buildTrackControls(context),
-        ),
-        SliverToBoxAdapter(
-          child: _buildTrackStats(context),
-        ),
-        const SliverPadding(
-          padding: EdgeInsets.only(top: kHorizontalPadding),
-        ),
-        SliverToBoxAdapter(
-          child: _buildTrackListHeader(context),
-        ),
-        SliverList(
-          delegate: SliverChildListDelegate(
-            _buildSubtrackList(context),
+    return Column(
+      children: [
+        Expanded(
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: _buildTrackControls(context),
+              ),
+              SliverToBoxAdapter(
+                child: _buildTrackStats(context),
+              ),
+              const SliverPadding(
+                padding: EdgeInsets.only(top: kHorizontalPadding),
+              ),
+              SliverToBoxAdapter(
+                child: _buildTrackListHeader(context),
+              ),
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  _buildSubtrackList(context),
+                ),
+              ),
+            ],
           ),
         ),
+        if (track.subtracks.all.isNotEmpty)
+          SubtrackUpdateForm(subtrack: track.subtracks.entities.first)
       ],
     );
   }

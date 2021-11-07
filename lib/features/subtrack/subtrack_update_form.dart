@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/models/models.dart';
@@ -156,7 +157,9 @@ class _SubtrackUpdateFormState extends State<SubtrackUpdateForm> {
     final pickerHeight = itemExtent * 2.5;
     return Column(
       children: [
+        const HorizontalDivider(height: 3.0),
         buildHeader(),
+        const SizedBox(height: kHorizontalPadding),
         Row(
           children: [
             Expanded(
@@ -196,7 +199,9 @@ class _SubtrackUpdateFormState extends State<SubtrackUpdateForm> {
             Expanded(child: Container()),
           ],
         ),
+        const SizedBox(height: kHorizontalPadding / 2),
         buildError(),
+        const SizedBox(height: kHorizontalPadding / 2),
       ],
     );
   }
