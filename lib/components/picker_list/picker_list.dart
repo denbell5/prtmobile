@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:prtmobile/styles/styles.dart';
 
-class PickerList extends StatelessWidget {
+class PickerList extends StatefulWidget {
   const PickerList({
     Key? key,
     required this.itemBuilder,
@@ -15,6 +15,29 @@ class PickerList extends StatelessWidget {
   final double itemExtent;
   final ValueChanged<int>? onSelected;
   final NullableIndexedWidgetBuilder itemBuilder;
+
+  @override
+  State<PickerList> createState() => _PickerListState();
+}
+
+class _PickerListState extends State<PickerList> {
+  late FixedExtentScrollController scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    scrollController = FixedExtentScrollController(
+      initialItem: widget.initialIndex,
+    );
+  }
+
+  @override
+  void didUpdateWidget(PickerList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.initialIndex != oldWidget.initialIndex) {
+      scrollController.jumpToItem(widget.initialIndex);
+    }
+  }
 
   Widget _buildOpacity({
     required double height,
@@ -51,19 +74,19 @@ class PickerList extends StatelessWidget {
   Widget build(BuildContext context) {
     final opacityColor = Theme.of(context).colorScheme.background;
     return LayoutBuilder(builder: (ctx, constraints) {
-      final opacityHeight = (constraints.maxHeight - itemExtent) / 2;
+      final opacityHeight = (constraints.maxHeight - widget.itemExtent) / 2;
       return Stack(
         children: [
           Positioned.fill(
             child: ListWheelScrollView.useDelegate(
               perspective: 0.00001,
               physics: const FixedExtentScrollPhysics(),
-              controller: FixedExtentScrollController(initialItem: 1),
-              itemExtent: itemExtent,
+              controller: scrollController,
+              itemExtent: widget.itemExtent,
               childDelegate: ListWheelChildBuilderDelegate(
-                builder: itemBuilder,
+                builder: widget.itemBuilder,
               ),
-              onSelectedItemChanged: onSelected,
+              onSelectedItemChanged: widget.onSelected,
             ),
           ),
           _buildOpacity(
