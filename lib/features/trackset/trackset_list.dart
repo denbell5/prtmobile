@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prtmobile/components/components.dart';
+import 'package:prtmobile/components/text/list_item_header.dart';
 import 'package:prtmobile/components/text/text.dart';
 
 import 'package:prtmobile/models/models.dart';
@@ -85,7 +86,7 @@ class _TracksetListState extends State<TracksetList> {
         ],
       ),
       expandables: tracksetViews,
-      expandableHeaderExtent: kTracksetHeaderHeight,
+      expandableHeaderExtent: kListItemHeaderHeight,
       animationData: kExpandAnimationData,
       itemCount: tracksets.all.length,
       itemBuilder: (index) => tracksetViews[index],

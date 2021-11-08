@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:prtmobile/components/components.dart';
+import 'package:prtmobile/components/text/list_item_header.dart';
 import 'package:prtmobile/models/models.dart';
-import 'package:prtmobile/styles/layout.dart';
 import 'package:prtmobile/styles/styles.dart';
 import 'package:prtmobile/utils/utils.dart';
 
 import 'trackset_body.dart';
-
-const kTracksetHeaderHeight = 60.0;
 
 class TracksetView extends StatelessWidget {
   const TracksetView({
@@ -23,31 +21,12 @@ class TracksetView extends StatelessWidget {
     final startDate = formatDate(trackset.startAt);
     final endDate = formatDate(trackset.endAt);
     final dateRange = '$startDate - $endDate';
-
-    return TouchableOpacity(
-      onPressed: () {
+    return ListItemHeader(
+      primaryText: trackset.name,
+      secondaryText: dateRange,
+      onTap: () {
         ExpandableState.of(context)!.toggle();
       },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: kHorizontalPadding,
-        ),
-        child: SizedBox(
-          height: kTracksetHeaderHeight,
-          child: Row(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(trackset.name, style: AppTypography.h4),
-                  Text(dateRange, style: AppTypography.bodyText.greyed()),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 

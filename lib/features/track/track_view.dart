@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prtmobile/components/components.dart';
+import 'package:prtmobile/components/text/list_item_header.dart';
 import 'package:prtmobile/features/subtrack/subtrack.dart';
 import 'package:prtmobile/models/models.dart';
-import 'package:prtmobile/styles/layout.dart';
 import 'package:prtmobile/styles/styles.dart';
 
 import 'track_body.dart';
-
-const kTrackHeaderHeight = 60.0;
 
 class TrackView extends StatelessWidget {
   const TrackView({
@@ -21,40 +19,12 @@ class TrackView extends StatelessWidget {
   final void Function(bool) onToggle;
 
   Widget _buildHeader(BuildContext context) {
-    return TouchableOpacity(
-      onPressed: () {
+    return ListItemHeader(
+      primaryText: track.name,
+      secondaryText: '${track.done}/${track.length} points',
+      onTap: () {
         ExpandableState.of(context)!.toggle();
       },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: kHorizontalPadding,
-        ),
-        child: SizedBox(
-          height: kTrackHeaderHeight,
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      track.name,
-                      style: AppTypography.h4,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Text(
-                      '${track.done}/${track.length} points',
-                      style: AppTypography.bodyText.greyed(),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 
