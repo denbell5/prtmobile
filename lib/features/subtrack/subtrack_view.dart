@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prtmobile/components/components.dart';
-import 'package:prtmobile/features/subtrack/subtrack_actions.dart';
+import 'package:prtmobile/features/subtrack/subtrack.dart';
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/styles.dart';
 
@@ -21,6 +22,8 @@ class _SubtrackViewState extends State<SubtrackView>
   late AnimationController _actionsAnimationController;
   var isSelected = false;
 
+  Subtrack get subtrack => widget.subtrack;
+
   @override
   void initState() {
     super.initState();
@@ -31,15 +34,12 @@ class _SubtrackViewState extends State<SubtrackView>
   }
 
   void onSelectionToggled() {
-    final wasSelected = isSelected;
-    if (wasSelected) {
-      _actionsAnimationController.reverse();
+    final cubit = BlocProvider.of<ActiveSubtrackCubit>(context);
+    if (cubit.state.next == subtrack.id) {
+      cubit.emitChange(null);
     } else {
-      _actionsAnimationController.forward();
+      cubit.emitChange(subtrack.id);
     }
-    setState(() {
-      isSelected = !isSelected;
-    });
   }
 
   Widget _buildRange(BuildContext context) {
@@ -81,37 +81,49 @@ class _SubtrackViewState extends State<SubtrackView>
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onDoubleTap: onSelectionToggled,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: kHorizontalPadding,
-        ),
-        child: SizedBox(
-          height: totalHeight,
-          child: Stack(
-            children: [
-              SubtrackViewActions(
-                animationView: _actionsAnimationController.view,
-                paddingOffset: verticalPadding,
-                actionsOffset: formTextHeight,
-                actions: [
-                  InlineButton(text: 'Delete', onTap: () {}),
-                  const SizedBox(width: kHorizontalPadding),
-                  InlineButton(text: 'Cancel', onTap: () {}),
-                  const SizedBox(width: kHorizontalPadding),
-                  InlineButton(text: 'Save', onTap: () {}),
-                ],
+      onTap: onSelectionToggled,
+      child: BlocBuilder<ActiveSubtrackCubit, SubtrackSelection>(
+        builder: (context, selection) {
+          final isActive = widget.subtrack.id == selection.next;
+          return AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            color: isActive
+                ? Theme.of(context).colorScheme.surface
+                : Theme.of(context).colorScheme.background,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: kHorizontalPadding,
               ),
-              Positioned.fill(
-                child: _buildRange(context),
+              child: SizedBox(
+                height: totalHeight,
+                child: Stack(
+                  children: [
+                    SubtrackViewActions(
+                      animationView: _actionsAnimationController.view,
+                      paddingOffset: verticalPadding,
+                      actionsOffset: formTextHeight,
+                      actions: [
+                        InlineButton(text: 'Delete', onTap: () {}),
+                        const SizedBox(width: kHorizontalPadding),
+                        InlineButton(text: 'Cancel', onTap: () {}),
+                        const SizedBox(width: kHorizontalPadding),
+                        InlineButton(text: 'Save', onTap: () {}),
+                      ],
+                    ),
+                    Positioned.fill(
+                      child: _buildRange(context),
+                    ),
+                    // error message
+                    const Positioned(
+                      bottom: verticalPadding,
+                      child: Text(''),
+                    ),
+                  ],
+                ),
               ),
-              // error message
-              const Positioned(
-                bottom: verticalPadding,
-                child: Text(''),
-              ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }

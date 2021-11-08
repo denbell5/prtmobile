@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prtmobile/components/components.dart';
+import 'package:prtmobile/features/subtrack/subtrack.dart';
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/layout.dart';
 import 'package:prtmobile/styles/styles.dart';
@@ -64,7 +66,10 @@ class TrackView extends StatelessWidget {
       header: Builder(builder: (context) {
         return _buildHeader(context);
       }),
-      body: TrackBody(track: track),
+      body: BlocProvider<ActiveSubtrackCubit>(
+        create: (ctx) => ActiveSubtrackCubit(),
+        child: TrackBody(track: track),
+      ),
     );
   }
 }

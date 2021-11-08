@@ -82,8 +82,8 @@ class SubtrackFormValues extends Equatable {
   List<Object?> get props => [start, end, pointer];
 }
 
-class SubtrackUpdateForm extends StatefulWidget {
-  const SubtrackUpdateForm({
+class SubtrackUpdate extends StatefulWidget {
+  const SubtrackUpdate({
     Key? key,
     required this.subtrack,
   }) : super(key: key);
@@ -91,10 +91,10 @@ class SubtrackUpdateForm extends StatefulWidget {
   final Subtrack subtrack;
 
   @override
-  _SubtrackUpdateFormState createState() => _SubtrackUpdateFormState();
+  _SubtrackUpdateState createState() => _SubtrackUpdateState();
 }
 
-class _SubtrackUpdateFormState extends State<SubtrackUpdateForm> {
+class _SubtrackUpdateState extends State<SubtrackUpdate> {
   final debouncer = Debouncer(ms: 400);
 
   late SubtrackFormValues _formValues;
@@ -113,6 +113,14 @@ class _SubtrackUpdateFormState extends State<SubtrackUpdateForm> {
     _formValues = SubtrackFormValues.fromSubtrack(
       widget.subtrack,
     );
+  }
+
+  @override
+  void didUpdateWidget(SubtrackUpdate oldWidget) {
+    if (widget.subtrack != oldWidget.subtrack) {
+      _formValues = lastSavedFormValues;
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   void _handleValueSelected(int value) {

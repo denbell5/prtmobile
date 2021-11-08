@@ -1,22 +1,22 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/widgets.dart';
-import 'package:prtmobile/features/subtrack/subtrack_update_form.dart';
+import 'package:prtmobile/features/subtrack/subtrack.dart';
+
 import 'package:prtmobile/utils/utils.dart';
 
 import '../storybook.dart';
 
-class SubtrackUpdateFormExample extends StatefulWidget {
-  const SubtrackUpdateFormExample({
+class SubtrackUpdateExample extends StatefulWidget {
+  const SubtrackUpdateExample({
     Key? key,
   }) : super(key: key);
 
   @override
-  _SubtrackUpdateFormExampleState createState() =>
-      _SubtrackUpdateFormExampleState();
+  _SubtrackUpdateExampleState createState() => _SubtrackUpdateExampleState();
 }
 
-class _SubtrackUpdateFormExampleState extends State<SubtrackUpdateFormExample> {
+class _SubtrackUpdateExampleState extends State<SubtrackUpdateExample> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -25,7 +25,7 @@ class _SubtrackUpdateFormExampleState extends State<SubtrackUpdateFormExample> {
       ),
       child: Column(
         children: [
-          SubtrackUpdateForm(
+          SubtrackUpdate(
             subtrack: SubtrackFactory.buildSubtrack(0),
           ),
         ],
@@ -34,9 +34,9 @@ class _SubtrackUpdateFormExampleState extends State<SubtrackUpdateFormExample> {
   }
 }
 
-class SubtrackUpdateFormStories implements StorybookStory {
+class SubtrackUpdateStories implements StorybookStory {
   @override
-  String title = 'SubtrackUpdateForm';
+  String title = 'SubtrackUpdate';
 
   @override
   List<StorybookStoryDefinition> getVariations() {
@@ -44,7 +44,7 @@ class SubtrackUpdateFormStories implements StorybookStory {
       StorybookStoryDefinition(
         type: 'default',
         contentBuilder: (context) {
-          return const SubtrackUpdateFormExample();
+          return const SubtrackUpdateExample();
         },
       ),
     ];

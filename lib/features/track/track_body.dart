@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/components/text/highlighted.dart';
-import 'package:prtmobile/features/subtrack/subtrack_update_form.dart';
-import 'package:prtmobile/features/subtrack/subtrack_view.dart';
+import 'package:prtmobile/features/subtrack/subtrack.dart';
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/styles.dart';
 
-class TrackBody extends StatelessWidget with ListBuilder {
+class TrackBody extends StatefulWidget {
   const TrackBody({
     Key? key,
     required this.track,
@@ -14,6 +14,11 @@ class TrackBody extends StatelessWidget with ListBuilder {
 
   final Track track;
 
+  @override
+  State<TrackBody> createState() => _TrackBodyState();
+}
+
+class _TrackBodyState extends State<TrackBody> with ListBuilder {
   Widget _buildTrackControls(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
@@ -71,7 +76,7 @@ class TrackBody extends StatelessWidget with ListBuilder {
   }
 
   List<Widget> _buildSubtrackList(BuildContext context) {
-    final subtracks = track.subtracks.entities;
+    final subtracks = widget.track.subtracks.entities;
     return buildList(
       isDivided: true,
       itemCount: subtracks.length,
@@ -82,34 +87,42 @@ class TrackBody extends StatelessWidget with ListBuilder {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: _buildTrackControls(context),
-              ),
-              SliverToBoxAdapter(
-                child: _buildTrackStats(context),
-              ),
-              const SliverPadding(
-                padding: EdgeInsets.only(top: kHorizontalPadding),
-              ),
-              SliverToBoxAdapter(
-                child: _buildTrackListHeader(context),
-              ),
-              SliverList(
-                delegate: SliverChildListDelegate(
-                  _buildSubtrackList(context),
+    return BlocListener<ActiveSubtrackCubit, SubtrackSelection>(
+      listener: (ctx, selection) async {},
+      child: Column(
+        children: [
+          Expanded(
+            child: CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: _buildTrackControls(context),
                 ),
-              ),
-            ],
+                SliverToBoxAdapter(
+                  child: _buildTrackStats(context),
+                ),
+                const SliverPadding(
+                  padding: EdgeInsets.only(top: kHorizontalPadding),
+                ),
+                SliverToBoxAdapter(
+                  child: _buildTrackListHeader(context),
+                ),
+                SliverList(
+                  delegate: SliverChildListDelegate(
+                    _buildSubtrackList(context),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        if (track.subtracks.all.isNotEmpty)
-          SubtrackUpdateForm(subtrack: track.subtracks.entities.first)
-      ],
+          SubtrackUpdateAnimator(
+            childBuilder: (id) {
+              return SubtrackUpdate(
+                subtrack: widget.track.subtracks.byId[id]!,
+              );
+            },
+          )
+        ],
+      ),
     );
   }
 }
