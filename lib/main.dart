@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:prtmobile/features/home/home.dart';
 import 'package:prtmobile/styles/styles.dart';
 
+// TODO: seed data once
+
 void main() {
   runApp(const MyApp());
 }

@@ -24,7 +24,7 @@ class ExpandableList extends StatefulWidget {
 
   final Widget? listHeader;
   final ScrollController? controller;
-  final List<Widget> expandables;
+  final List<Widget> expandables; // TODO: remove unused
   final double expandableHeaderExtent;
   final AnimationData? animationData;
   final Widget? divider;

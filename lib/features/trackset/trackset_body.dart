@@ -123,6 +123,7 @@ class _TracksetBodyState extends State<TracksetBody> {
     final trackViews = _buildTrackList(context);
     return ExpandableList(
       key: trackListKey,
+      // TODO: to separate widget
       listHeader: Column(
         children: [
           _buildTracksetControls(context),
