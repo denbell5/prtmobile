@@ -30,7 +30,7 @@ class _SubtrackViewState extends State<SubtrackView>
     return ListItemHeader(
       axis: Axis.horizontal,
       primaryText:
-          '${subtrack.start} - ${subtrack.end}, pointer ${subtrack.pointer}',
+          '${subtrack.start} - ${subtrack.end}, stopped on ${subtrack.pointer}',
       secondaryText: 'completed ${subtrack.done}/${subtrack.length}',
       onTap: onSelected,
     );
