@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:prtmobile/styles/styles.dart';
 
 const kHighlightedVerticalPadding = 2.0;
-const kHighlightedHorizontalPadding = kHorizontalPadding / 3;
+const kHighlightedHorizontalPadding = kDefaultPadding / 3;
 
 class Highlighted extends StatelessWidget {
   const Highlighted({

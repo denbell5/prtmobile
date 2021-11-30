@@ -160,14 +160,14 @@ class _SubtrackUpdateState extends State<SubtrackUpdate> {
       fontHeight: 1,
       scaleFactor: MediaQuery.of(context).textScaleFactor,
     );
-    const itemPadding = kHorizontalPadding / 2;
+    const itemPadding = kDefaultPadding / 2;
     final itemExtent = itemTextHeight + itemPadding * 2;
     final pickerHeight = itemExtent * 2.5;
     return Column(
       children: [
         const HorizontalDivider(height: 3.0),
         buildHeader(),
-        const SizedBox(height: kHorizontalPadding),
+        const SizedBox(height: kDefaultPadding),
         Row(
           children: [
             Expanded(
@@ -207,9 +207,9 @@ class _SubtrackUpdateState extends State<SubtrackUpdate> {
             Expanded(child: Container()),
           ],
         ),
-        const SizedBox(height: kHorizontalPadding / 2),
+        const SizedBox(height: kDefaultPadding / 2),
         buildError(),
-        const SizedBox(height: kHorizontalPadding / 2),
+        const SizedBox(height: kDefaultPadding / 2),
       ],
     );
   }

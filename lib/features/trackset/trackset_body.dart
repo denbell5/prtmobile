@@ -36,15 +36,15 @@ class _TracksetBodyState extends State<TracksetBody> {
   Widget _buildTracksetControls(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-        left: kHorizontalPadding,
-        right: kHorizontalPadding,
-        bottom: kHorizontalPadding,
+        left: kDefaultPadding,
+        right: kDefaultPadding,
+        bottom: kDefaultPadding,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           InlineButton(text: 'Delete', onTap: () {}),
-          const SizedBox(width: kHorizontalPadding),
+          const SizedBox(width: kDefaultPadding),
           InlineButton(text: 'Edit', onTap: () {}),
         ],
       ),
@@ -54,10 +54,10 @@ class _TracksetBodyState extends State<TracksetBody> {
   Widget _buildTracksetStats(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-        left: kHorizontalPadding,
-        right: kHorizontalPadding,
-        top: kHorizontalPadding / 4,
-        bottom: kHorizontalPadding,
+        left: kDefaultPadding,
+        right: kDefaultPadding,
+        top: kDefaultPadding / 4,
+        bottom: kDefaultPadding,
       ),
       child: Row(
         children: [
@@ -69,13 +69,13 @@ class _TracksetBodyState extends State<TracksetBody> {
                   '34 days passed, 67 days  left',
                 ),
               ),
-              SizedBox(height: kHorizontalPadding / 2),
+              SizedBox(height: kDefaultPadding / 2),
               Highlighted(
                 child: Text(
                   '356/1678 points done',
                 ),
               ),
-              SizedBox(height: kHorizontalPadding / 2),
+              SizedBox(height: kDefaultPadding / 2),
               Highlighted(
                 child: Text(
                   '48 points to complete daily',
@@ -123,16 +123,14 @@ class _TracksetBodyState extends State<TracksetBody> {
     final trackViews = _buildTrackList(context);
     return ExpandableList(
       key: trackListKey,
-      // TODO: to separate widget
       listHeader: Column(
         children: [
           _buildTracksetControls(context),
           _buildTracksetStats(context),
-          const SizedBox(height: kHorizontalPadding),
+          const SizedBox(height: kDefaultPadding),
           _buildTrackListHeader(context),
         ],
       ),
-      expandables: _buildTrackList(context),
       expandableHeaderExtent: kListItemHeaderHeight,
       animationData: kExpandAnimationData,
       itemCount: trackViews.length,

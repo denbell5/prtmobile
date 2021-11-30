@@ -133,9 +133,6 @@ class _ExpandableListPocExampleState extends State<ExpandableListPocExample> {
               key: listKey,
               controller: scrollController,
               expandableHeaderExtent: itemExtent,
-              expandables: [
-                ...List.generate(1000, (i) => buildListItem(i)),
-              ],
               listHeader: buildListHeader(),
               animationData: animationData,
               divider: widget.isSeparated ? buildSeparator() : null,

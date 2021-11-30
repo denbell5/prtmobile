@@ -15,7 +15,6 @@ class ExpandableList extends StatefulWidget {
     this.listHeader,
     this.controller,
     this.animationData,
-    required this.expandables,
     required this.expandableHeaderExtent,
     this.divider,
     required this.itemCount,
@@ -24,7 +23,6 @@ class ExpandableList extends StatefulWidget {
 
   final Widget? listHeader;
   final ScrollController? controller;
-  final List<Widget> expandables; // TODO: remove unused
   final double expandableHeaderExtent;
   final AnimationData? animationData;
   final Widget? divider;

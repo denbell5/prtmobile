@@ -22,15 +22,15 @@ class _TrackBodyState extends State<TrackBody> with ListBuilder {
   Widget _buildTrackControls(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-        left: kHorizontalPadding,
-        right: kHorizontalPadding,
-        bottom: kHorizontalPadding,
+        left: kDefaultPadding,
+        right: kDefaultPadding,
+        bottom: kDefaultPadding,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           InlineButton(text: 'Delete', onTap: () {}),
-          const SizedBox(width: kHorizontalPadding),
+          const SizedBox(width: kDefaultPadding),
           InlineButton(text: 'Edit', onTap: () {}),
         ],
       ),
@@ -40,10 +40,10 @@ class _TrackBodyState extends State<TrackBody> with ListBuilder {
   Widget _buildTrackStats(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-        left: kHorizontalPadding,
-        right: kHorizontalPadding,
-        top: kHorizontalPadding / 4,
-        bottom: kHorizontalPadding,
+        left: kDefaultPadding,
+        right: kDefaultPadding,
+        top: kDefaultPadding / 4,
+        bottom: kDefaultPadding,
       ),
       child: Row(
         children: [
@@ -55,7 +55,7 @@ class _TrackBodyState extends State<TrackBody> with ListBuilder {
                   '6 subtracks',
                 ),
               ),
-              SizedBox(height: kHorizontalPadding / 2),
+              SizedBox(height: kDefaultPadding / 2),
               Highlighted(
                 child: Text(
                   '258/345 points done, 134 left',
@@ -68,8 +68,7 @@ class _TrackBodyState extends State<TrackBody> with ListBuilder {
     );
   }
 
-  // TODO: rename
-  Widget _buildTrackListHeader(BuildContext context) {
+  Widget _buildSubtrackListHeader(BuildContext context) {
     return ListHeader(
       text: 'Subtrack List',
       onAddTap: () {},
@@ -102,10 +101,10 @@ class _TrackBodyState extends State<TrackBody> with ListBuilder {
                   child: _buildTrackStats(context),
                 ),
                 const SliverPadding(
-                  padding: EdgeInsets.only(top: kHorizontalPadding),
+                  padding: EdgeInsets.only(top: kDefaultPadding),
                 ),
                 SliverToBoxAdapter(
-                  child: _buildTrackListHeader(context),
+                  child: _buildSubtrackListHeader(context),
                 ),
                 SliverList(
                   delegate: SliverChildListDelegate(

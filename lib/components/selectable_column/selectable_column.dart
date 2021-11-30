@@ -42,7 +42,7 @@ class _SelectableColumnState<T> extends State<SelectableColumn<T>> {
         : AppTypography.bodyText;
     return TouchableOpacity(
       child: Padding(
-        padding: const EdgeInsets.all(kHorizontalPadding / 2),
+        padding: const EdgeInsets.all(kDefaultPadding / 2),
         child: Text(
           option.label,
           style: textStyle,

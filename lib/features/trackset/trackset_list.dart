@@ -9,6 +9,8 @@ import 'package:prtmobile/utils/__mocks__/real_world.dart';
 
 import 'trackset_view.dart';
 
+final realWorldTracksets = getRealWorldTracksets();
+
 class TracksetList extends StatefulWidget {
   const TracksetList({Key? key}) : super(key: key);
 
@@ -23,7 +25,7 @@ class _TracksetListState extends State<TracksetList> {
     return [
       Padding(
         padding: const EdgeInsets.only(
-          top: kHorizontalPadding,
+          top: kDefaultPadding,
         ),
         child: ListHeader(
           text: 'Trackset List',
@@ -44,7 +46,7 @@ class _TracksetListState extends State<TracksetList> {
     // tracksets =
     //     tracksets.map((e) => e.copyWith(tracks: normalizedTracks)).toList();
     // return tracksets;
-    return getRealWorldTracksets();
+    return realWorldTracksets;
   }
 
   void onToggle({
@@ -60,25 +62,8 @@ class _TracksetListState extends State<TracksetList> {
   @override
   Widget build(BuildContext context) {
     final tracksets = getTracksets();
-    final tracksetViews = tracksets.entities
-        .asMap()
-        .map(
-          (index, tr) => MapEntry(
-            index,
-            TracksetView(
-              trackset: tr,
-              onToggle: (isExpanded) => onToggle(
-                index: index,
-                isExpanded: isExpanded,
-              ),
-            ),
-          ),
-        )
-        .values
-        .toList();
     return ExpandableList(
       key: listKey,
-      // TODO: Column to method
       listHeader: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,11 +71,16 @@ class _TracksetListState extends State<TracksetList> {
           ..._buildTracksetListHeader(),
         ],
       ),
-      expandables: tracksetViews,
       expandableHeaderExtent: kListItemHeaderHeight,
       animationData: kExpandAnimationData,
       itemCount: tracksets.all.length,
-      itemBuilder: (index) => tracksetViews[index],
+      itemBuilder: (index) => TracksetView(
+        trackset: tracksets.entities[index],
+        onToggle: (isExpanded) => onToggle(
+          index: index,
+          isExpanded: isExpanded,
+        ),
+      ),
       divider: const HorizontalDivider(),
     );
   }

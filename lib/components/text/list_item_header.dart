@@ -50,7 +50,7 @@ class ListItemHeader extends StatelessWidget {
       onPressed: onTap,
       child: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: kHorizontalPadding,
+          horizontal: kDefaultPadding,
         ),
         child: SizedBox(
           height: kListItemHeaderHeight,

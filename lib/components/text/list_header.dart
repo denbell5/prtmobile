@@ -16,9 +16,9 @@ class ListHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-        left: kHorizontalPadding,
-        right: kHorizontalPadding,
-        bottom: kHorizontalPadding / 2,
+        left: kDefaultPadding,
+        right: kDefaultPadding,
+        bottom: kDefaultPadding / 2,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
