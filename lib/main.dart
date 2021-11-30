@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    const defaultTextTheme = CupertinoTextThemeData();
     return CupertinoApp(
       debugShowCheckedModeBanner: false,
       theme: AppThemeData(
@@ -19,6 +20,11 @@ class MyApp extends StatelessWidget {
         primaryColor: AppColors.mineShaft,
         barBackgroundColor: AppColors.mineShaft,
         primaryContrastingColor: AppColors.white,
+        textTheme: defaultTextTheme.copyWith(
+          textStyle: defaultTextTheme.textStyle.copyWith(
+            fontSize: FontSizes.body,
+          ),
+        ),
       ),
       home: const HomeScreen(),
     );
