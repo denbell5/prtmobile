@@ -7,3 +7,4 @@ export 'text/text.dart';
 export 'picker_list/picker_list.dart';
 export 'selectable_column/selectable_column.dart';
 export 'bottom-dialog/bottom_dialog.dart';
+export 'bottom-safe-area/bottom_safe_area.dart';

@@ -1,8 +1,7 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, avoid_print
 
 import 'package:flutter/cupertino.dart';
 import 'package:prtmobile/components/components.dart';
-import 'package:prtmobile/styles/styles.dart';
 import '../storybook.dart';
 
 class BottomDialogExample extends StatelessWidget {
@@ -13,17 +12,19 @@ class BottomDialogExample extends StatelessWidget {
   void _showDialog(BuildContext context) {
     showCupertinoModalPopup<void>(
       context: context,
-      useRootNavigator: false,
       builder: (context) {
         return BottomDialog(
-          child: Padding(
-            padding: const EdgeInsets.all(55.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('Text 1'),
-                Text('Text 2'),
-              ],
+          child: BottomSafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(55.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('Text 1'),
+                  Text('Text 2'),
+                  CupertinoTextField(),
+                ],
+              ),
             ),
           ),
         );
@@ -33,27 +34,22 @@ class BottomDialogExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoTheme(
-      data: CupertinoThemeData(
-        primaryColor: AppColors.mineShaft,
-      ),
-      child: Navigator(
-        onGenerateRoute: (_) {
-          return CupertinoPageRoute<PageRoute>(
-            builder: (context) {
-              return Padding(
-                padding: EdgeInsets.all(100),
-                child: TouchableOpacity(
-                  child: Text('Open dialog'),
-                  onPressed: () {
-                    _showDialog(context);
-                  },
-                ),
-              );
-            },
-          );
-        },
-      ),
+    return CupertinoApp(
+      home: Builder(builder: (context) {
+        return Padding(
+          padding: EdgeInsets.all(100),
+          child: Column(
+            children: [
+              TouchableOpacity(
+                child: Text('Open dialog'),
+                onPressed: () {
+                  _showDialog(context);
+                },
+              ),
+            ],
+          ),
+        );
+      }),
     );
   }
 }
