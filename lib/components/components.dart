@@ -6,3 +6,4 @@ export 'lists/lists.dart';
 export 'text/text.dart';
 export 'picker_list/picker_list.dart';
 export 'selectable_column/selectable_column.dart';
+export 'bottom-dialog/bottom_dialog.dart';

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prtmobile/components/components.dart';
@@ -88,39 +89,35 @@ class _TrackBodyState extends State<TrackBody> with ListBuilder {
   @override
   Widget build(BuildContext context) {
     return BlocListener<ActiveSubtrackCubit, SubtrackSelection>(
-      listener: (ctx, selection) async {}, // TODO: ?
-      child: Column(
-        children: [
-          Expanded(
-            child: CustomScrollView(
-              slivers: [
-                SliverToBoxAdapter(
-                  child: _buildTrackControls(context),
-                ),
-                SliverToBoxAdapter(
-                  child: _buildTrackStats(context),
-                ),
-                const SliverPadding(
-                  padding: EdgeInsets.only(top: kDefaultPadding),
-                ),
-                SliverToBoxAdapter(
-                  child: _buildSubtrackListHeader(context),
-                ),
-                SliverList(
-                  delegate: SliverChildListDelegate(
-                    _buildSubtrackList(context),
-                  ),
-                ),
-              ],
+      listener: (ctx, selection) async {
+        showCupertinoModalPopup(
+          context: context,
+          builder: (context) {
+            return SubtrackUpdate(
+              subtrack: widget.track.subtracks.byId[selection.next]!,
+            );
+          },
+        );
+      },
+      child: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: _buildTrackControls(context),
+          ),
+          SliverToBoxAdapter(
+            child: _buildTrackStats(context),
+          ),
+          const SliverPadding(
+            padding: EdgeInsets.only(top: kDefaultPadding),
+          ),
+          SliverToBoxAdapter(
+            child: _buildSubtrackListHeader(context),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              _buildSubtrackList(context),
             ),
           ),
-          SubtrackUpdateAnimator(
-            childBuilder: (id) {
-              return SubtrackUpdate(
-                subtrack: widget.track.subtracks.byId[id]!,
-              );
-            },
-          )
         ],
       ),
     );

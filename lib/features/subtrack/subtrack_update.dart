@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
+import 'package:prtmobile/components/buttons/touchable_x.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/styles.dart';
@@ -162,54 +163,70 @@ class _SubtrackUpdateState extends State<SubtrackUpdate> {
     const itemPadding = kDefaultPadding / 2;
     final itemExtent = itemTextHeight + itemPadding * 2;
     final pickerHeight = itemExtent * 2.5;
-    return Column(
-      children: [
-        const HorizontalDivider(height: 3.0),
-        buildHeader(),
-        const SizedBox(height: kDefaultPadding),
-        Row(
-          children: [
-            Expanded(
-              child: SelectableColumn<RangeField>(
-                onSelected: _handleRangeElementSelected,
-                initialSelected: _selectedField,
-                options: _fieldOptions,
+    return BottomDialog(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Opacity(
+                opacity: 0.0,
+                child: TouchableX(
+                  onTap: () {},
+                ),
               ),
-            ),
-            Expanded(
-              child: SizedBox(
-                height: pickerHeight,
-                child: PickerList(
-                  onSelected: (value) {
-                    debouncer.run(() {
-                      _handleValueSelected(value);
-                    });
-                  },
-                  itemBuilder: (ctx, index) {
-                    if (index <= 0) {
-                      return null;
-                    }
-                    return Center(
-                      child: Text(
-                        index.toString(),
-                        style: itemTextStyle,
-                      ),
-                    );
-                  },
-                  itemExtent: itemExtent,
-                  initialIndex: _formValues.getFieldValue(
-                    _selectedField,
+              buildHeader(),
+              TouchableX(
+                onTap: () {},
+              ),
+            ],
+          ),
+          const SizedBox(height: kDefaultPadding),
+          Row(
+            children: [
+              Expanded(
+                child: SelectableColumn<RangeField>(
+                  onSelected: _handleRangeElementSelected,
+                  initialSelected: _selectedField,
+                  options: _fieldOptions,
+                ),
+              ),
+              Expanded(
+                child: SizedBox(
+                  height: pickerHeight,
+                  child: PickerList(
+                    onSelected: (value) {
+                      debouncer.run(() {
+                        _handleValueSelected(value);
+                      });
+                    },
+                    itemBuilder: (ctx, index) {
+                      if (index <= 0) {
+                        return null;
+                      }
+                      return Center(
+                        child: Text(
+                          index.toString(),
+                          style: itemTextStyle,
+                        ),
+                      );
+                    },
+                    itemExtent: itemExtent,
+                    initialIndex: _formValues.getFieldValue(
+                      _selectedField,
+                    ),
                   ),
                 ),
               ),
-            ),
-            Expanded(child: Container()),
-          ],
-        ),
-        const SizedBox(height: kDefaultPadding / 2),
-        buildError(),
-        const SizedBox(height: kDefaultPadding / 2),
-      ],
+              Expanded(child: Container()),
+            ],
+          ),
+          const SizedBox(height: kDefaultPadding / 2),
+          buildError(),
+          const SizedBox(height: kDefaultPadding / 2),
+        ],
+      ),
     );
   }
 }
