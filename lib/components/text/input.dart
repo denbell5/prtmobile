@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/styles/styles.dart';
@@ -39,7 +39,7 @@ class Input extends FormField<String> {
                     : borderColor;
             return Column(
               children: [
-                TextField(
+                CupertinoTextField(
                   expands: false,
                   decoration: null,
                   style: style,

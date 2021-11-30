@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:prtmobile/styles/styles.dart';
 
@@ -72,7 +72,7 @@ class _PickerListState extends State<PickerList> {
 
   @override
   Widget build(BuildContext context) {
-    final opacityColor = Theme.of(context).colorScheme.background;
+    final opacityColor = CupertinoTheme.of(context).scaffoldBackgroundColor;
     return LayoutBuilder(builder: (ctx, constraints) {
       final opacityHeight = (constraints.maxHeight - widget.itemExtent) / 2;
       return Stack(

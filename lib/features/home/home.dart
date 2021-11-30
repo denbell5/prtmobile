@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:prtmobile/features/trackset/trackset_list.dart';
 import 'package:prtmobile/styles/styles.dart';
@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final formatted = formatDate(now);
     return Text(
       'Today is $formatted',
-      style: AppTypography.h3.white(),
+      style: AppTypography.h3.white(), // TODO: theme
     );
   }
 
@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     required double topBarPadding,
   }) {
     return PhysicalModel(
-      color: Theme.of(context).colorScheme.primary,
+      color: CupertinoTheme.of(context).barBackgroundColor,
       elevation: 1,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -47,10 +47,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final topBarPadding = MediaQuery.of(context).padding.top;
-    return Scaffold(
-      body: Column(
+    return CupertinoPageScaffold(
+      child: Column(
         children: [
-          _buildNavbar(topBarPadding: topBarPadding),
+          _buildNavbar(topBarPadding: topBarPadding), // TODO: to navigationBar
           const Flexible(
             child: TracksetList(),
           ),

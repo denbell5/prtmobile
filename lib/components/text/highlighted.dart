@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:prtmobile/styles/styles.dart';
 
@@ -16,7 +16,7 @@ class Highlighted extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Theme.of(context).colorScheme.surface,
+      color: AppColors.lightGrey, // TODO: theme
       padding: const EdgeInsets.symmetric(
         vertical: kHighlightedVerticalPadding,
         horizontal: kHighlightedHorizontalPadding,

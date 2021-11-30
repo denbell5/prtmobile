@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/components/text/list_item_header.dart';
 import 'package:prtmobile/components/text/text.dart';
