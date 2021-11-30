@@ -88,16 +88,20 @@ class _TrackBodyState extends State<TrackBody> with ListBuilder {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ActiveSubtrackCubit, SubtrackSelection>(
-      listener: (ctx, selection) async {
-        showCupertinoModalPopup(
+    return BlocListener<SelectedSubtrackCubit, SelectedSubtrackInfo>(
+      listener: (ctx, selectedInfo) async {
+        if (selectedInfo.id == null) {
+          return;
+        }
+        await showCupertinoModalPopup(
           context: context,
           builder: (context) {
-            return SubtrackUpdate(
-              subtrack: widget.track.subtracks.byId[selection.next]!,
+            return SubtrackUpdateDialog(
+              subtrack: widget.track.subtracks.byId[selectedInfo.id]!,
             );
           },
         );
+        BlocProvider.of<SelectedSubtrackCubit>(context).emitChange(null);
       },
       child: CustomScrollView(
         slivers: [

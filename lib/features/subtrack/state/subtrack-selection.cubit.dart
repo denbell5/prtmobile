@@ -1,36 +1,32 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SubtrackSelection extends Equatable {
-  final String? prev;
-  final String? next;
+class SelectedSubtrackInfo extends Equatable {
+  final String? id;
 
-  const SubtrackSelection({
-    required this.prev,
-    required this.next,
+  const SelectedSubtrackInfo({
+    required this.id,
   });
 
-  SubtrackSelection change(String? next) {
-    return SubtrackSelection(
-      prev: this.next,
-      next: next,
+  SelectedSubtrackInfo change(String? next) {
+    return SelectedSubtrackInfo(
+      id: next,
     );
   }
 
   @override
-  List<Object?> get props => [next, prev];
+  List<Object?> get props => [id];
 }
 
-class ActiveSubtrackCubit extends Cubit<SubtrackSelection> {
-  ActiveSubtrackCubit()
+class SelectedSubtrackCubit extends Cubit<SelectedSubtrackInfo> {
+  SelectedSubtrackCubit()
       : super(
-          const SubtrackSelection(
-            prev: null,
-            next: null,
+          const SelectedSubtrackInfo(
+            id: null,
           ),
         );
 
-  void emitChange(String? next) {
-    emit(state.change(next));
+  void emitChange(String? selectedId) {
+    emit(state.change(selectedId));
   }
 }

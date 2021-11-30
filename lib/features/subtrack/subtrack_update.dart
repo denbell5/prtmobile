@@ -82,8 +82,8 @@ class SubtrackFormValues extends Equatable {
   List<Object?> get props => [start, end, pointer];
 }
 
-class SubtrackUpdate extends StatefulWidget {
-  const SubtrackUpdate({
+class SubtrackUpdateDialog extends StatefulWidget {
+  const SubtrackUpdateDialog({
     Key? key,
     required this.subtrack,
   }) : super(key: key);
@@ -91,10 +91,10 @@ class SubtrackUpdate extends StatefulWidget {
   final Subtrack subtrack;
 
   @override
-  _SubtrackUpdateState createState() => _SubtrackUpdateState();
+  _SubtrackUpdateDialogState createState() => _SubtrackUpdateDialogState();
 }
 
-class _SubtrackUpdateState extends State<SubtrackUpdate> {
+class _SubtrackUpdateDialogState extends State<SubtrackUpdateDialog> {
   final debouncer = Debouncer(ms: 400);
 
   late SubtrackFormValues _formValues;
@@ -116,7 +116,7 @@ class _SubtrackUpdateState extends State<SubtrackUpdate> {
   }
 
   @override
-  void didUpdateWidget(SubtrackUpdate oldWidget) {
+  void didUpdateWidget(SubtrackUpdateDialog oldWidget) {
     if (widget.subtrack != oldWidget.subtrack) {
       _formValues = lastSavedFormValues;
     }

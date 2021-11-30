@@ -33,11 +33,13 @@ class TrackView extends StatelessWidget {
     return Expandable(
       onToggle: onToggle,
       animationData: kExpandAnimationData,
-      header: Builder(builder: (context) {
-        return _buildHeader(context);
-      }),
-      body: BlocProvider<ActiveSubtrackCubit>(
-        create: (ctx) => ActiveSubtrackCubit(),
+      header: Builder(
+        builder: (context) {
+          return _buildHeader(context);
+        },
+      ),
+      body: BlocProvider<SelectedSubtrackCubit>(
+        create: (ctx) => SelectedSubtrackCubit(),
         child: TrackBody(track: track),
       ),
     );

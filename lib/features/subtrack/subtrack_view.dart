@@ -20,13 +20,9 @@ class _SubtrackViewState extends State<SubtrackView>
     with SingleTickerProviderStateMixin {
   Subtrack get subtrack => widget.subtrack;
 
-  void onSelectionToggled() {
-    final cubit = BlocProvider.of<ActiveSubtrackCubit>(context);
-    if (cubit.state.next == subtrack.id) {
-      cubit.emitChange(null);
-    } else {
-      cubit.emitChange(subtrack.id);
-    }
+  void onSelected() {
+    final cubit = BlocProvider.of<SelectedSubtrackCubit>(context);
+    cubit.emitChange(subtrack.id);
   }
 
   @override
@@ -36,7 +32,7 @@ class _SubtrackViewState extends State<SubtrackView>
       primaryText:
           '${subtrack.start} - ${subtrack.end}, pointer ${subtrack.pointer}',
       secondaryText: 'completed ${subtrack.done}/${subtrack.length}',
-      onTap: onSelectionToggled,
+      onTap: onSelected,
     );
   }
 }
