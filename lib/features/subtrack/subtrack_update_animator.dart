@@ -23,7 +23,7 @@ class _SubtrackUpdateAnimatorState extends State<SubtrackUpdateAnimator>
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 150),
     );
   }
 
