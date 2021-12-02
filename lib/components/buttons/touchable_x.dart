@@ -21,7 +21,7 @@ class TouchableX extends StatelessWidget {
           padding: const EdgeInsets.all(kDefaultPadding),
           child: Icon(
             CupertinoIcons.xmark,
-            color: DefaultTextStyle.of(context).style.color,
+            color: AppColors.grey,
             size: FontSizes.h3,
           ),
         ),
