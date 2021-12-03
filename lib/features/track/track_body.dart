@@ -20,6 +20,8 @@ class TrackBody extends StatefulWidget {
 }
 
 class _TrackBodyState extends State<TrackBody> with ListBuilder {
+  Track get track => widget.track;
+
   Widget _buildTrackControls(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
@@ -50,16 +52,16 @@ class _TrackBodyState extends State<TrackBody> with ListBuilder {
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
+            children: [
               Highlighted(
                 child: Text(
-                  '6 subtracks',
+                  '${track.subtracks.all.length} subtracks',
                 ),
               ),
-              SizedBox(height: kDefaultPadding / 2),
+              const SizedBox(height: kDefaultPadding / 2),
               Highlighted(
                 child: Text(
-                  '258/345 points done, 134 left',
+                  '${track.done}/${track.length} points done, ${track.left} left',
                 ),
               ),
             ],

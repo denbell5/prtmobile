@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:equatable/equatable.dart';
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/utils/utils.dart';
