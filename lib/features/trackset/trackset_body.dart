@@ -23,6 +23,8 @@ class TracksetBody extends StatefulWidget {
 class _TracksetBodyState extends State<TracksetBody> {
   final trackListKey = GlobalKey<ExpandableListState>();
 
+  Trackset get trackset => widget.trackset;
+
   void onToggle({
     required int index,
     required bool isExpanded,
@@ -63,22 +65,22 @@ class _TracksetBodyState extends State<TracksetBody> {
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
+            children: [
               Highlighted(
                 child: Text(
-                  '34 days passed, 67 days  left',
+                  '${trackset.daysPassed()}/${trackset.totalDays} days passed, ${trackset.daysLeft()} days left',
                 ),
               ),
-              SizedBox(height: kDefaultPadding / 2),
+              const SizedBox(height: kDefaultPadding / 2),
               Highlighted(
                 child: Text(
-                  '356/1678 points done',
+                  '${trackset.done}/${trackset.length} points done, ${trackset.left} left',
                 ),
               ),
-              SizedBox(height: kDefaultPadding / 2),
+              const SizedBox(height: kDefaultPadding / 2),
               Highlighted(
                 child: Text(
-                  '48 points to complete daily',
+                  '${trackset.dailyGoal} points to complete daily',
                 ),
               ),
             ],
