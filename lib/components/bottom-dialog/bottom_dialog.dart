@@ -1,7 +1,6 @@
 // @dart=2.12
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/widgets.dart';
 import 'package:prtmobile/styles/styles.dart';
 
 class BottomDialog extends StatelessWidget {

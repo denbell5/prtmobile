@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:prtmobile/components/components.dart';
 
-import 'expandable.dart';
 
 typedef ExpandableListBuilder = Expandable Function(
   BuildContext context,

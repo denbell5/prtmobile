@@ -2,10 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/components/text/highlighted.dart';
 import 'package:prtmobile/components/text/list_item_header.dart';
-import 'package:prtmobile/components/text/text.dart';
 import 'package:prtmobile/features/track/track_view.dart';
 import 'package:prtmobile/models/models.dart';
-import 'package:prtmobile/styles/layout.dart';
 import 'package:prtmobile/styles/styles.dart';
 
 class TracksetBody extends StatefulWidget {
