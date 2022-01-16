@@ -43,27 +43,27 @@ class _DbExampleState extends State<DbExample> {
           children: [
             TouchableOpacity(
               child: Text('path'),
-              onPressed: () async {
+              onTap: () async {
                 final path = await getDatabasesPath();
                 print(path);
               },
             ),
             TouchableOpacity(
               child: Text('open'),
-              onPressed: () {
+              onTap: () {
                 _db.open();
               },
             ),
             TouchableOpacity(
               child: Text('list dbs'),
-              onPressed: () async {
+              onTap: () async {
                 final dbs = await _db.db.query('sqlite_master');
                 print(dbs);
               },
             ),
             TouchableOpacity(
               child: Text('delete db'),
-              onPressed: () async {
+              onTap: () async {
                 var databasesPath = await getDatabasesPath();
                 var path = join(databasesPath, '${_db.dbName}.db');
                 await _db.db.close();
@@ -73,7 +73,7 @@ class _DbExampleState extends State<DbExample> {
             ),
             TouchableOpacity(
               child: Text('list files'),
-              onPressed: () async {
+              onTap: () async {
                 var databasesPath = await getDatabasesPath();
                 var directory = Directory(databasesPath);
                 var files = directory.listSync();
