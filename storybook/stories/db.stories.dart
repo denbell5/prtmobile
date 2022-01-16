@@ -80,6 +80,20 @@ class _DbExampleState extends State<DbExample> {
                 print(files);
               },
             ),
+            TouchableOpacity(
+              child: Text('get tracksets'),
+              onTap: () async {
+                final tracksets = await _db.getTracksets();
+                print(tracksets);
+              },
+            ),
+            TouchableOpacity(
+              child: Text('seed tracksets'),
+              onTap: () async {
+                await _db.seedTracksets();
+                print('Tracksets seeded ${DateTime.now()}');
+              },
+            ),
           ],
         ),
       ),

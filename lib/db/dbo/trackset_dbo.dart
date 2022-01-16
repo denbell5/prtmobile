@@ -1,3 +1,6 @@
+import 'package:prtmobile/db/dbo/dbo.dart';
+import 'package:prtmobile/models/models.dart';
+
 class TracksetDbo {
   static const _TracksetDboSchema schema = _TracksetDboSchema();
 
@@ -43,6 +46,26 @@ class TracksetDbo {
         '${schema.startAt} TEXT,'
         '${schema.endAt} TEXT'
         ')';
+  }
+
+  static TracksetDbo fromTrackset(Trackset trackset) {
+    return TracksetDbo(
+      id: trackset.id,
+      userId: trackset.userId,
+      name: trackset.name,
+      startAt: trackset.startAt.toIso8601String(),
+      endAt: trackset.endAt.toIso8601String(),
+    );
+  }
+
+  Trackset toTrackset() {
+    return Trackset(
+      id: id,
+      userId: userId,
+      name: name,
+      startAt: DateTime.parse(startAt),
+      endAt: DateTime.parse(endAt),
+    );
   }
 }
 
