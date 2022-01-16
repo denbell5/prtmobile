@@ -16,7 +16,7 @@ class Highlighted extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.lightGrey, // TODO: theme
+      color: AppColors.lightGrey,
       padding: const EdgeInsets.symmetric(
         vertical: kHighlightedVerticalPadding,
         horizontal: kHighlightedHorizontalPadding,

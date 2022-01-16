@@ -18,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final formatted = formatDate(now);
     return Text(
       'Today is $formatted',
-      style: AppTypography.h3.white(), // TODO: theme
+      style: AppTypography.h3.white(),
     );
   }
 
@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return CupertinoPageScaffold(
       child: Column(
         children: [
-          _buildNavbar(topBarPadding: topBarPadding), // TODO: to navigationBar
+          _buildNavbar(topBarPadding: topBarPadding),
           const Flexible(
             child: TracksetList(),
           ),
