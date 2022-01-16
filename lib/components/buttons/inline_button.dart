@@ -21,7 +21,7 @@ class InlineButton extends StatelessWidget {
     );
     return TouchableOpacity(
       child: content,
-      onPressed: onTap,
+      onTap: onTap,
     );
   }
 }

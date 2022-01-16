@@ -48,7 +48,7 @@ class _SelectableColumnState<T> extends State<SelectableColumn<T>> {
           style: textStyle,
         ),
       ),
-      onPressed: () {
+      onTap: () {
         setState(() {
           _selectedValue = option.value;
         });

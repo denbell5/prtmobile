@@ -42,7 +42,7 @@ class BottomDialogExample extends StatelessWidget {
             children: [
               TouchableOpacity(
                 child: Text('Open dialog'),
-                onPressed: () {
+                onTap: () {
                   _showDialog(context);
                 },
               ),

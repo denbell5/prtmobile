@@ -35,7 +35,7 @@ class _EditableTextExampleState extends State<EditableTextExample> {
           children: [
             TouchableOpacity(
               child: const Text('Toggle input'),
-              onPressed: () {
+              onTap: () {
                 setState(() {
                   isInputEnabled = !isInputEnabled;
                 });
@@ -43,13 +43,13 @@ class _EditableTextExampleState extends State<EditableTextExample> {
             ),
             TouchableOpacity(
               child: const Text('Save form'),
-              onPressed: () {
+              onTap: () {
                 formKey.currentState!.save();
               },
             ),
             TouchableOpacity(
               child: const Text('Validate form'),
-              onPressed: () {
+              onTap: () {
                 formKey.currentState!.validate();
               },
             ),

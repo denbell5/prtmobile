@@ -47,7 +47,7 @@ class ListItemHeader extends StatelessWidget {
             children: _buildTextWidgets(),
           );
     return TouchableOpacity(
-      onPressed: onTap,
+      onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: kDefaultPadding,

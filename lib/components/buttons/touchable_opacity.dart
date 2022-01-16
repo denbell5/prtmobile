@@ -2,12 +2,12 @@ import 'package:flutter/widgets.dart';
 
 class TouchableOpacity extends StatefulWidget {
   final Widget child;
-  final VoidCallback onPressed; // TODO: onTap
+  final VoidCallback onTap;
 
   const TouchableOpacity({
     Key? key,
     required this.child,
-    required this.onPressed,
+    required this.onTap,
   }) : super(key: key);
 
   @override
@@ -40,7 +40,7 @@ class _TouchableOpacityState extends State<TouchableOpacity>
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: widget.onPressed,
+      onTap: widget.onTap,
       onTapDown: animation.handleTapDown,
       onTapUp: animation.handleTapUp,
       onTapCancel: animation.handleTapCancel,

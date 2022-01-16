@@ -28,7 +28,7 @@ class _TouchableOpacityExampleState extends State<TouchableOpacityExample> {
               'Touchable text',
               style: AppTypography.bodyText.greyed(),
             ),
-            onPressed: () {},
+            onTap: () {},
           ),
         ],
       ),

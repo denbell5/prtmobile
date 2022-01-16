@@ -15,7 +15,7 @@ class TouchableX extends StatelessWidget {
     return Align(
       alignment: Alignment.centerRight,
       child: TouchableOpacity(
-        onPressed: onTap,
+        onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.all(kDefaultPadding),
           child: Icon(
