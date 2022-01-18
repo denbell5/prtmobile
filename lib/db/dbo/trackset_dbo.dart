@@ -1,5 +1,16 @@
-import 'package:prtmobile/db/dbo/dbo.dart';
 import 'package:prtmobile/models/models.dart';
+
+class _TracksetDboSchema {
+  const _TracksetDboSchema();
+
+  final String tableName = 'tracksets';
+
+  final String id = 'id';
+  final String userId = 'userId';
+  final String name = 'name';
+  final String startAt = 'startAt';
+  final String endAt = 'endAt';
+}
 
 class TracksetDbo {
   static const _TracksetDboSchema schema = _TracksetDboSchema();
@@ -18,7 +29,7 @@ class TracksetDbo {
     required this.endAt,
   });
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toRaw() {
     return {
       schema.id: id,
       schema.userId: userId,
@@ -28,7 +39,7 @@ class TracksetDbo {
     };
   }
 
-  static TracksetDbo fromMap(Map<String, dynamic> map) {
+  static TracksetDbo fromRaw(Map<String, dynamic> map) {
     return TracksetDbo(
       id: map[schema.id],
       userId: map[schema.userId],
@@ -67,16 +78,4 @@ class TracksetDbo {
       endAt: DateTime.parse(endAt),
     );
   }
-}
-
-class _TracksetDboSchema {
-  const _TracksetDboSchema();
-
-  final String tableName = 'tracksets';
-
-  final String id = 'id';
-  final String userId = 'userId';
-  final String name = 'name';
-  final String startAt = 'startAt';
-  final String endAt = 'endAt';
 }

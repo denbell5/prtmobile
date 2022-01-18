@@ -1,4 +1,4 @@
-import 'package:prtmobile/db/dbo/trackset_dbo.dart';
+import 'package:prtmobile/db/db.dart';
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/utils/__mocks__/real_world.dart';
 import 'package:prtmobile/utils/utils.dart';
@@ -33,7 +33,7 @@ class TrackingDb {
   Future<NormalizedList<Trackset, String>> getTracksets() async {
     final query = 'select * from ${TracksetDbo.schema.tableName}';
     final maps = await db.rawQuery(query);
-    final dbos = maps.map((map) => TracksetDbo.fromMap(map)).toList();
+    final dbos = maps.map((map) => TracksetDbo.fromRaw(map)).toList();
     final tracksets = dbos.map((dbo) => dbo.toTrackset()).toList();
     final normalized = normalizeTracksets(tracksets);
     return normalized;
@@ -43,7 +43,7 @@ class TrackingDb {
   Future<void> seedTracksets() async {
     final tracksets = getRealWorldTracksets();
     final dbos = tracksets.entities.map((el) => TracksetDbo.fromTrackset(el));
-    final maps = dbos.map((e) => e.toMap());
+    final maps = dbos.map((e) => e.toRaw());
     for (var map in maps) {
       await db.insert(TracksetDbo.schema.tableName, map);
     }
