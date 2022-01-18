@@ -31,8 +31,8 @@ class TrackingDb {
 
   Future<NormalizedList<Trackset, String>> getTracksets() async {
     final query = 'select * from ${TracksetDbo.schema.tableName}';
-    final maps = await db.rawQuery(query);
-    final dbos = maps.map((map) => TracksetDbo.fromRaw(map)).toList();
+    final rawValues = await db.rawQuery(query);
+    final dbos = rawValues.map((r) => TracksetDbo.fromRaw(r)).toList();
     final tracksets = dbos.map((dbo) => dbo.toTrackset()).toList();
     final normalized = normalizeTracksets(tracksets);
     return normalized;
@@ -42,9 +42,9 @@ class TrackingDb {
   Future<void> seedTracksets() async {
     final tracksets = getRealWorldTracksets();
     final dbos = tracksets.entities.map((el) => TracksetDbo.fromTrackset(el));
-    final maps = dbos.map((e) => e.toRaw());
-    for (var map in maps) {
-      await db.insert(TracksetDbo.schema.tableName, map);
+    final rawValues = dbos.map((dbo) => dbo.toRaw());
+    for (var raw in rawValues) {
+      await db.insert(TracksetDbo.schema.tableName, raw);
     }
   }
 }
