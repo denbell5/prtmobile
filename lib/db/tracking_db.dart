@@ -5,8 +5,6 @@ import 'package:prtmobile/utils/utils.dart';
 import 'package:sqflite/sqflite.dart';
 
 class TrackingDb {
-  static const int _currentVersion = 1;
-
   late final Database _db;
   final String dbName;
 
@@ -19,14 +17,15 @@ class TrackingDb {
   Future<void> open() async {
     _db = await openDatabase(
       '$dbName.db',
-      version: _currentVersion,
+      version: 1,
       onCreate: _onCreate,
+      onOpen: applyMigrations,
     );
   }
 
   Future<void> _onCreate(Database db, int version) async {
     await db.execute(
-      TracksetDbo.buildCreateQuery(),
+      MigrationDbo.buildCreateQuery(),
     );
   }
 
