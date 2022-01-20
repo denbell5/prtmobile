@@ -12,6 +12,7 @@ abstract class Migration {
 
 final migrations = [
   _CreateTracksetsTable(),
+  _CreateTracksTable(),
 ];
 
 class _CreateTracksetsTable extends Migration {
@@ -19,6 +20,15 @@ class _CreateTracksetsTable extends Migration {
   Future<void> execute(Transaction db) async {
     await db.execute(
       TracksetDbo.buildCreateQuery(),
+    );
+  }
+}
+
+class _CreateTracksTable extends Migration {
+  @override
+  Future<void> execute(Transaction db) async {
+    await db.execute(
+      TrackDbo.buildCreateQuery(),
     );
   }
 }
