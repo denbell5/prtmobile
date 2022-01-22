@@ -83,7 +83,7 @@ class _DbExampleState extends State<DbExample> {
             TouchableOpacity(
               child: Text('get tracksets'),
               onTap: () async {
-                final tracksets = await _db.getTracksets();
+                final tracksets = await _db.getEnrichedTracksets();
                 print(tracksets);
               },
             ),
