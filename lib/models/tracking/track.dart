@@ -3,27 +3,31 @@ import 'package:prtmobile/models/models.dart';
 
 class Track extends Equatable {
   final String id;
+  final String tracksetId;
   final String name;
   final NormalizedList<Subtrack, String> subtracks;
 
-  const Track({
+  Track({
     required this.id,
+    required this.tracksetId,
     required this.name,
-    required this.subtracks,
-  });
+    NormalizedList<Subtrack, String>? subtracks,
+  }) : subtracks = subtracks ?? NormalizedList.createEmpty<Subtrack, String>();
 
   Track copyWith({
+    String? id,
     NormalizedList<Subtrack, String>? subtracks,
   }) {
     return Track(
-      id: id,
+      id: id ?? this.id,
       name: name,
+      tracksetId: tracksetId,
       subtracks: subtracks ?? this.subtracks,
     );
   }
 
   @override
-  List<Object?> get props => [id, name, subtracks];
+  List<Object?> get props => [id, tracksetId, name, subtracks];
 
   int get length =>
       subtracks.entities.fold(0, (sum, subtrack) => sum += subtrack.length);

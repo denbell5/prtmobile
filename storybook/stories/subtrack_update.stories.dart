@@ -26,7 +26,7 @@ class _SubtrackUpdateExampleState extends State<SubtrackUpdateExample> {
       child: Column(
         children: [
           SubtrackUpdateDialog(
-            subtrack: SubtrackFactory.buildSubtrack(0),
+            subtrack: SubtrackFactory.buildSubtrack(0, trackId: '1'),
           ),
         ],
       ),

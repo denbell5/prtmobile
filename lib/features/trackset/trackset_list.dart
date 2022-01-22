@@ -1,4 +1,6 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:prtmobile/bloc/tracking/tracking.bloc.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/components/text/list_item_header.dart';
 
@@ -19,6 +21,13 @@ class TracksetList extends StatefulWidget {
 
 class _TracksetListState extends State<TracksetList> {
   final listKey = GlobalKey<ExpandableListState>();
+
+  @override
+  void initState() {
+    super.initState();
+    final bloc = TrackingBloc.of(context);
+    bloc.add(TracksetsRequested());
+  }
 
   Iterable<Widget> _buildTracksetListHeader() {
     return [
@@ -60,27 +69,31 @@ class _TracksetListState extends State<TracksetList> {
 
   @override
   Widget build(BuildContext context) {
-    final tracksets = getTracksets();
-    return ExpandableList(
-      key: listKey,
-      listHeader: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ..._buildTracksetListHeader(),
-        ],
-      ),
-      expandableHeaderExtent: kListItemHeaderHeight,
-      animationData: kExpandAnimationData,
-      itemCount: tracksets.all.length,
-      itemBuilder: (index) => TracksetView(
-        trackset: tracksets.entities[index],
-        onToggle: (isExpanded) => onToggle(
-          index: index,
-          isExpanded: isExpanded,
-        ),
-      ),
-      divider: const HorizontalDivider(),
+    return BlocBuilder<TrackingBloc, TrackingState>(
+      builder: (context, state) {
+        final tracksets = state.tracksets;
+        return ExpandableList(
+          key: listKey,
+          listHeader: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ..._buildTracksetListHeader(),
+            ],
+          ),
+          expandableHeaderExtent: kListItemHeaderHeight,
+          animationData: kExpandAnimationData,
+          itemCount: tracksets.all.length,
+          itemBuilder: (index) => TracksetView(
+            trackset: tracksets.entities[index],
+            onToggle: (isExpanded) => onToggle(
+              index: index,
+              isExpanded: isExpanded,
+            ),
+          ),
+          divider: const HorizontalDivider(),
+        );
+      },
     );
   }
 }

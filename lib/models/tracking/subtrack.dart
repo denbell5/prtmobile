@@ -33,9 +33,11 @@ class SubtrackRange extends Equatable {
 
 class Subtrack extends SubtrackRange {
   final String id;
+  final String trackId;
 
   const Subtrack({
     required this.id,
+    required this.trackId,
     required int start,
     required int end,
     required int pointer,
@@ -46,7 +48,7 @@ class Subtrack extends SubtrackRange {
         );
 
   @override
-  List<Object?> get props => [...super.props, id];
+  List<Object?> get props => [...super.props, id, trackId];
 
   SubtrackRange get baseRange => SubtrackRange(
         start: start,
