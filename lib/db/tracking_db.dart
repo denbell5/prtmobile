@@ -56,17 +56,23 @@ class TrackingDb {
     final subtrackDbos = await querySubtracks();
 
     final subtracks = subtrackDbos.map((dbo) => dbo.toSubtrack()).toList();
-    final normalizedSubtracks = normalizeSubtracks(subtracks);
 
-    final tracks = trackDbos
-        .map((dbo) => dbo.toTrack().copyWith(subtracks: normalizedSubtracks))
-        .toList();
+    final tracks = trackDbos.map(
+      (dbo) {
+        final belongedSubtracks =
+            subtracks.where((x) => x.trackId == dbo.id).toList();
+        final normalizedSubtracks = normalizeSubtracks(belongedSubtracks);
+        final track = dbo.toTrack().copyWith(subtracks: normalizedSubtracks);
+        return track;
+      },
+    ).toList();
 
-    final normalizedTracks = normalizeTracks(tracks);
-
-    final tracksets = tracksetDbos
-        .map((dbo) => dbo.toTrackset().copyWith(tracks: normalizedTracks))
-        .toList();
+    final tracksets = tracksetDbos.map((dbo) {
+      final belongedTracks =
+          tracks.where((x) => x.tracksetId == dbo.id).toList();
+      final normalizedTracks = normalizeTracks(belongedTracks);
+      return dbo.toTrackset().copyWith(tracks: normalizedTracks);
+    }).toList();
 
     final normalizedTracksets = normalizeTracksets(tracksets);
 

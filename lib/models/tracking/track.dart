@@ -15,10 +15,11 @@ class Track extends Equatable {
   }) : subtracks = subtracks ?? NormalizedList.createEmpty<Subtrack, String>();
 
   Track copyWith({
+    String? id,
     NormalizedList<Subtrack, String>? subtracks,
   }) {
     return Track(
-      id: id,
+      id: id ?? this.id,
       name: name,
       tracksetId: tracksetId,
       subtracks: subtracks ?? this.subtracks,

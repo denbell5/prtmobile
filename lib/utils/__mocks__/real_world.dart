@@ -33,43 +33,66 @@ List<Subtrack> _generangeRangeList({
 }
 
 NormalizedList<Trackset, String> getRealWorldTracksets() {
+  Track _track(
+    String tracksetId,
+    Track track,
+  ) {
+    final id = tracksetId + track.id;
+    return track.copyWith(
+      id: id,
+      subtracks: normalizeSubtracks(_generangeRangeList(trackId: id)),
+    );
+  }
+
   List<Track> tracks(String tracksetId) => <Track>[
-        Track(
-          id: tracksetId + '1',
-          tracksetId: tracksetId,
-          name: 'Read "Davies A. Async in C# 5.0"',
-          subtracks: normalizeSubtracks(_generangeRangeList(trackId: '1')),
+        _track(
+          tracksetId,
+          Track(
+            id: '1',
+            tracksetId: tracksetId,
+            name: 'Read "Davies A. Async in C# 5.0"',
+          ),
         ),
-        Track(
-          id: tracksetId + '2',
-          tracksetId: tracksetId,
-          name: 'Read Entity Framework Core In Action by Jon P Smith',
-          subtracks: normalizeSubtracks(_generangeRangeList(trackId: '2')),
+        _track(
+          tracksetId,
+          Track(
+            id: '2',
+            tracksetId: tracksetId,
+            name: 'Read Entity Framework Core In Action by Jon P Smith',
+          ),
         ),
-        Track(
-          id: tracksetId + '3',
-          tracksetId: tracksetId,
-          name: 'Watch series in english',
-          subtracks: normalizeSubtracks(_generangeRangeList(trackId: '3')),
+        _track(
+          tracksetId,
+          Track(
+            id: '3',
+            tracksetId: tracksetId,
+            name: 'Watch series in english',
+          ),
         ),
-        Track(
-          id: tracksetId + '4',
-          tracksetId: tracksetId,
-          name: 'Reach 4 kyu on codewars.com',
-          subtracks: normalizeSubtracks(_generangeRangeList(trackId: '4')),
+        _track(
+          tracksetId,
+          Track(
+            id: '4',
+            tracksetId: tracksetId,
+            name: 'Reach 4 kyu on codewars.com',
+          ),
         ),
-        Track(
-          id: tracksetId + '5',
-          tracksetId: tracksetId,
-          name:
-              'Read “The Clean Coder: A Code of Conduct for Professional Programmers”',
-          subtracks: normalizeSubtracks(_generangeRangeList(trackId: '5')),
+        _track(
+          tracksetId,
+          Track(
+            id: '5',
+            tracksetId: tracksetId,
+            name:
+                'Read “The Clean Coder: A Code of Conduct for Professional Programmers”',
+          ),
         ),
-        Track(
-          id: tracksetId + '6',
-          tracksetId: tracksetId,
-          name: 'Read Pro Git book by Scott Chacon and Ben Straub',
-          subtracks: normalizeSubtracks(_generangeRangeList(trackId: '6')),
+        _track(
+          tracksetId,
+          Track(
+            id: '6',
+            tracksetId: tracksetId,
+            name: 'Read Pro Git book by Scott Chacon and Ben Straub',
+          ),
         ),
       ];
 
