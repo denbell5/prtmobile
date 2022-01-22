@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
+import 'package:prtmobile/bloc/tracking/tracking.bloc.dart';
 import 'package:prtmobile/db/db.dart';
 import 'package:prtmobile/features/home/home.dart';
 import 'package:prtmobile/styles/styles.dart';
@@ -30,20 +32,31 @@ class MyApp extends StatelessWidget {
       providers: [
         RepositoryProvider<TrackingDb>.value(value: db),
       ],
-      child: CupertinoApp(
-        debugShowCheckedModeBanner: false,
-        theme: AppThemeData(
-          scaffoldBackgroundColor: AppColors.white,
-          primaryColor: AppColors.mineShaft,
-          barBackgroundColor: AppColors.mineShaft,
-          primaryContrastingColor: AppColors.white,
-          textTheme: defaultTextTheme.copyWith(
-            textStyle: defaultTextTheme.textStyle.copyWith(
-              fontSize: FontSizes.body,
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            lazy: false,
+            create: (context) {
+              final db = Provider.of<TrackingDb>(context, listen: false);
+              return TrackingBloc(db: db);
+            },
+          ),
+        ],
+        child: CupertinoApp(
+          debugShowCheckedModeBanner: false,
+          theme: AppThemeData(
+            scaffoldBackgroundColor: AppColors.white,
+            primaryColor: AppColors.mineShaft,
+            barBackgroundColor: AppColors.mineShaft,
+            primaryContrastingColor: AppColors.white,
+            textTheme: defaultTextTheme.copyWith(
+              textStyle: defaultTextTheme.textStyle.copyWith(
+                fontSize: FontSizes.body,
+              ),
             ),
           ),
+          home: const HomeScreen(),
         ),
-        home: const HomeScreen(),
       ),
     );
   }
