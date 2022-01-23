@@ -25,6 +25,10 @@ class _TracksetListState extends State<TracksetList> {
   @override
   void initState() {
     super.initState();
+    _requestTracksets();
+  }
+
+  void _requestTracksets() {
     final bloc = TrackingBloc.of(context);
     bloc.add(TracksetsRequested());
   }
@@ -67,11 +71,25 @@ class _TracksetListState extends State<TracksetList> {
     );
   }
 
+  Widget? _buildErrorMessage(TrackingState state) {
+    if (state is! TrackingErrorState ||
+        state.failedEvent is! TracksetsRequested) {
+      return null;
+    }
+    return Center(
+      child: ErrorMessage(
+        description: state.description,
+        onRetry: _requestTracksets,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TrackingBloc, TrackingState>(
       builder: (context, state) {
         final tracksets = state.tracksets;
+        final errorMessage = _buildErrorMessage(state);
         return ExpandableList(
           key: listKey,
           listHeader: Column(
@@ -79,6 +97,7 @@ class _TracksetListState extends State<TracksetList> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ..._buildTracksetListHeader(),
+              if (errorMessage != null) errorMessage,
             ],
           ),
           expandableHeaderExtent: kListItemHeaderHeight,

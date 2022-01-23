@@ -33,7 +33,15 @@ class TrackingBloc extends Bloc<TrackingEvent, TrackingState> {
   Stream<TrackingState> _mapTracksetsRequestedToState(
     TracksetsRequested event,
   ) async* {
-    final tracksets = await _db.getEnrichedTracksets();
-    yield state.copyWith(tracksets: tracksets);
+    try {
+      final tracksets = await _db.getEnrichedTracksets();
+      yield state.copyWith(tracksets: tracksets);
+    } catch (ex) {
+      yield TrackingErrorState(
+        state,
+        description: 'Failed to load trackset list',
+        failedEvent: event,
+      );
+    }
   }
 }
