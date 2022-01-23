@@ -49,3 +49,7 @@ double calcTextSize({
 }) {
   return (fontSize * fontHeight * scaleFactor).roundToDouble();
 }
+
+class RefreshIndicatorSizes {
+  static const double h4 = 8.5;
+}

@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/styles/styles.dart';
 
@@ -7,10 +7,12 @@ class ListHeader extends StatelessWidget {
     Key? key,
     required this.text,
     required this.onAddTap,
+    this.isLoading = false,
   }) : super(key: key);
 
   final String text;
   final VoidCallback onAddTap;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +25,17 @@ class ListHeader extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            text,
-            style: AppTypography.h4,
+          Row(
+            children: [
+              Text(text, style: AppTypography.h4),
+              if (isLoading)
+                const Padding(
+                  padding: EdgeInsets.only(left: kDefaultPadding),
+                  child: CupertinoActivityIndicator(
+                    radius: RefreshIndicatorSizes.h4,
+                  ),
+                ),
+            ],
           ),
           InlineButton(text: 'Add', onTap: onAddTap),
         ],

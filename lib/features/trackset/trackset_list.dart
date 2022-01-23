@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prtmobile/bloc/tracking/tracking.bloc.dart';
 import 'package:prtmobile/components/components.dart';
@@ -33,7 +33,9 @@ class _TracksetListState extends State<TracksetList> {
     bloc.add(TracksetsRequested());
   }
 
-  Iterable<Widget> _buildTracksetListHeader() {
+  Iterable<Widget> _buildTracksetListHeader({
+    bool isLoading = false,
+  }) {
     return [
       Padding(
         padding: const EdgeInsets.only(
@@ -41,6 +43,7 @@ class _TracksetListState extends State<TracksetList> {
         ),
         child: ListHeader(
           text: 'Trackset List',
+          isLoading: isLoading,
           onAddTap: () {},
         ),
       ),
@@ -90,13 +93,14 @@ class _TracksetListState extends State<TracksetList> {
       builder: (context, state) {
         final tracksets = state.tracksets;
         final errorMessage = _buildErrorMessage(state);
+        final isLoading = state is TrackingLoadingState;
         return ExpandableList(
           key: listKey,
           listHeader: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ..._buildTracksetListHeader(),
+              ..._buildTracksetListHeader(isLoading: isLoading),
               if (errorMessage != null) errorMessage,
             ],
           ),

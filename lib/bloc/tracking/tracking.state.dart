@@ -35,3 +35,9 @@ class TrackingErrorState extends TrackingState {
     required this.failedEvent,
   }) : super.fromState(state);
 }
+
+class TrackingLoadingState extends TrackingState {
+  TrackingLoadingState(
+    TrackingState state,
+  ) : super.fromState(state);
+}

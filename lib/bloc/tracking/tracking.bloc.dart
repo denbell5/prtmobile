@@ -34,6 +34,7 @@ class TrackingBloc extends Bloc<TrackingEvent, TrackingState> {
     TracksetsRequested event,
   ) async* {
     try {
+      yield TrackingLoadingState(state);
       final tracksets = await _db.getEnrichedTracksets();
       yield state.copyWith(tracksets: tracksets);
     } catch (ex) {
