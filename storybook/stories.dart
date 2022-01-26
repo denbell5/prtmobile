@@ -1,4 +1,6 @@
 import 'stories/bottom_dialog.stories.dart';
+import 'stories/date_picker.stories.dart';
+import 'stories/date_range_picker.stories.dart';
 import 'stories/db.stories.dart';
 import 'stories/expandable.stories.dart';
 import 'stories/expandable_list_poc.stories.dart';
@@ -13,6 +15,8 @@ import 'stories/touchable_opacity.stories.dart';
 import 'storybook.dart';
 
 final stories = <StorybookStory>[
+  DateRangePickerStories(),
+  DatePickerStories(),
   InputStories(),
   DbStories(),
   BottomDialogStories(),

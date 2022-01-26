@@ -9,17 +9,19 @@ class Highlighted extends StatelessWidget {
   const Highlighted({
     Key? key,
     required this.child,
+    this.horizontalInset,
   }) : super(key: key);
 
   final Widget child;
+  final double? horizontalInset;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.lightGrey,
-      padding: const EdgeInsets.symmetric(
+      padding: EdgeInsets.symmetric(
         vertical: kHighlightedVerticalPadding,
-        horizontal: kHighlightedHorizontalPadding,
+        horizontal: horizontalInset ?? kHighlightedHorizontalPadding,
       ),
       child: child,
     );
