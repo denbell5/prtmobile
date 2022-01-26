@@ -50,8 +50,8 @@ class MyApp extends StatelessWidget {
             barBackgroundColor: AppColors.mineShaft,
             primaryContrastingColor: AppColors.white,
             textTheme: defaultTextTheme.copyWith(
-              textStyle: defaultTextTheme.textStyle.copyWith(
-                fontSize: FontSizes.body,
+              textStyle: defaultTextTheme.textStyle.merge(
+                AppTypography.bodyText,
               ),
             ),
           ),
