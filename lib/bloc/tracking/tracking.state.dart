@@ -28,11 +28,13 @@ class TrackingState extends Equatable {
 class TrackingErrorState extends TrackingState {
   final String description;
   final TrackingEvent failedEvent;
+  final bool shouldShowNotification;
 
   TrackingErrorState(
     TrackingState state, {
     required this.description,
     required this.failedEvent,
+    this.shouldShowNotification = false,
   }) : super.fromState(state);
 }
 
@@ -40,4 +42,18 @@ class TrackingLoadingState extends TrackingState {
   TrackingLoadingState(
     TrackingState state,
   ) : super.fromState(state);
+}
+
+class TrackingUpdatedState extends TrackingState {
+  final bool isAfterTracksetCreated;
+
+  TrackingUpdatedState(
+    TrackingState state, {
+    this.isAfterTracksetCreated = false,
+  }) : super.fromState(state);
+
+  @override
+  List<Object?> get props => [
+        ...super.props,
+      ];
 }

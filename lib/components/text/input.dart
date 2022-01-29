@@ -7,14 +7,12 @@ class Input extends StatefulWidget {
   const Input({
     Key? key,
     required this.label,
-    this.errorMessage = '',
     this.initialValue,
     this.onSaved,
     this.validator,
   }) : super(key: key);
 
   final String label;
-  final String errorMessage;
   final String? initialValue;
   final ValueChanged<String?>? onSaved;
   final FormFieldValidator<String>? validator;

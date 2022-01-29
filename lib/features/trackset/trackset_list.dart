@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prtmobile/bloc/tracking/tracking.bloc.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/components/text/list_item_header.dart';
+import 'package:prtmobile/features/trackset/create/trackset_create.dart';
 
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/styles.dart';
@@ -33,7 +34,17 @@ class _TracksetListState extends State<TracksetList> {
     bloc.add(TracksetsRequested());
   }
 
-  Iterable<Widget> _buildTracksetListHeader({
+  Future<void> _openTracksetCreateDialog(BuildContext context) async {
+    await showCupertinoModalPopup(
+      context: context,
+      builder: (context) {
+        return const TracksetCreateDialog();
+      },
+    );
+  }
+
+  Iterable<Widget> _buildTracksetListHeader(
+    BuildContext context, {
     bool isLoading = false,
   }) {
     return [
@@ -44,7 +55,7 @@ class _TracksetListState extends State<TracksetList> {
         child: ListHeader(
           text: 'Trackset List',
           isLoading: isLoading,
-          onAddTap: () {},
+          onAddTap: () => _openTracksetCreateDialog(context),
         ),
       ),
     ];
@@ -100,7 +111,10 @@ class _TracksetListState extends State<TracksetList> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ..._buildTracksetListHeader(isLoading: isLoading),
+              ..._buildTracksetListHeader(
+                context,
+                isLoading: isLoading,
+              ),
               if (errorMessage != null) errorMessage,
             ],
           ),
