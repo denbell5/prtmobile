@@ -56,7 +56,7 @@ class _InputState extends State<Input> {
               },
               expands: false,
               decoration: BoxDecoration(
-                border: Border.all(color: AppColors.grey),
+                border: Border.all(color: AppColors.lightGreyForThin),
                 borderRadius: BorderRadius.circular(borderRadius),
               ),
               cursorColor: AppColors.grey,

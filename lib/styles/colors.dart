@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class AppColors {
   static Color get white => Colors.white;
   static Color get lightGrey => Colors.blueGrey[50]!;
+  static Color get lightGreyForThin => Colors.blueGrey[200]!;
+
   static Color get black => Colors.black;
   static Color get transparent => Colors.transparent;
   static const mineShaft = Color(0xFF24292e);

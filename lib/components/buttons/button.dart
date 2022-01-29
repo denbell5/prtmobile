@@ -32,7 +32,7 @@ class Button extends StatelessWidget {
             if (!isLoading)
               Text(
                 label,
-                style: AppTypography.h4,
+                style: AppTypography.h4.greyed(),
               ),
             if (isLoading) const CupertinoActivityIndicator(),
           ],
