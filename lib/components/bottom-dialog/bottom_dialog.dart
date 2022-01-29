@@ -1,25 +1,27 @@
 // @dart=2.12
 
 import 'package:flutter/cupertino.dart';
+import 'package:prtmobile/features/home/home.dart';
 import 'package:prtmobile/styles/styles.dart';
 
 class BottomDialog extends StatelessWidget {
   const BottomDialog({
     Key? key,
     required this.child,
-    this.isVerticallyTight = false,
   }) : super(key: key);
 
   final Widget child;
-  final bool isVerticallyTight;
 
   @override
   Widget build(BuildContext context) {
+    final systemBarHeight = MediaQuery.of(context).padding.top;
+    final navbarHeight = calcNavbarHeight(systemBarHeight: systemBarHeight);
     return LayoutBuilder(
       builder: (context, constraints) {
         return ConstrainedBox(
-          constraints: BoxConstraints.tightFor(
-            width: constraints.maxWidth,
+          constraints: constraints.copyWith(
+            minWidth: constraints.maxWidth,
+            maxHeight: constraints.maxHeight - navbarHeight - 15,
           ),
           child: LayoutBuilder(
             builder: (context, constraints) {

@@ -124,4 +124,10 @@ class TrackingDb {
       await insertSubtracks(db, subtracks);
     });
   }
+
+  Future<void> insertTrackset(Trackset trackset) async {
+    final dbo = TracksetDbo.fromTrackset(trackset);
+    final raw = dbo.toRaw();
+    await db.insert(TracksetDbo.schema.tableName, raw);
+  }
 }

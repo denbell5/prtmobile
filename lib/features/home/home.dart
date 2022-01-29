@@ -3,6 +3,14 @@ import 'package:prtmobile/features/trackset/trackset_list.dart';
 import 'package:prtmobile/styles/styles.dart';
 import 'package:prtmobile/utils/utils.dart';
 
+double calcNavbarHeight({required double systemBarHeight}) {
+  final textStyle = AppTypography.h3;
+  return systemBarHeight +
+      kDefaultPadding * 1.5 +
+      kDefaultPadding +
+      textStyle.fontSize! * textStyle.height!;
+}
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
     Key? key,

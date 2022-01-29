@@ -1,99 +1,76 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/cupertino.dart';
-import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/styles/styles.dart';
 
-class Input extends FormField<String> {
-  final bool isEnabled;
-  final TextStyle? style;
-  final String initialText;
-  final double borderWidth;
-  final void Function(String? text)? onErrorTextChanged;
-
-  Input({
+class Input extends StatefulWidget {
+  const Input({
     Key? key,
-    this.style,
-    this.isEnabled = true,
-    this.initialText = '',
-    this.onErrorTextChanged,
-    this.borderWidth = kInputBorderWidth,
-    Color? cursorColor,
-    Color? borderColor,
-    Color? borderFocusedColor,
-    String? Function(String?)? validator,
-    void Function(String?)? onSaved,
-  }) : super(
-          key: key,
-          onSaved: onSaved,
-          validator: validator,
-          initialValue: initialText,
-          builder: (field) {
-            final state = field as _AppEditableTextState;
-            cursorColor = cursorColor ?? AppColors.grey;
-            borderColor = borderColor ?? AppColors.lightGrey;
-            borderFocusedColor = borderFocusedColor ?? AppColors.grey;
-            final activeBorderColor = isEnabled
-                ? AppColors.transparent
-                : state._isFocused
-                    ? borderFocusedColor
-                    : borderColor;
-            return Column(
-              children: [
-                CupertinoTextField(
-                  expands: false,
-                  decoration: null,
-                  style: style,
-                  enabled: isEnabled,
-                  cursorColor: cursorColor,
-                  focusNode: state._focusNode,
-                  controller: state._controller,
-                  onChanged: (value) {
-                    state.didChange(value);
-                  },
-                ),
-                HorizontalDivider(
-                  height: borderWidth,
-                  color: activeBorderColor,
-                )
-              ],
-            );
-          },
-        );
+    required this.label,
+    this.initialValue,
+    this.onSaved,
+    this.validator,
+  }) : super(key: key);
+
+  final String label;
+  final String? initialValue;
+  final ValueChanged<String?>? onSaved;
+  final FormFieldValidator<String>? validator;
 
   @override
-  _AppEditableTextState createState() => _AppEditableTextState();
+  _InputState createState() => _InputState();
 }
 
-class _AppEditableTextState extends FormFieldState<String> {
-  late FocusNode _focusNode;
-  late TextEditingController _controller;
-  var _isFocused = false;
-  String? _lastErrorText;
+class _InputState extends State<Input> {
+  late final TextEditingController _controller;
 
   @override
   void initState() {
     super.initState();
-    _focusNode = FocusNode();
-    _focusNode.addListener(() {
-      setState(() {
-        _isFocused = _focusNode.hasFocus;
-      });
-    });
     _controller = TextEditingController(text: widget.initialValue);
   }
 
   @override
-  void dispose() {
-    _focusNode.dispose();
-    super.dispose();
-  }
-
-  @override
-  bool validate() {
-    final result = super.validate();
-    if (_lastErrorText != errorText) {
-      (widget as Input).onErrorTextChanged?.call(errorText);
-    }
-    _lastErrorText = errorText;
-    return result;
+  Widget build(BuildContext context) {
+    const borderRadius = kInputBorderRadius;
+    const borderRadiusInsets = EdgeInsets.only(left: borderRadius);
+    return FormField<String>(
+      onSaved: widget.onSaved,
+      validator: widget.validator,
+      initialValue: widget.initialValue,
+      builder: (state) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: borderRadiusInsets,
+              child: Text(
+                widget.label,
+                style: AppTypography.bodyText.greyed(),
+              ),
+            ),
+            CupertinoTextField(
+              controller: _controller,
+              onChanged: (value) {
+                state.didChange(value);
+              },
+              expands: false,
+              decoration: BoxDecoration(
+                border: Border.all(color: AppColors.grey),
+                borderRadius: BorderRadius.circular(borderRadius),
+              ),
+              cursorColor: AppColors.grey,
+            ),
+            Padding(
+              padding: borderRadiusInsets,
+              child: Text(
+                state.errorText ?? '',
+                style: AppTypography.small.red(),
+              ),
+            )
+          ],
+        );
+      },
+    );
   }
 }

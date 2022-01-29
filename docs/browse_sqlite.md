@@ -11,6 +11,8 @@ cd $home\AppData\Local\Android\Sdk\platform-tools
 cd /data/user/0/com.example.prtmobile/databases
 sqlite3 prt.db
 
+# Fix adb permission denied
+.\adb root
 
 # SQLite cheatsheet
 .tables
