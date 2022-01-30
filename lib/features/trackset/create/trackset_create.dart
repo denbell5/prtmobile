@@ -4,6 +4,7 @@ import 'package:prtmobile/bloc/tracking/tracking.bloc.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/styles.dart';
+import 'package:prtmobile/utils/utils.dart';
 
 class TracksetCreateValue {
   final String name;
@@ -34,7 +35,12 @@ class TracksetCreateDialog extends StatefulWidget {
 
 class _TracksetCreateDialogState extends State<TracksetCreateDialog> {
   final _formKey = GlobalKey<FormState>();
+  final _inputKey = GlobalKey<InputState>();
+  final _dateRangePickerKey = GlobalKey<FormFieldState<DateRange>>();
+
   bool _isFormValid = false;
+
+  bool _shouldNameByDateRange = false;
 
   TracksetCreateValue _value = TracksetCreateValue(
     name: '',
@@ -67,6 +73,75 @@ class _TracksetCreateDialogState extends State<TracksetCreateDialog> {
     }
   }
 
+  void _setNameFromDateRange(DateRange dateRange) {
+    final formattedDateRange = formatDateRange(
+      dateRange.start,
+      dateRange.end,
+    );
+    _inputKey.currentState!.setValue(
+      formattedDateRange,
+    );
+  }
+
+  Widget _buildNameInput(BuildContext context) {
+    return Input(
+      key: _inputKey,
+      label: 'Name',
+      onSaved: (name) {
+        _value = _value.copyWith(name: name);
+      },
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter trackset name';
+        }
+        return null;
+      },
+    );
+  }
+
+  Widget _buildNameFromDateCheckbox(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _shouldNameByDateRange = !_shouldNameByDateRange;
+        });
+        if (_shouldNameByDateRange) {
+          final dateRange = _dateRangePickerKey.currentState!.value!;
+          _setNameFromDateRange(dateRange);
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(
+          bottom: kDefaultPadding,
+        ),
+        child: Row(
+          children: [
+            Checkbox(
+              checked: _shouldNameByDateRange,
+            ),
+            const SizedBox(width: kDefaultPadding / 3),
+            const Text('Name based on date range'),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDateRangePicker(BuildContext context) {
+    return DateRangePicker(
+      formFieldKey: _dateRangePickerKey,
+      initialValue: _value.dateRange,
+      onSaved: (dateRange) {
+        _value = _value.copyWith(dateRange: dateRange);
+      },
+      onChanged: (dateRange) {
+        if (_shouldNameByDateRange) {
+          _setNameFromDateRange(dateRange);
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     const formFieldDivider = SizedBox(height: kDefaultPadding / 2);
@@ -97,7 +172,7 @@ class _TracksetCreateDialogState extends State<TracksetCreateDialog> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(
-                  top: kDefaultPadding * 2,
+                  top: kDefaultPadding,
                   left: kDefaultPadding,
                   right: kDefaultPadding,
                 ),
@@ -108,25 +183,10 @@ class _TracksetCreateDialogState extends State<TracksetCreateDialog> {
                   },
                   child: Column(
                     children: [
-                      Input(
-                        label: 'Name',
-                        onSaved: (name) {
-                          _value = _value.copyWith(name: name);
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter trackset name';
-                          }
-                          return null;
-                        },
-                      ),
+                      _buildNameInput(context),
+                      _buildNameFromDateCheckbox(context),
                       formFieldDivider,
-                      DateRangePicker(
-                        initialValue: _value.dateRange,
-                        onSaved: (dateRange) {
-                          _value = _value.copyWith(dateRange: dateRange);
-                        },
-                      ),
+                      _buildDateRangePicker(context),
                       const Spacer(),
                       Padding(
                         padding: const EdgeInsets.only(

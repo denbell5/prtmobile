@@ -16,3 +16,15 @@ DateTime min(DateTime a, DateTime b) {
 DateTime toDateOnly(DateTime date) {
   return DateTime(date.year, date.month, date.day);
 }
+
+String formatDateRange(DateTime start, DateTime end) {
+  final monthPattern = DateFormat().addPattern('MMM');
+  final startMonthText = monthPattern.format(start);
+  final endMonthText = monthPattern.format(end);
+
+  final isSameYear = start.year == end.year;
+  final startYearText = start.year.toString();
+  final endYearText = isSameYear ? '' : ' ${end.year}';
+
+  return '$startYearText M${start.month} -$endYearText M${end.month} ($startMonthText - $endMonthText)';
+}

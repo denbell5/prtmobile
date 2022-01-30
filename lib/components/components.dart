@@ -10,3 +10,4 @@ export 'bottom-dialog/bottom_dialog.dart';
 export 'bottom-safe-area/bottom_safe_area.dart';
 export 'date_range_picker/date_picker.dart';
 export 'date_range_picker/date_range_picker.dart';
+export 'checkbox/checkbox.dart';

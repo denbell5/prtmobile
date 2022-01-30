@@ -18,11 +18,12 @@ class Input extends StatefulWidget {
   final FormFieldValidator<String>? validator;
 
   @override
-  _InputState createState() => _InputState();
+  InputState createState() => InputState();
 }
 
-class _InputState extends State<Input> {
+class InputState extends State<Input> {
   late final TextEditingController _controller;
+  final _formFieldKey = GlobalKey<FormFieldState<String>>();
 
   @override
   void initState() {
@@ -30,11 +31,18 @@ class _InputState extends State<Input> {
     _controller = TextEditingController(text: widget.initialValue);
   }
 
+  void setValue(String value) {
+    _controller.text = value;
+    _formFieldKey.currentState!.didChange(value);
+  }
+
   @override
   Widget build(BuildContext context) {
     const borderRadius = kInputBorderRadius;
     const borderRadiusInsets = EdgeInsets.only(left: borderRadius);
+
     return FormField<String>(
+      key: _formFieldKey,
       onSaved: widget.onSaved,
       validator: widget.validator,
       initialValue: widget.initialValue,
