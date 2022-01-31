@@ -4,6 +4,7 @@ import 'stories/date_range_picker.stories.dart';
 import 'stories/db.stories.dart';
 import 'stories/expandable.stories.dart';
 import 'stories/expandable_list_poc.stories.dart';
+import 'stories/expandable_list_sort.stories.dart';
 import 'stories/input.stories.dart';
 import 'stories/picker_list.stories.dart';
 import 'stories/subtrack_update.stories.dart';
@@ -15,6 +16,7 @@ import 'stories/touchable_opacity.stories.dart';
 import 'storybook.dart';
 
 final stories = <StorybookStory>[
+  ExpandableListSortingStories(),
   DateRangePickerStories(),
   DatePickerStories(),
   InputStories(),

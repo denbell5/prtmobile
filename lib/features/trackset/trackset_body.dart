@@ -1,10 +1,12 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/components/text/highlighted.dart';
 import 'package:prtmobile/components/text/list_item_header.dart';
 import 'package:prtmobile/features/track/track_view.dart';
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/styles.dart';
+
+import 'edit/trackset_edit.dart';
 
 class TracksetBody extends StatefulWidget {
   const TracksetBody({
@@ -33,6 +35,17 @@ class _TracksetBodyState extends State<TracksetBody> {
     );
   }
 
+  Future<void> _openTracksetEditDialog(BuildContext context) async {
+    await showCupertinoModalPopup(
+      context: context,
+      builder: (context) {
+        return TracksetEditDialog(
+          trackset: trackset,
+        );
+      },
+    );
+  }
+
   Widget _buildTracksetControls(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
@@ -45,7 +58,12 @@ class _TracksetBodyState extends State<TracksetBody> {
         children: [
           InlineButton(text: 'Delete', onTap: () {}),
           const SizedBox(width: kDefaultPadding),
-          InlineButton(text: 'Edit', onTap: () {}),
+          InlineButton(
+            text: 'Edit',
+            onTap: () {
+              _openTracksetEditDialog(context);
+            },
+          ),
         ],
       ),
     );
@@ -103,6 +121,7 @@ class _TracksetBodyState extends State<TracksetBody> {
           (index, tr) => MapEntry(
             index,
             TrackView(
+              key: ValueKey(tr.id),
               track: tr,
               onToggle: (isExpanded) {
                 onToggle(
@@ -133,8 +152,7 @@ class _TracksetBodyState extends State<TracksetBody> {
       ),
       expandableHeaderExtent: kListItemHeaderHeight,
       animationData: kExpandAnimationData,
-      itemCount: trackViews.length,
-      itemBuilder: (index) => trackViews[index],
+      children: trackViews,
       divider: const HorizontalDivider(),
     );
   }

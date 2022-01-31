@@ -23,13 +23,16 @@ class Trackset extends Equatable {
 
   Trackset copyWith({
     NormalizedList<Track, String>? tracks,
+    String? name,
+    DateTime? startAt,
+    DateTime? endAt,
   }) {
     return Trackset(
       id: id,
       userId: userId,
-      name: name,
-      startAt: startAt,
-      endAt: endAt,
+      name: name ?? this.name,
+      startAt: startAt ?? this.startAt,
+      endAt: endAt ?? this.endAt,
       tracks: tracks ?? this.tracks,
     );
   }

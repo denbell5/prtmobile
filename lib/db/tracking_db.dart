@@ -130,4 +130,16 @@ class TrackingDb {
     final raw = dbo.toRaw();
     await db.insert(TracksetDbo.schema.tableName, raw);
   }
+
+  Future<void> updateTrackset(Trackset trackset) async {
+    final dbo = TracksetDbo.fromTrackset(trackset);
+    final raw = dbo.toRaw();
+    final schema = TracksetDbo.schema;
+    await db.update(
+      TracksetDbo.schema.tableName,
+      raw,
+      where: '${schema.id} = ?',
+      whereArgs: [dbo.id],
+    );
+  }
 }
