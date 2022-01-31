@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:prtmobile/components/components.dart';
 
-
 typedef ExpandableListBuilder = Expandable Function(
   BuildContext context,
   int index,
@@ -15,8 +14,7 @@ class ExpandableList extends StatefulWidget {
     this.animationData,
     required this.expandableHeaderExtent,
     this.divider,
-    required this.itemCount,
-    required this.itemBuilder,
+    required this.children,
   }) : super(key: key);
 
   final Widget? listHeader;
@@ -24,8 +22,8 @@ class ExpandableList extends StatefulWidget {
   final double expandableHeaderExtent;
   final AnimationData? animationData;
   final Widget? divider;
-  final int itemCount;
-  final ListItemBuilder itemBuilder;
+
+  final List<Widget> children;
 
   @override
   ExpandableListState createState() => ExpandableListState();
@@ -35,8 +33,9 @@ class ExpandableListState extends State<ExpandableList> with ListBuilder {
   late ScrollController _controller;
   var listHeaderHeight = 0.0;
   var separatorHeight = 0.0;
-  int? expandedIndex;
   double previousOffset = 0.0;
+  int? expandedIndex;
+  Key? expandedKey;
 
   ScrollPhysics? get scrollPhysics =>
       expandedIndex == null ? null : const NeverScrollableScrollPhysics();
@@ -45,6 +44,27 @@ class ExpandableListState extends State<ExpandableList> with ListBuilder {
   void initState() {
     super.initState();
     _controller = widget.controller ?? ScrollController();
+  }
+
+  @override
+  void didUpdateWidget(ExpandableList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _handleReorderWhenExpanded();
+  }
+
+  void _handleReorderWhenExpanded() {
+    if (expandedKey == null) {
+      return;
+    }
+    final newExpandedIndex = widget.children.indexWhere(
+      (w) => w.key == expandedKey,
+    );
+    if (newExpandedIndex != expandedIndex) {
+      expandedIndex = newExpandedIndex;
+      _controller.jumpTo(
+        _calcScrollToToggledOffset(expandedIndex!),
+      );
+    }
   }
 
   double _calcScrollToToggledOffset(int index) {
@@ -60,6 +80,9 @@ class ExpandableListState extends State<ExpandableList> with ListBuilder {
   }) {
     setState(() {
       expandedIndex = isExpanded ? index : null;
+      if (expandedIndex == null) {
+        expandedKey = null;
+      }
     });
     if (expandedIndex != null) {
       previousOffset = _controller.offset;
@@ -108,11 +131,20 @@ class ExpandableListState extends State<ExpandableList> with ListBuilder {
   }) {
     return buildList(
       isDivided: widget.divider != null,
-      itemCount: widget.itemCount,
-      itemBuilder: (index) => ConstrainedBox(
-        constraints: constraints,
-        child: widget.itemBuilder(index),
-      ),
+      itemCount: widget.children.length,
+      itemBuilder: (index) {
+        final child = widget.children[index];
+        if (index == expandedIndex) {
+          expandedKey = child.key;
+        }
+        return KeyedSubtree(
+          key: child.key,
+          child: ConstrainedBox(
+            constraints: constraints,
+            child: child,
+          ),
+        );
+      },
       firstDividerBuilder: () => IntrinsicSize(
         onChange: (size) {
           separatorHeight = size.height;

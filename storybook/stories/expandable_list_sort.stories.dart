@@ -1,32 +1,32 @@
-import 'dart:math';
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:prtmobile/components/components.dart';
-import 'package:prtmobile/styles/styles.dart';
 
 import '../storybook.dart';
 
-class ExpandableListPocExample extends StatefulWidget {
-  const ExpandableListPocExample({
+final data = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+
+class ExpandableListSortingExample extends StatefulWidget {
+  const ExpandableListSortingExample({
     Key? key,
-    this.isSeparated = false,
   }) : super(key: key);
 
-  final bool isSeparated;
-
   @override
-  _ExpandableListPocExampleState createState() =>
-      _ExpandableListPocExampleState();
+  _ExpandableListSortingExampleState createState() =>
+      _ExpandableListSortingExampleState();
 }
 
-class _ExpandableListPocExampleState extends State<ExpandableListPocExample> {
-  final scrollController = ScrollController();
+class _ExpandableListSortingExampleState
+    extends State<ExpandableListSortingExample> {
   final itemExtent = 50.0;
   final listKey = GlobalKey<ExpandableListState>();
   final animationData = AnimationData(
     curve: Curves.linear,
     duration: const Duration(milliseconds: 300),
   );
+
+  List<String> _data = data;
 
   void onToggle({
     required int index,
@@ -40,6 +40,7 @@ class _ExpandableListPocExampleState extends State<ExpandableListPocExample> {
 
   Expandable buildListItem(int index) {
     return Expandable(
+      key: ValueKey(_data[index]),
       onToggle: (isExpanded) {
         onToggle(index: index, isExpanded: isExpanded);
       },
@@ -59,7 +60,9 @@ class _ExpandableListPocExampleState extends State<ExpandableListPocExample> {
                 ),
                 child: Row(
                   children: [
-                    Text(Random().nextDouble().toString()),
+                    Text(
+                      _data[index],
+                    ),
                   ],
                 ),
               ),
@@ -71,6 +74,11 @@ class _ExpandableListPocExampleState extends State<ExpandableListPocExample> {
         decoration: const BoxDecoration(
           color: Colors.amber,
         ),
+        child: Center(
+          child: Text(
+            _data[index],
+          ),
+        ),
       ),
     );
   }
@@ -80,20 +88,10 @@ class _ExpandableListPocExampleState extends State<ExpandableListPocExample> {
       children: const [
         Text('Text information 1.'),
         Text('Text information 2.'),
-      ],
-    );
-  }
-
-  Widget buildSeparator() {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(
-            width: kDividerHeight,
-            color: AppColors.black,
-          ),
+        SizedBox(
+          height: 500,
         ),
-      ),
+      ],
     );
   }
 
@@ -106,36 +104,29 @@ class _ExpandableListPocExampleState extends State<ExpandableListPocExample> {
       child: Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              GestureDetector(
+              TouchableOpacity(
+                child: Text('Reverse'),
                 onTap: () {
-                  scrollController.jumpTo(
-                    scrollController.offset - 10,
-                  );
+                  setState(() {
+                    _data = _data.reversed.toList();
+                  });
                 },
-                child: const Text('-', style: TextStyle(fontSize: 30)),
-              ),
-              const SizedBox(width: 20),
-              GestureDetector(
-                onTap: () {
-                  scrollController.jumpTo(
-                    scrollController.offset + 10,
-                  );
-                },
-                child: const Text('+', style: TextStyle(fontSize: 30)),
               ),
             ],
           ),
           Flexible(
             child: ExpandableList(
               key: listKey,
-              controller: scrollController,
               expandableHeaderExtent: itemExtent,
-              listHeader: buildListHeader(),
               animationData: animationData,
-              divider: widget.isSeparated ? buildSeparator() : null,
-              children: List.generate(1000, (index) => buildListItem(index)),
+              divider: HorizontalDivider(),
+              listHeader: buildListHeader(),
+              children: _data
+                  .asMap()
+                  .map((key, value) => MapEntry(key, buildListItem(key)))
+                  .values
+                  .toList(),
             ),
           ),
         ],
@@ -144,9 +135,9 @@ class _ExpandableListPocExampleState extends State<ExpandableListPocExample> {
   }
 }
 
-class ExpandableListPocStories implements StorybookStory {
+class ExpandableListSortingStories implements StorybookStory {
   @override
-  String title = 'Expandable list poc';
+  String title = 'ExpandableListSorting';
 
   @override
   List<StorybookStoryDefinition> getVariations() {
@@ -154,15 +145,7 @@ class ExpandableListPocStories implements StorybookStory {
       StorybookStoryDefinition(
         type: 'default',
         contentBuilder: (context) {
-          return const ExpandableListPocExample();
-        },
-      ),
-      StorybookStoryDefinition(
-        type: 'separated',
-        contentBuilder: (context) {
-          return const ExpandableListPocExample(
-            isSeparated: true,
-          );
+          return const ExpandableListSortingExample();
         },
       ),
     ];

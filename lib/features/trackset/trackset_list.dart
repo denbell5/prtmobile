@@ -120,14 +120,20 @@ class _TracksetListState extends State<TracksetList> {
           ),
           expandableHeaderExtent: kListItemHeaderHeight,
           animationData: kExpandAnimationData,
-          itemCount: tracksets.all.length,
-          itemBuilder: (index) => TracksetView(
-            trackset: tracksets.entities[index],
-            onToggle: (isExpanded) => onToggle(
-              index: index,
-              isExpanded: isExpanded,
-            ),
-          ),
+          children: tracksets.entities
+              .asMap()
+              .map((key, value) => MapEntry(
+                  key,
+                  TracksetView(
+                    key: ValueKey(value.id),
+                    trackset: tracksets.entities[key],
+                    onToggle: (isExpanded) => onToggle(
+                      index: key,
+                      isExpanded: isExpanded,
+                    ),
+                  )))
+              .values
+              .toList(),
           divider: const HorizontalDivider(),
         );
       },

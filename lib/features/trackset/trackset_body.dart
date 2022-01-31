@@ -121,6 +121,7 @@ class _TracksetBodyState extends State<TracksetBody> {
           (index, tr) => MapEntry(
             index,
             TrackView(
+              key: ValueKey(tr.id),
               track: tr,
               onToggle: (isExpanded) {
                 onToggle(
@@ -151,8 +152,7 @@ class _TracksetBodyState extends State<TracksetBody> {
       ),
       expandableHeaderExtent: kListItemHeaderHeight,
       animationData: kExpandAnimationData,
-      itemCount: trackViews.length,
-      itemBuilder: (index) => trackViews[index],
+      children: trackViews,
       divider: const HorizontalDivider(),
     );
   }
