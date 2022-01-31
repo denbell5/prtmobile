@@ -41,10 +41,15 @@ class TrackingBloc extends Bloc<TrackingEvent, TrackingState> {
   ) async* {
     try {
       yield TrackingLoadingState(state);
-      final tracksets = await _db.getEnrichedTracksets();
-      // ignore: todo
-      // TODO: sort tracksets
-      yield state.copyWith(tracksets: tracksets);
+      var normalized = await _db.getEnrichedTracksets();
+      var tracksets = normalized.entities;
+      tracksets.sort(
+        (a, b) => a.startAt.compareTo(b.startAt) * -1,
+      );
+      normalized = normalizeTracksets(tracksets);
+      yield TrackingUpdatedState(
+        state.copyWith(tracksets: normalized),
+      );
     } catch (ex) {
       yield TrackingErrorState(
         state,
