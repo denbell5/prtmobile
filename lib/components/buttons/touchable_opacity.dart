@@ -1,13 +1,16 @@
 import 'package:flutter/widgets.dart';
+import 'package:prtmobile/utils/utils.dart';
 
 class TouchableOpacity extends StatefulWidget {
   final Widget child;
   final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
 
   const TouchableOpacity({
     Key? key,
     required this.child,
     this.onTap,
+    this.onLongPress,
   }) : super(key: key);
 
   @override
@@ -17,6 +20,8 @@ class TouchableOpacity extends StatefulWidget {
 class _TouchableOpacityState extends State<TouchableOpacity>
     with SingleTickerProviderStateMixin {
   late ButtonAnimation animation;
+  final _longPressDetectionDebouncer = Debouncer(ms: 600);
+  bool _isLongPress = false;
 
   @override
   void initState() {
@@ -36,15 +41,45 @@ class _TouchableOpacityState extends State<TouchableOpacity>
     super.dispose();
   }
 
+  void _onTapDown(TapDownDetails event) {
+    _isLongPress = false;
+    animation.handleTapDown(event);
+    _longPressDetectionDebouncer.run(_onLongPress);
+  }
+
+  void _onTapUp(TapUpDetails event) {
+    animation.handleTapUp(event);
+    _longPressDetectionDebouncer.cancel();
+  }
+
+  void _onTapCancel() {
+    animation.handleTapCancel();
+    _longPressDetectionDebouncer.cancel();
+  }
+
+  void _onLongPress() {
+    if (widget.onLongPress != null) {
+      _isLongPress = true;
+      widget.onLongPress!();
+      animation.handleTapUp();
+    }
+  }
+
+  void _onTap() {
+    if (!_isLongPress) {
+      widget.onTap?.call();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final isTappable = widget.onTap != null;
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: widget.onTap,
-      onTapDown: isTappable ? animation.handleTapDown : null,
-      onTapUp: isTappable ? animation.handleTapUp : null,
-      onTapCancel: isTappable ? animation.handleTapCancel : null,
+      onTap: isTappable ? _onTap : null,
+      onTapDown: isTappable ? _onTapDown : null,
+      onTapUp: isTappable ? _onTapUp : null,
+      onTapCancel: isTappable ? _onTapCancel : null,
       child: FadeTransition(
         opacity: animation.opacityAnimation,
         child: widget.child,
@@ -95,7 +130,7 @@ class ButtonAnimation<T extends TickerProvider> {
     }
   }
 
-  void handleTapUp(TapUpDetails event) {
+  void handleTapUp([TapUpDetails? event]) {
     if (_buttonHeldDown) {
       _buttonHeldDown = false;
       _animate();

@@ -27,6 +27,11 @@ class Debouncer {
 
   bool get isTimerActive => _timer != null && _timer!.isActive;
 
+  void cancel() {
+    _timer?.cancel();
+    _action = null;
+  }
+
   void disposeAndSendLatest() {
     _timer?.cancel();
     _action?.call();

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/styles/styles.dart';
@@ -24,11 +25,15 @@ class _TouchableOpacityExampleState extends State<TouchableOpacityExample> {
       child: Column(
         children: [
           TouchableOpacity(
-            child: Text(
-              'Touchable text',
-              style: AppTypography.bodyText.greyed(),
+            child: Container(
+              color: Colors.green,
+              child: Text(
+                'Touchable text',
+                style: AppTypography.h1.white(),
+              ),
             ),
             onTap: () {},
+            onLongPress: () {},
           ),
         ],
       ),
