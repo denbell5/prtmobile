@@ -168,7 +168,8 @@ class _TracksetEditDialogState extends State<TracksetEditDialog> {
               children: [
                 Opacity(
                   opacity: 0.0,
-                  child: TouchableX(
+                  child: TouchableIcon(
+                    iconData: CupertinoIcons.xmark,
                     onTap: () {},
                   ),
                 ),
@@ -181,7 +182,8 @@ class _TracksetEditDialogState extends State<TracksetEditDialog> {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                TouchableX(
+                TouchableIcon(
+                  iconData: CupertinoIcons.xmark,
                   onTap: () {
                     Navigator.of(context).pop();
                   },

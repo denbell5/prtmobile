@@ -1,43 +1,51 @@
 import 'package:flutter/cupertino.dart';
-import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/styles/styles.dart';
 
 class ListHeader extends StatelessWidget {
   const ListHeader({
     Key? key,
-    required this.text,
-    required this.onAddTap,
+    this.leading,
+    this.trailing,
     this.isLoading = false,
+    this.padding,
   }) : super(key: key);
 
-  final String text;
-  final VoidCallback onAddTap;
+  final Widget? leading;
+  final Widget? trailing;
   final bool isLoading;
+  final EdgeInsets? padding;
+
+  static TextStyle get defaultTextStyle => AppTypography.h4;
+  static const EdgeInsets defaultPadding = EdgeInsets.only(
+    left: kDefaultPadding,
+    right: kDefaultPadding,
+    top: kDefaultPadding / 2,
+    bottom: kDefaultPadding / 2,
+  );
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
-        left: kDefaultPadding,
-        right: kDefaultPadding,
-        bottom: kDefaultPadding / 2,
-      ),
+      padding: padding ?? defaultPadding,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(
             children: [
-              Text(text, style: AppTypography.h4),
+              leading ?? const SizedBox(),
               if (isLoading)
                 const Padding(
-                  padding: EdgeInsets.only(left: kDefaultPadding),
+                  padding: EdgeInsets.only(
+                    left: kDefaultPadding / 2,
+                  ),
                   child: CupertinoActivityIndicator(
                     radius: RefreshIndicatorSizes.h4,
                   ),
                 ),
             ],
           ),
-          InlineButton(text: 'Add', onTap: onAddTap),
+          trailing ?? const SizedBox(),
         ],
       ),
     );

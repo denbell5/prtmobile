@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/styles/styles.dart';
 
@@ -11,12 +11,18 @@ class ListItemHeader extends StatelessWidget {
     required this.secondaryText,
     required this.onTap,
     this.axis = Axis.vertical,
+    this.onLongPress,
+    this.bgColor,
+    this.touchAnimated = true,
   }) : super(key: key);
 
   final String primaryText;
   final String secondaryText;
   final VoidCallback onTap;
+  final VoidCallback? onLongPress;
   final Axis axis;
+  final Color? bgColor;
+  final bool touchAnimated;
 
   List<Widget> _buildTextWidgets() {
     return [
@@ -47,19 +53,25 @@ class ListItemHeader extends StatelessWidget {
             children: _buildTextWidgets(),
           );
     return TouchableOpacity(
+      touchAnimated: touchAnimated,
       onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: kDefaultPadding,
-        ),
-        child: SizedBox(
-          height: kListItemHeaderHeight,
-          child: Row(
-            children: [
-              Expanded(
-                child: content,
-              ),
-            ],
+      onLongPress: onLongPress,
+      child: AnimatedContainer(
+        color: bgColor ?? CupertinoTheme.of(context).scaffoldBackgroundColor,
+        duration: const Duration(milliseconds: 200),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: kDefaultPadding,
+          ),
+          child: SizedBox(
+            height: kListItemHeaderHeight,
+            child: Row(
+              children: [
+                Expanded(
+                  child: content,
+                ),
+              ],
+            ),
           ),
         ),
       ),

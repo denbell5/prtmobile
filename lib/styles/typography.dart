@@ -37,7 +37,7 @@ class AppTypography {
 
   static TextStyle get h4 => const TextStyle(
         fontSize: FontSizes.h4,
-        height: kFontHeight,
+        height: 1.3,
       );
 }
 

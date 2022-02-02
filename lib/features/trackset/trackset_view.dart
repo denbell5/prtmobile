@@ -12,10 +12,18 @@ class TracksetView extends StatelessWidget {
     Key? key,
     required this.trackset,
     required this.onToggle,
+    required this.onHeaderLongPressed,
+    required this.isSelected,
+    required this.selectionModeEnabled,
+    required this.toggleSelection,
   }) : super(key: key);
 
   final Trackset trackset;
   final void Function(bool) onToggle;
+  final void Function(String tracksetId) onHeaderLongPressed;
+  final bool isSelected;
+  final bool selectionModeEnabled;
+  final void Function(String tracksetId) toggleSelection;
 
   Widget _buildHeader(BuildContext context) {
     final startDate = formatDate(trackset.startAt);
@@ -25,8 +33,15 @@ class TracksetView extends StatelessWidget {
       primaryText: trackset.name,
       secondaryText: dateRange,
       onTap: () {
-        ExpandableState.of(context)!.toggle();
+        if (selectionModeEnabled) {
+          toggleSelection(trackset.id);
+        } else {
+          ExpandableState.of(context)!.toggle();
+        }
       },
+      onLongPress: () => onHeaderLongPressed(trackset.id),
+      bgColor: isSelected ? AppColors.lightGrey : null,
+      touchAnimated: !selectionModeEnabled,
     );
   }
 

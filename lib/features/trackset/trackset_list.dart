@@ -4,6 +4,7 @@ import 'package:prtmobile/bloc/tracking/tracking.bloc.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/components/text/list_item_header.dart';
 import 'package:prtmobile/features/trackset/create/trackset_create.dart';
+import 'package:prtmobile/features/trackset/trackset_list_header.dart';
 
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/styles.dart';
@@ -22,6 +23,9 @@ class TracksetList extends StatefulWidget {
 
 class _TracksetListState extends State<TracksetList> {
   final listKey = GlobalKey<ExpandableListState>();
+
+  bool _selectionModeEnabled = false;
+  final Set<String> _selectedTracksetIds = {};
 
   @override
   void initState() {
@@ -43,22 +47,32 @@ class _TracksetListState extends State<TracksetList> {
     );
   }
 
-  Iterable<Widget> _buildTracksetListHeader(
-    BuildContext context, {
-    bool isLoading = false,
-  }) {
-    return [
-      Padding(
-        padding: const EdgeInsets.only(
-          top: kDefaultPadding,
-        ),
-        child: ListHeader(
-          text: 'Trackset List',
-          isLoading: isLoading,
-          onAddTap: () => _openTracksetCreateDialog(context),
-        ),
-      ),
-    ];
+  void _enableSelectionMode(String tracksetId) {
+    if (_selectionModeEnabled) return;
+    if (listKey.currentState!.isExpanded) return;
+    setState(() {
+      _selectedTracksetIds.add(tracksetId);
+      _selectionModeEnabled = true;
+    });
+  }
+
+  void _disableSelectionMode() {
+    setState(() {
+      _selectedTracksetIds.clear();
+      _selectionModeEnabled = false;
+    });
+  }
+
+  void _toggleSelection(String tracksetId) {
+    if (_selectedTracksetIds.contains(tracksetId)) {
+      setState(() {
+        _selectedTracksetIds.remove(tracksetId);
+      });
+    } else {
+      setState(() {
+        _selectedTracksetIds.add(tracksetId);
+      });
+    }
   }
 
   NormalizedList<Trackset, String> getTracksets() {
@@ -111,9 +125,13 @@ class _TracksetListState extends State<TracksetList> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ..._buildTracksetListHeader(
-                context,
+              TracksetListHeader(
                 isLoading: isLoading,
+                selectionModeEnabled: _selectionModeEnabled,
+                disableSelectionMode: _disableSelectionMode,
+                onAddTapped: () => _openTracksetCreateDialog(context),
+                onDeleteSelectedTapped: () {},
+                selectedCount: _selectedTracksetIds.length,
               ),
               if (errorMessage != null) errorMessage,
             ],
@@ -122,15 +140,19 @@ class _TracksetListState extends State<TracksetList> {
           animationData: kExpandAnimationData,
           children: tracksets.entities
               .asMap()
-              .map((key, value) => MapEntry(
-                  key,
+              .map((index, trackset) => MapEntry(
+                  index,
                   TracksetView(
-                    key: ValueKey(value.id),
-                    trackset: tracksets.entities[key],
+                    key: ValueKey(trackset.id),
+                    trackset: tracksets.entities[index],
                     onToggle: (isExpanded) => onToggle(
-                      index: key,
+                      index: index,
                       isExpanded: isExpanded,
                     ),
+                    onHeaderLongPressed: _enableSelectionMode,
+                    isSelected: _selectedTracksetIds.contains(trackset.id),
+                    selectionModeEnabled: _selectionModeEnabled,
+                    toggleSelection: _toggleSelection,
                   )))
               .values
               .toList(),

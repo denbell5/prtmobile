@@ -37,6 +37,8 @@ class ExpandableListState extends State<ExpandableList> with ListBuilder {
   int? expandedIndex;
   Key? expandedKey;
 
+  bool get isExpanded => expandedIndex != null;
+
   ScrollPhysics? get scrollPhysics =>
       expandedIndex == null ? null : const NeverScrollableScrollPhysics();
 
