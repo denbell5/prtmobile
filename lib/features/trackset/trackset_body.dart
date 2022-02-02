@@ -108,8 +108,11 @@ class _TracksetBodyState extends State<TracksetBody> {
 
   Widget _buildTrackListHeader(BuildContext context) {
     return ListHeader(
-      text: 'Track List',
-      onAddTap: () {},
+      leading: Text('Track List', style: ListHeader.defaultTextStyle),
+      trailing: InlineButton(
+        text: 'Add',
+        onTap: () {},
+      ),
     );
   }
 

@@ -8,10 +8,12 @@ class InlineButton extends StatelessWidget {
     Key? key,
     required this.text,
     required this.onTap,
+    this.padding,
   }) : super(key: key);
 
   final String text;
   final VoidCallback onTap;
+  final EdgeInsets? padding;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,10 @@ class InlineButton extends StatelessWidget {
       style: AppTypography.bodyText.greyed(),
     );
     return TouchableOpacity(
-      child: content,
+      child: Padding(
+        padding: padding ?? EdgeInsets.zero,
+        child: content,
+      ),
       onTap: onTap,
     );
   }

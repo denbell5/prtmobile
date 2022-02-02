@@ -154,7 +154,8 @@ class _TracksetCreateDialogState extends State<TracksetCreateDialog> {
               children: [
                 Opacity(
                   opacity: 0.0,
-                  child: TouchableX(
+                  child: TouchableIcon(
+                    iconData: CupertinoIcons.xmark,
                     onTap: () {},
                   ),
                 ),
@@ -162,7 +163,8 @@ class _TracksetCreateDialogState extends State<TracksetCreateDialog> {
                   'Add new trackset',
                   style: AppTypography.h4.greyed(),
                 ),
-                TouchableX(
+                TouchableIcon(
+                  iconData: CupertinoIcons.xmark,
                   onTap: () {
                     Navigator.of(context).pop();
                   },

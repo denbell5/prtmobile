@@ -72,8 +72,11 @@ class _TrackBodyState extends State<TrackBody> with ListBuilder {
 
   Widget _buildSubtrackListHeader(BuildContext context) {
     return ListHeader(
-      text: 'Subtrack List',
-      onAddTap: () {},
+      leading: Text('Subtrack List', style: ListHeader.defaultTextStyle),
+      trailing: InlineButton(
+        text: 'Add',
+        onTap: () {},
+      ),
     );
   }
 

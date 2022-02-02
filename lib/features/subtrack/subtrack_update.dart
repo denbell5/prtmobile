@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/styles.dart';
@@ -171,12 +171,14 @@ class _SubtrackUpdateDialogState extends State<SubtrackUpdateDialog> {
             children: [
               Opacity(
                 opacity: 0.0,
-                child: TouchableX(
+                child: TouchableIcon(
+                  iconData: CupertinoIcons.xmark,
                   onTap: () {},
                 ),
               ),
               buildHeader(),
-              TouchableX(
+              TouchableIcon(
+                iconData: CupertinoIcons.xmark,
                 onTap: () {},
               ),
             ],

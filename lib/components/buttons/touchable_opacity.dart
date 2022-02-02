@@ -5,12 +5,14 @@ class TouchableOpacity extends StatefulWidget {
   final Widget child;
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
+  final bool touchAnimated;
 
   const TouchableOpacity({
     Key? key,
     required this.child,
     this.onTap,
     this.onLongPress,
+    this.touchAnimated = true,
   }) : super(key: key);
 
   @override
@@ -22,6 +24,8 @@ class _TouchableOpacityState extends State<TouchableOpacity>
   late ButtonAnimation animation;
   final _longPressDetectionDebouncer = Debouncer(ms: 600);
   bool _isLongPress = false;
+
+  bool get touchAnimated => widget.touchAnimated;
 
   @override
   void initState() {
@@ -43,17 +47,23 @@ class _TouchableOpacityState extends State<TouchableOpacity>
 
   void _onTapDown(TapDownDetails event) {
     _isLongPress = false;
-    animation.handleTapDown(event);
+    if (touchAnimated) {
+      animation.handleTapDown(event);
+    }
     _longPressDetectionDebouncer.run(_onLongPress);
   }
 
   void _onTapUp(TapUpDetails event) {
-    animation.handleTapUp(event);
+    if (touchAnimated) {
+      animation.handleTapUp(event);
+    }
     _longPressDetectionDebouncer.cancel();
   }
 
   void _onTapCancel() {
-    animation.handleTapCancel();
+    if (touchAnimated) {
+      animation.handleTapCancel();
+    }
     _longPressDetectionDebouncer.cancel();
   }
 
