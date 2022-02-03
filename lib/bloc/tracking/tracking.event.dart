@@ -16,3 +16,9 @@ class TracksetEdited extends TrackingEvent {
 
   TracksetEdited(this.value);
 }
+
+class TracksetsDeleted extends TrackingEvent {
+  final Set<String> ids;
+
+  TracksetsDeleted(this.ids);
+}

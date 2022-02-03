@@ -4,3 +4,4 @@ export '__mocks__/mocks.dart';
 export 'debouncer.dart';
 export 'stopwatch.dart';
 export 'list.dart';
+export 'misc.dart';

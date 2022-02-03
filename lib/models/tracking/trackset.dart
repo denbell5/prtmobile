@@ -9,6 +9,7 @@ class Trackset extends Equatable {
   final DateTime startAt;
   final DateTime endAt;
   final NormalizedList<Track, String> tracks;
+  final bool isDeleted;
 
   Trackset({
     required this.id,
@@ -17,6 +18,7 @@ class Trackset extends Equatable {
     required DateTime startAt,
     required DateTime endAt,
     NormalizedList<Track, String>? tracks,
+    this.isDeleted = false,
   })  : startAt = toDateOnly(startAt),
         endAt = toDateOnly(endAt),
         tracks = tracks ?? NormalizedList.createEmpty<Track, String>();
@@ -26,6 +28,7 @@ class Trackset extends Equatable {
     String? name,
     DateTime? startAt,
     DateTime? endAt,
+    bool? isDeleted,
   }) {
     return Trackset(
       id: id,
@@ -34,11 +37,20 @@ class Trackset extends Equatable {
       startAt: startAt ?? this.startAt,
       endAt: endAt ?? this.endAt,
       tracks: tracks ?? this.tracks,
+      isDeleted: isDeleted ?? this.isDeleted,
     );
   }
 
   @override
-  List<Object?> get props => [id, userId, name, startAt, endAt, tracks];
+  List<Object?> get props => [
+        id,
+        userId,
+        name,
+        startAt,
+        endAt,
+        tracks,
+        isDeleted,
+      ];
 
   int get totalDays => endAt.difference(startAt).inDays + 1;
 
