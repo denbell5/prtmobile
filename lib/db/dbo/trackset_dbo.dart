@@ -1,4 +1,5 @@
 import 'package:prtmobile/models/models.dart';
+import 'package:prtmobile/utils/utils.dart';
 
 class _TracksetDboSchema {
   const _TracksetDboSchema();
@@ -10,6 +11,7 @@ class _TracksetDboSchema {
   final String name = 'name';
   final String startAt = 'startAt';
   final String endAt = 'endAt';
+  final String isDeleted = 'isDeleted';
 }
 
 class TracksetDbo {
@@ -20,6 +22,8 @@ class TracksetDbo {
   final String name;
   final String startAt;
   final String endAt;
+  final bool isDeleted;
+  int get _isDeletedBit => boolToInt(isDeleted);
 
   TracksetDbo({
     required this.id,
@@ -27,6 +31,7 @@ class TracksetDbo {
     required this.name,
     required this.startAt,
     required this.endAt,
+    required this.isDeleted,
   });
 
   Map<String, dynamic> toRaw() {
@@ -36,6 +41,7 @@ class TracksetDbo {
       schema.name: name,
       schema.startAt: startAt,
       schema.endAt: endAt,
+      schema.isDeleted: _isDeletedBit,
     };
   }
 
@@ -46,6 +52,7 @@ class TracksetDbo {
       name: map[schema.name],
       startAt: map[schema.startAt],
       endAt: map[schema.endAt],
+      isDeleted: intToBool(map[schema.isDeleted]),
     );
   }
 
@@ -66,6 +73,7 @@ class TracksetDbo {
       name: trackset.name,
       startAt: trackset.startAt.toIso8601String(),
       endAt: trackset.endAt.toIso8601String(),
+      isDeleted: trackset.isDeleted,
     );
   }
 
@@ -76,6 +84,7 @@ class TracksetDbo {
       name: name,
       startAt: DateTime.parse(startAt),
       endAt: DateTime.parse(endAt),
+      isDeleted: isDeleted,
     );
   }
 }

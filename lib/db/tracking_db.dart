@@ -31,8 +31,11 @@ class TrackingDb {
 
   Future<NormalizedList<Trackset, String>> getEnrichedTracksets() async {
     Future<List<TracksetDbo>> queryTracksets() async {
-      final query = 'select * from ${TracksetDbo.schema.tableName}';
-      final raw = await db.rawQuery(query);
+      const schema = TracksetDbo.schema;
+      final raw = await db.query(
+        schema.tableName,
+        where: '${schema.isDeleted} = 0',
+      );
       final dbos = raw.map((r) => TracksetDbo.fromRaw(r)).toList();
       return dbos;
     }
@@ -134,12 +137,27 @@ class TrackingDb {
   Future<void> updateTrackset(Trackset trackset) async {
     final dbo = TracksetDbo.fromTrackset(trackset);
     final raw = dbo.toRaw();
-    final schema = TracksetDbo.schema;
+    const schema = TracksetDbo.schema;
     await db.update(
       TracksetDbo.schema.tableName,
       raw,
       where: '${schema.id} = ?',
       whereArgs: [dbo.id],
     );
+  }
+
+  Future<void> deleteTracksets(List<String> ids) async {
+    await db.transaction((db) async {
+      const schema = TracksetDbo.schema;
+      for (var id in ids) {
+        var raw = {schema.isDeleted: 1};
+        await db.update(
+          schema.tableName,
+          raw,
+          where: '${schema.id} = ?',
+          whereArgs: [id],
+        );
+      }
+    });
   }
 }

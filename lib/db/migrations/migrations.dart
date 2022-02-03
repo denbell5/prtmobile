@@ -14,6 +14,7 @@ final migrations = [
   _CreateTracksetsTable(),
   _CreateTracksTable(),
   _CreateSubtracksTable(),
+  _AddIsDeletedToTrackset(),
 ];
 
 class _CreateTracksetsTable extends Migration {
@@ -40,5 +41,17 @@ class _CreateSubtracksTable extends Migration {
     await db.execute(
       SubtrackDbo.buildCreateQuery(),
     );
+  }
+}
+
+class _AddIsDeletedToTrackset extends Migration {
+  @override
+  Future<void> execute(Transaction db) async {
+    const schema = TracksetDbo.schema;
+    final script = '''
+      ALTER TABLE ${schema.tableName}
+      ADD ${schema.isDeleted} Bit NOT NULL DEFAULT(0)
+    ''';
+    await db.execute(script);
   }
 }
