@@ -99,6 +99,28 @@ class _TracksetListState extends State<TracksetList> {
     );
   }
 
+  void _deleteSelectedTracksets(BuildContext context) async {
+    final selectedIds = Set<String>.from(_selectedTracksetIds);
+    if (selectedIds.isEmpty) return;
+
+    bool canProceed = await showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return YesNoDialog(
+          title: Text(
+            'Delete ${selectedIds.length} selected trackset${selectedIds.length == 1 ? '' : 's'}?',
+            style: AppTypography.h4,
+          ),
+        );
+      },
+    );
+
+    if (canProceed) {
+      _disableSelectionMode();
+      TrackingBloc.of(context).add(TracksetsDeleted(selectedIds));
+    }
+  }
+
   Widget? _buildErrorMessage(TrackingState state) {
     if (state is! TrackingErrorState ||
         state.failedEvent is! TracksetsRequested) {
@@ -130,7 +152,7 @@ class _TracksetListState extends State<TracksetList> {
                 selectionModeEnabled: _selectionModeEnabled,
                 disableSelectionMode: _disableSelectionMode,
                 onAddTapped: () => _openTracksetCreateDialog(context),
-                onDeleteSelectedTapped: () {},
+                onDeleteSelectedTapped: () => _deleteSelectedTracksets(context),
                 selectedCount: _selectedTracksetIds.length,
               ),
               if (errorMessage != null) errorMessage,

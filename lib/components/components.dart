@@ -11,3 +11,4 @@ export 'bottom-safe-area/bottom_safe_area.dart';
 export 'date_range_picker/date_picker.dart';
 export 'date_range_picker/date_range_picker.dart';
 export 'checkbox/checkbox.dart';
+export 'alert_dialog/alert_dialog.dart';
