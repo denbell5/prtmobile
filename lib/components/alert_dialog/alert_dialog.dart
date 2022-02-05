@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:prtmobile/components/buttons/buttons.dart';
+import 'package:prtmobile/navigation/navigator.dart';
 import 'package:prtmobile/styles/styles.dart';
 
 class YesNoDialog extends StatelessWidget {
@@ -16,7 +17,7 @@ class YesNoDialog extends StatelessWidget {
   }) {
     return TouchableOpacity(
       onTap: () {
-        Navigator.of(context).pop(value);
+        AppNavigator.of(context).pop(value);
       },
       child: Center(
         child: Padding(
