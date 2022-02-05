@@ -56,8 +56,6 @@ class _TracksetBodyState extends State<TracksetBody> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          InlineButton(text: 'Delete', onTap: () {}),
-          const SizedBox(width: kDefaultPadding),
           InlineButton(
             text: 'Edit',
             onTap: () {
