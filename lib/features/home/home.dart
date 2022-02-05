@@ -1,4 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:prtmobile/bloc/tracking/tracking.bloc.dart';
+import 'package:prtmobile/components/snackbar/snackbar.dart';
 import 'package:prtmobile/features/trackset/trackset_list.dart';
 import 'package:prtmobile/styles/styles.dart';
 import 'package:prtmobile/utils/utils.dart';
@@ -51,17 +54,30 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // ignore: todo
+  // TODO: in separate widget
+  void _listenToTrackingBloc(BuildContext context, TrackingState state) {
+    if (state is TrackingErrorState) {
+      if (state.shouldShowNotification) {
+        AppSnackbar.of(context)!.show(text: state.description);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final topBarPadding = MediaQuery.of(context).padding.top;
     return CupertinoPageScaffold(
-      child: Column(
-        children: [
-          _buildNavbar(topBarPadding: topBarPadding),
-          const Flexible(
-            child: TracksetList(),
-          ),
-        ],
+      child: BlocListener<TrackingBloc, TrackingState>(
+        listener: _listenToTrackingBloc,
+        child: Column(
+          children: [
+            _buildNavbar(topBarPadding: topBarPadding),
+            const Flexible(
+              child: TracksetList(),
+            ),
+          ],
+        ),
       ),
     );
   }

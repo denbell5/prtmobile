@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prtmobile/bloc/tracking/tracking.bloc.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/models/models.dart';
+import 'package:prtmobile/navigation/navigator.dart';
 import 'package:prtmobile/styles/styles.dart';
 import 'package:prtmobile/utils/utils.dart';
 
@@ -82,7 +83,7 @@ class _TracksetEditDialogState extends State<TracksetEditDialog> {
 
   void _listenTrackingBloc(BuildContext context, TrackingState state) {
     if (state is TrackingUpdatedState && state.isAfterTracksetEdited) {
-      Navigator.of(context).pop();
+      AppNavigator.of(context).pop();
     }
   }
 
@@ -185,7 +186,7 @@ class _TracksetEditDialogState extends State<TracksetEditDialog> {
                 TouchableIcon(
                   iconData: CupertinoIcons.xmark,
                   onTap: () {
-                    Navigator.of(context).pop();
+                    AppNavigator.of(context).pop();
                   },
                 ),
               ],

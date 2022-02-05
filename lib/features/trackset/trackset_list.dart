@@ -41,6 +41,7 @@ class _TracksetListState extends State<TracksetList> {
   Future<void> _openTracksetCreateDialog(BuildContext context) async {
     await showCupertinoModalPopup(
       context: context,
+      useRootNavigator: false,
       builder: (context) {
         return const TracksetCreateDialog();
       },
