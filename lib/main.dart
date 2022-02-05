@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:prtmobile/bloc/tracking/tracking.bloc.dart';
+import 'package:prtmobile/components/snackbar/snackbar.dart';
 import 'package:prtmobile/db/db.dart';
 import 'package:prtmobile/features/home/home.dart';
 import 'package:prtmobile/styles/styles.dart';
@@ -55,7 +56,9 @@ class MyApp extends StatelessWidget {
               ),
             ),
           ),
-          home: const HomeScreen(),
+          home: const AppSnackbar(
+            child: HomeScreen(),
+          ),
         ),
       ),
     );
