@@ -160,4 +160,10 @@ class TrackingDb {
       }
     });
   }
+
+  Future<void> insertTrack(Track track) async {
+    final dbo = TrackDbo.fromTrack(track);
+    final raw = dbo.toRaw();
+    await db.insert(TrackDbo.schema.tableName, raw);
+  }
 }

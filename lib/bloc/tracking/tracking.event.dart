@@ -1,3 +1,4 @@
+import 'package:prtmobile/features/track/create/track_create.dart';
 import 'package:prtmobile/features/trackset/create/trackset_create.dart';
 import 'package:prtmobile/features/trackset/edit/trackset_edit.dart';
 
@@ -21,4 +22,14 @@ class TracksetsDeleted extends TrackingEvent {
   final Set<String> ids;
 
   TracksetsDeleted(this.ids);
+}
+
+class TrackCreated extends TrackingEvent {
+  final TrackCreateValue value;
+  final String tracksetId;
+
+  TrackCreated({
+    required this.value,
+    required this.tracksetId,
+  });
 }
