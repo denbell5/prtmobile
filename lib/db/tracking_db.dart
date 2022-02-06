@@ -178,4 +178,12 @@ class TrackingDb {
       whereArgs: [dbo.id],
     );
   }
+
+  Future<void> deleteTracks(List<String> ids) async {
+    await db.transaction((db) async {
+      // TODO
+      const schema = TrackDbo.schema;
+      for (var id in ids) {}
+    });
+  }
 }

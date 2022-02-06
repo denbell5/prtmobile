@@ -46,3 +46,13 @@ class TrackEdited extends TrackingEvent {
     required this.tracksetId,
   });
 }
+
+class TracksDeleted extends TrackingEvent {
+  final Set<String> ids;
+  final String tracksetId;
+
+  TracksDeleted({
+    required this.ids,
+    required this.tracksetId,
+  });
+}

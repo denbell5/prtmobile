@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:prtmobile/bloc/tracking/tracking.bloc.dart';
+
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/components/text/highlighted.dart';
 import 'package:prtmobile/components/text/list_item_header.dart';
 import 'package:prtmobile/features/track/create/track_create.dart';
+import 'package:prtmobile/features/track/track_list_header.dart';
 import 'package:prtmobile/features/track/track_view.dart';
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/styles.dart';
@@ -23,6 +26,9 @@ class TracksetBody extends StatefulWidget {
 
 class _TracksetBodyState extends State<TracksetBody> {
   final trackListKey = GlobalKey<ExpandableListState>();
+
+  bool _selectionModeEnabled = false;
+  final Set<String> _selectedTrackIds = {};
 
   Trackset get trackset => widget.trackset;
 
@@ -58,6 +64,61 @@ class _TracksetBodyState extends State<TracksetBody> {
         );
       },
     );
+  }
+
+  void _enableSelectionMode(String tracksetId) {
+    if (_selectionModeEnabled) return;
+    if (trackListKey.currentState!.isExpanded) return;
+    setState(() {
+      _selectedTrackIds.add(tracksetId);
+      _selectionModeEnabled = true;
+    });
+  }
+
+  void _disableSelectionMode() {
+    setState(() {
+      _selectedTrackIds.clear();
+      _selectionModeEnabled = false;
+    });
+  }
+
+  void _toggleSelection(String trackId) {
+    if (_selectedTrackIds.contains(trackId)) {
+      setState(() {
+        _selectedTrackIds.remove(trackId);
+      });
+    } else {
+      setState(() {
+        _selectedTrackIds.add(trackId);
+      });
+    }
+  }
+
+  void _deleteSelectedTracks(BuildContext context) async {
+    final selectedIds = Set<String>.from(_selectedTrackIds);
+    if (selectedIds.isEmpty) return;
+
+    bool canProceed = await showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return YesNoDialog(
+          title: Text(
+            'Delete ${selectedIds.length} selected track${selectedIds.length == 1 ? '' : 's'}?',
+            style: AppTypography.h4,
+          ),
+        );
+      },
+    );
+
+    if (canProceed) {
+      _disableSelectionMode();
+      TrackingBloc.of(context).add(
+        TracksDeleted(
+          ids: selectedIds,
+          tracksetId: trackset.id,
+        ),
+      );
+    }
   }
 
   Widget _buildTracksetControls(BuildContext context) {
@@ -118,16 +179,6 @@ class _TracksetBodyState extends State<TracksetBody> {
     );
   }
 
-  Widget _buildTrackListHeader(BuildContext context) {
-    return ListHeader(
-      leading: Text('Track List', style: ListHeader.defaultTextStyle),
-      trailing: InlineButton(
-        text: 'Add',
-        onTap: () => _openTrackCreateDialog(context),
-      ),
-    );
-  }
-
   List<Widget> _buildTrackList(BuildContext context) {
     final tracks = widget.trackset.tracks.entities;
     final trackViews = tracks
@@ -144,6 +195,10 @@ class _TracksetBodyState extends State<TracksetBody> {
                   isExpanded: isExpanded,
                 );
               },
+              onHeaderLongPressed: _enableSelectionMode,
+              isSelected: _selectedTrackIds.contains(tr.id),
+              selectionModeEnabled: _selectionModeEnabled,
+              toggleSelection: _toggleSelection,
             ),
           ),
         )
@@ -162,7 +217,14 @@ class _TracksetBodyState extends State<TracksetBody> {
           _buildTracksetControls(context),
           _buildTracksetStats(context),
           const SizedBox(height: kDefaultPadding),
-          _buildTrackListHeader(context),
+          TrackListHeader(
+            isLoading: false,
+            selectionModeEnabled: _selectionModeEnabled,
+            disableSelectionMode: _disableSelectionMode,
+            onAddTapped: () => _openTrackCreateDialog(context),
+            onDeleteSelectedTapped: () => _deleteSelectedTracks(context),
+            selectedCount: _selectedTrackIds.length,
+          ),
         ],
       ),
       expandableHeaderExtent: kListItemHeaderHeight,
