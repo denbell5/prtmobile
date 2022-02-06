@@ -17,10 +17,11 @@ class Track extends Equatable {
   Track copyWith({
     String? id,
     NormalizedList<Subtrack, String>? subtracks,
+    String? name,
   }) {
     return Track(
       id: id ?? this.id,
-      name: name,
+      name: name ?? this.name,
       tracksetId: tracksetId,
       subtracks: subtracks ?? this.subtracks,
     );

@@ -48,12 +48,16 @@ class TrackingUpdatedState extends TrackingState {
   final bool isAfterTracksetCreated;
   final bool isAfterTracksetEdited;
   final bool isAfterTracksetsDeleted;
+  final bool isAfterTrackCreated;
+  final bool isAfterTrackEdited;
 
   TrackingUpdatedState(
     TrackingState state, {
     this.isAfterTracksetCreated = false,
     this.isAfterTracksetEdited = false,
     this.isAfterTracksetsDeleted = false,
+    this.isAfterTrackCreated = false,
+    this.isAfterTrackEdited = false,
   }) : super.fromState(state);
 
   @override

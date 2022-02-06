@@ -35,6 +35,10 @@ class TrackingBloc extends Bloc<TrackingEvent, TrackingState> {
       yield* _mapTracksetEditedToState(event);
     } else if (event is TracksetsDeleted) {
       yield* _mapTracksetsDeletedToState(event);
+    } else if (event is TrackCreated) {
+      yield* _mapTrackCreatedToState(event);
+    } else if (event is TrackEdited) {
+      yield* _mapTrackEditedToState(event);
     }
   }
 
@@ -160,6 +164,70 @@ class TrackingBloc extends Bloc<TrackingEvent, TrackingState> {
       yield TrackingErrorState(
         state,
         description: 'Failed to delete tracksets',
+        failedEvent: event,
+        shouldShowNotification: true,
+      );
+    }
+  }
+
+  Stream<TrackingState> _mapTrackCreatedToState(
+    TrackCreated event,
+  ) async* {
+    try {
+      yield TrackingLoadingState(state);
+
+      final track = Track(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        tracksetId: event.tracksetId,
+        name: event.value.name,
+      );
+
+      var trackset = state.tracksets.byId[event.tracksetId]!;
+      final tracks = trackset.tracks.set(track, id: track.id);
+      trackset = trackset.copyWith(tracks: tracks);
+      final tracksets = state.tracksets.set(trackset, id: trackset.id);
+
+      await _db.insertTrack(track);
+
+      yield TrackingUpdatedState(
+        state.copyWith(tracksets: tracksets),
+        isAfterTrackCreated: true,
+      );
+    } catch (ex) {
+      yield TrackingErrorState(
+        state,
+        description: 'Failed to add track',
+        failedEvent: event,
+        shouldShowNotification: true,
+      );
+    }
+  }
+
+  Stream<TrackingState> _mapTrackEditedToState(
+    TrackEdited event,
+  ) async* {
+    try {
+      yield TrackingLoadingState(state);
+
+      var trackset = state.tracksets.byId[event.tracksetId]!;
+
+      var track = trackset.tracks.byId[event.trackId]!;
+      track = track.copyWith(name: event.value.name);
+      final tracks = trackset.tracks.set(track, id: track.id);
+
+      trackset = trackset.copyWith(tracks: tracks);
+      final tracksets = state.tracksets.set(trackset, id: trackset.id);
+
+      await _db.updateTrack(track);
+
+      yield TrackingUpdatedState(
+        state.copyWith(tracksets: tracksets),
+        isAfterTrackEdited: true,
+      );
+    } catch (ex) {
+      yield TrackingErrorState(
+        state,
+        description: 'Failed to save track',
         failedEvent: event,
         shouldShowNotification: true,
       );

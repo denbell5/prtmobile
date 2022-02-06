@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/components/text/highlighted.dart';
 import 'package:prtmobile/components/text/list_item_header.dart';
+import 'package:prtmobile/features/track/create/track_create.dart';
 import 'package:prtmobile/features/track/track_view.dart';
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/styles.dart';
@@ -38,9 +39,22 @@ class _TracksetBodyState extends State<TracksetBody> {
   Future<void> _openTracksetEditDialog(BuildContext context) async {
     await showCupertinoModalPopup(
       context: context,
+      useRootNavigator: true,
       builder: (context) {
         return TracksetEditDialog(
           trackset: trackset,
+        );
+      },
+    );
+  }
+
+  Future<void> _openTrackCreateDialog(BuildContext context) async {
+    await showCupertinoModalPopup(
+      context: context,
+      useRootNavigator: false,
+      builder: (context) {
+        return TrackCreateDialog(
+          tracksetId: trackset.id,
         );
       },
     );
@@ -109,7 +123,7 @@ class _TracksetBodyState extends State<TracksetBody> {
       leading: Text('Track List', style: ListHeader.defaultTextStyle),
       trailing: InlineButton(
         text: 'Add',
-        onTap: () {},
+        onTap: () => _openTrackCreateDialog(context),
       ),
     );
   }

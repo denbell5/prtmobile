@@ -160,4 +160,22 @@ class TrackingDb {
       }
     });
   }
+
+  Future<void> insertTrack(Track track) async {
+    final dbo = TrackDbo.fromTrack(track);
+    final raw = dbo.toRaw();
+    await db.insert(TrackDbo.schema.tableName, raw);
+  }
+
+  Future<void> updateTrack(Track track) async {
+    final dbo = TrackDbo.fromTrack(track);
+    final raw = dbo.toRaw();
+    const schema = TrackDbo.schema;
+    await db.update(
+      schema.tableName,
+      raw,
+      where: '${schema.id} = ?',
+      whereArgs: [dbo.id],
+    );
+  }
 }
