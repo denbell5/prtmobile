@@ -39,6 +39,7 @@ class _TracksetBodyState extends State<TracksetBody> {
   Future<void> _openTracksetEditDialog(BuildContext context) async {
     await showCupertinoModalPopup(
       context: context,
+      useRootNavigator: true,
       builder: (context) {
         return TracksetEditDialog(
           trackset: trackset,

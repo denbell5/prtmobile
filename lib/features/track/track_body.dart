@@ -6,6 +6,8 @@ import 'package:prtmobile/features/subtrack/subtrack.dart';
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/styles.dart';
 
+import 'edit/track_edit.dart';
+
 class TrackBody extends StatefulWidget {
   const TrackBody({
     Key? key,
@@ -21,6 +23,18 @@ class TrackBody extends StatefulWidget {
 class _TrackBodyState extends State<TrackBody> with ListBuilder {
   Track get track => widget.track;
 
+  Future<void> _openTrackEditDialog(BuildContext context) async {
+    await showCupertinoModalPopup(
+      context: context,
+      useRootNavigator: true,
+      builder: (context) {
+        return TrackEditDialog(
+          track: track,
+        );
+      },
+    );
+  }
+
   Widget _buildTrackControls(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
@@ -33,7 +47,10 @@ class _TrackBodyState extends State<TrackBody> with ListBuilder {
         children: [
           InlineButton(text: 'Delete', onTap: () {}),
           const SizedBox(width: kDefaultPadding),
-          InlineButton(text: 'Edit', onTap: () {}),
+          InlineButton(
+            text: 'Edit',
+            onTap: () => _openTrackEditDialog(context),
+          ),
         ],
       ),
     );

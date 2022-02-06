@@ -37,6 +37,8 @@ class TrackingBloc extends Bloc<TrackingEvent, TrackingState> {
       yield* _mapTracksetsDeletedToState(event);
     } else if (event is TrackCreated) {
       yield* _mapTrackCreatedToState(event);
+    } else if (event is TrackEdited) {
+      yield* _mapTrackEditedToState(event);
     }
   }
 
@@ -194,7 +196,38 @@ class TrackingBloc extends Bloc<TrackingEvent, TrackingState> {
     } catch (ex) {
       yield TrackingErrorState(
         state,
-        description: 'Failed to add trackset',
+        description: 'Failed to add track',
+        failedEvent: event,
+        shouldShowNotification: true,
+      );
+    }
+  }
+
+  Stream<TrackingState> _mapTrackEditedToState(
+    TrackEdited event,
+  ) async* {
+    try {
+      yield TrackingLoadingState(state);
+
+      var trackset = state.tracksets.byId[event.tracksetId]!;
+
+      var track = trackset.tracks.byId[event.trackId]!;
+      track = track.copyWith(name: event.value.name);
+      final tracks = trackset.tracks.set(track, id: track.id);
+
+      trackset = trackset.copyWith(tracks: tracks);
+      final tracksets = state.tracksets.set(trackset, id: trackset.id);
+
+      await _db.updateTrack(track);
+
+      yield TrackingUpdatedState(
+        state.copyWith(tracksets: tracksets),
+        isAfterTrackEdited: true,
+      );
+    } catch (ex) {
+      yield TrackingErrorState(
+        state,
+        description: 'Failed to save track',
         failedEvent: event,
         shouldShowNotification: true,
       );
