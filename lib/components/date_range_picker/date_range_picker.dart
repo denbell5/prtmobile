@@ -34,6 +34,7 @@ class _DateRangePickerState extends State<DateRangePicker> {
         if (!start.isBefore(end)) {
           return 'Please select start to be before end';
         }
+        return null;
       },
       builder: (state) {
         final currentValue = state.value!;

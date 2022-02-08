@@ -75,6 +75,7 @@ class SubtrackFormValues extends Equatable {
     if (pointer > end) {
       return 'Pointer is bigger than End';
     }
+    return null;
   }
 
   @override
