@@ -5,12 +5,14 @@ class TouchableWidget extends StatefulWidget {
   final Widget child;
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
+  final ValueChanged<TapUpDetails>? onTapDetailed;
 
   const TouchableWidget({
     Key? key,
     required this.child,
     this.onTap,
     this.onLongPress,
+    this.onTapDetailed,
   }) : super(key: key);
 
   @override
@@ -21,14 +23,17 @@ class _TouchableWidgetState extends State<TouchableWidget>
     with SingleTickerProviderStateMixin {
   final _longPressDetectionDebouncer = Debouncer(ms: 300);
   bool _isLongPress = false;
+  TapUpDetails? _tapUpDetails;
 
   void _onTapDown(TapDownDetails event) {
     _isLongPress = false;
+    _tapUpDetails = null;
     _longPressDetectionDebouncer.run(_onLongPress);
   }
 
   void _onTapUp(TapUpDetails event) {
     _longPressDetectionDebouncer.cancel();
+    _tapUpDetails = event;
   }
 
   void _onTapCancel() {
@@ -44,6 +49,7 @@ class _TouchableWidgetState extends State<TouchableWidget>
 
   void _onTap() {
     if (!_isLongPress) {
+      widget.onTapDetailed?.call(_tapUpDetails!);
       widget.onTap?.call();
     }
   }
