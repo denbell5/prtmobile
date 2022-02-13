@@ -5,9 +5,10 @@ class FontSizes {
   static const double small = 12;
   static const double body = 14;
   static const double h1 = 36;
-  static const double h2 = 22;
-  static const double h3 = 18;
-  static const double h4 = 16;
+  static const double h2 = 26;
+  static const double h3 = 24;
+  static const double h4 = 20;
+  static const double h5 = 16;
 }
 
 class AppTypography {
@@ -37,6 +38,11 @@ class AppTypography {
 
   static TextStyle get h4 => const TextStyle(
         fontSize: FontSizes.h4,
+        height: kFontHeight,
+      );
+
+  static TextStyle get h5 => const TextStyle(
+        fontSize: FontSizes.h5,
         height: 1.3,
       );
 }
@@ -46,6 +52,9 @@ extension TextStyleExtensions on TextStyle {
   TextStyle bold() => copyWith(fontWeight: FontWeight.bold);
   TextStyle white() => copyWith(color: AppColors.white);
   TextStyle red() => copyWith(color: AppColors.flory);
+  TextStyle bolder() => copyWith(fontWeight: FontWeight.w500);
+  TextStyle height1() => copyWith(height: 1);
+  TextStyle italic() => copyWith(fontStyle: FontStyle.italic);
 }
 
 double calcTextSize({

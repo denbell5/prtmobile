@@ -110,7 +110,7 @@ class _TracksetListState extends State<TracksetList> {
         return YesNoDialog(
           title: Text(
             'Delete ${selectedIds.length} selected trackset${selectedIds.length == 1 ? '' : 's'}?',
-            style: AppTypography.h4,
+            style: AppTypography.h5,
           ),
         );
       },
@@ -179,7 +179,6 @@ class _TracksetListState extends State<TracksetList> {
                   )))
               .values
               .toList(),
-          divider: const HorizontalDivider(),
         );
       },
     );

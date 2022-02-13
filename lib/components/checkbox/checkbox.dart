@@ -15,7 +15,7 @@ class Checkbox extends StatelessWidget {
         checked ? CupertinoIcons.checkmark_square_fill : CupertinoIcons.square;
     return Icon(
       icon,
-      color: AppColors.lightGreyForThin,
+      color: AppColors.black,
       size: 21,
     );
   }

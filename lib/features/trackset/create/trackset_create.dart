@@ -162,7 +162,7 @@ class _TracksetCreateDialogState extends State<TracksetCreateDialog> {
                 ),
                 Text(
                   'Add new trackset',
-                  style: AppTypography.h4.greyed(),
+                  style: FormStyles.kHeaderTextStyle,
                 ),
                 TouchableIcon(
                   iconData: CupertinoIcons.xmark,
@@ -199,7 +199,11 @@ class _TracksetCreateDialogState extends State<TracksetCreateDialog> {
                           listener: _listenTrackingBloc,
                           builder: (context, state) {
                             return Button(
-                              label: 'Add',
+                              child: Text(
+                                'Save',
+                                style: FormStyles.kSubmitButtonTextStyle,
+                              ),
+                              padding: FormStyles.kSubmitButtonPadding,
                               isLoading: state is TrackingLoadingState,
                               onTap: _onSubmit,
                             );

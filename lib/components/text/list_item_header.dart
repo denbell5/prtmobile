@@ -2,40 +2,66 @@ import 'package:flutter/cupertino.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/styles/styles.dart';
 
-const kListItemHeaderHeight = 60.0;
+const kListItemHeaderHeight = 80.0;
 
 class ListItemHeader extends StatelessWidget {
   const ListItemHeader({
     Key? key,
     required this.primaryText,
-    required this.secondaryText,
+    this.secondaryText,
     required this.onTap,
     this.axis = Axis.vertical,
     this.onLongPress,
     this.bgColor,
-    this.touchAnimated = true,
-  }) : super(key: key);
+    this.primaryTextSize,
+    this.label,
+    this.labelText,
+    this.height,
+    this.primary,
+  })  : assert(!(label != null && labelText != null)),
+        super(key: key);
 
   final String primaryText;
-  final String secondaryText;
+  final Widget? secondaryText;
   final VoidCallback onTap;
   final VoidCallback? onLongPress;
   final Axis axis;
   final Color? bgColor;
-  final bool touchAnimated;
 
-  List<Widget> _buildTextWidgets() {
+  final double? primaryTextSize;
+
+  final Widget? label;
+  final String? labelText;
+
+  final double? height;
+  final Widget? primary;
+
+  static final labelTextStyle = AppTypography.small.bold().height1();
+
+  List<Widget> _buildTextWidgets({required bool isHorizontal}) {
+    Widget primary = this.primary ??
+        Text(
+          primaryText,
+          style: AppTypography.h4.copyWith(
+            fontSize: primaryTextSize,
+          ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        );
+    if (isHorizontal) {
+      primary = Expanded(
+        child: primary,
+      );
+    }
     return [
-      Text(
-        primaryText,
-        style: AppTypography.h4,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-      ),
-      Text(
-        secondaryText,
-        style: AppTypography.bodyText.greyed(),
-      ),
+      if (label != null) label!,
+      if (labelText != null)
+        Text(
+          labelText!,
+          style: labelTextStyle,
+        ),
+      primary,
+      if (secondaryText != null) secondaryText!,
     ];
   }
 
@@ -45,15 +71,14 @@ class ListItemHeader extends StatelessWidget {
         ? Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: _buildTextWidgets(),
+            children: _buildTextWidgets(isHorizontal: false),
           )
         : Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: _buildTextWidgets(),
+            children: _buildTextWidgets(isHorizontal: true),
           );
-    return TouchableOpacity(
-      touchAnimated: touchAnimated,
+    return TouchableWidget(
       onTap: onTap,
       onLongPress: onLongPress,
       child: AnimatedContainer(
@@ -64,7 +89,7 @@ class ListItemHeader extends StatelessWidget {
             horizontal: kDefaultPadding,
           ),
           child: SizedBox(
-            height: kListItemHeaderHeight,
+            height: height ?? kListItemHeaderHeight,
             child: Row(
               children: [
                 Expanded(

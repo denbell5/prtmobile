@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:prtmobile/bloc/tracking/tracking.bloc.dart';
 
 import 'package:prtmobile/components/components.dart';
-import 'package:prtmobile/components/text/highlighted.dart';
-import 'package:prtmobile/components/text/list_item_header.dart';
 import 'package:prtmobile/features/track/create/track_create.dart';
 import 'package:prtmobile/features/track/track_list_header.dart';
 import 'package:prtmobile/features/track/track_view.dart';
@@ -104,7 +102,7 @@ class _TracksetBodyState extends State<TracksetBody> {
         return YesNoDialog(
           title: Text(
             'Delete ${selectedIds.length} selected track${selectedIds.length == 1 ? '' : 's'}?',
-            style: AppTypography.h4,
+            style: AppTypography.h5,
           ),
         );
       },
@@ -123,16 +121,16 @@ class _TracksetBodyState extends State<TracksetBody> {
 
   Widget _buildTracksetControls(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
-        left: kDefaultPadding,
+      padding: EdgeInsets.only(
+        left: kDefaultPadding - IconTextButton.kEdgeInsets.left,
         right: kDefaultPadding,
-        bottom: kDefaultPadding,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          InlineButton(
+          IconTextButton(
             text: 'Edit',
+            icon: CupertinoIcons.pen,
             onTap: () {
               _openTracksetEditDialog(context);
             },
@@ -143,34 +141,110 @@ class _TracksetBodyState extends State<TracksetBody> {
   }
 
   Widget _buildTracksetStats(BuildContext context) {
+    const divider = SizedBox(height: kDefaultPadding * 0.5);
     return Padding(
       padding: const EdgeInsets.only(
         left: kDefaultPadding,
         right: kDefaultPadding,
-        top: kDefaultPadding / 4,
-        bottom: kDefaultPadding,
       ),
       child: Row(
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Highlighted(
-                child: Text(
-                  '${trackset.daysPassed()}/${trackset.totalDays} days passed, ${trackset.daysLeft()} days left',
-                ),
+              Row(
+                children: [
+                  const Icon(CupertinoIcons.calendar),
+                  RichText(
+                    text: TextSpan(
+                      style: CupertinoTheme.of(context).textTheme.textStyle,
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: ' ${trackset.daysLeft().toString()} ',
+                          style: StatStyles.kAccentTextStyle,
+                        ),
+                        TextSpan(
+                          text: 'days left,',
+                          style: StatStyles.kSecondaryTextStyle,
+                        ),
+                        TextSpan(
+                          text: ' ${trackset.daysPassed()} ',
+                          style: StatStyles.kAccentTextStyle,
+                        ),
+                        TextSpan(
+                          text: 'out of',
+                          style: StatStyles.kSecondaryTextStyle,
+                        ),
+                        TextSpan(
+                          text: ' ${trackset.totalDays} ',
+                          style: StatStyles.kAccentTextStyle,
+                        ),
+                        TextSpan(
+                          text: 'passed',
+                          style: StatStyles.kSecondaryTextStyle,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: kDefaultPadding / 2),
-              Highlighted(
-                child: Text(
-                  '${trackset.done}/${trackset.length} points done, ${trackset.left} left',
-                ),
+              divider,
+              Row(
+                children: [
+                  const Icon(CupertinoIcons.graph_square),
+                  RichText(
+                    text: TextSpan(
+                      style: CupertinoTheme.of(context).textTheme.textStyle,
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: ' ${trackset.left} ',
+                          style: StatStyles.kAccentTextStyle,
+                        ),
+                        TextSpan(
+                          text: 'points to do,',
+                          style: StatStyles.kSecondaryTextStyle,
+                        ),
+                        TextSpan(
+                          text: ' ${trackset.done} ',
+                          style: StatStyles.kSecondaryTextStyle,
+                        ),
+                        TextSpan(
+                          text: 'out of',
+                          style: StatStyles.kSecondaryTextStyle,
+                        ),
+                        TextSpan(
+                          text: ' ${trackset.length} ',
+                          style: StatStyles.kAccentTextStyle,
+                        ),
+                        TextSpan(
+                          text: 'done',
+                          style: StatStyles.kSecondaryTextStyle,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: kDefaultPadding / 2),
-              Highlighted(
-                child: Text(
-                  '${trackset.dailyGoal} points to complete daily',
-                ),
+              divider,
+              Row(
+                children: [
+                  const Icon(CupertinoIcons.speedometer),
+                  RichText(
+                    text: TextSpan(
+                      style: CupertinoTheme.of(context).textTheme.textStyle,
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: ' ${trackset.dailyGoal} ',
+                          style: StatStyles.kAccentTextStyle,
+                        ),
+                        TextSpan(
+                          text: 'to complete daily',
+                          style: StatStyles.kSecondaryTextStyle,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -215,6 +289,7 @@ class _TracksetBodyState extends State<TracksetBody> {
       listHeader: Column(
         children: [
           _buildTracksetControls(context),
+          const SizedBox(height: kDefaultPadding * 1.5),
           _buildTracksetStats(context),
           const SizedBox(height: kDefaultPadding),
           TrackListHeader(
@@ -227,10 +302,9 @@ class _TracksetBodyState extends State<TracksetBody> {
           ),
         ],
       ),
-      expandableHeaderExtent: kListItemHeaderHeight,
+      expandableHeaderExtent: kTrackHeaderHeight,
       animationData: kExpandAnimationData,
       children: trackViews,
-      divider: const HorizontalDivider(),
     );
   }
 }

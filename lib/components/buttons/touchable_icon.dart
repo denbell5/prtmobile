@@ -38,13 +38,13 @@ class TouchableIcon extends StatelessWidget {
     }
     return Align(
       alignment: Alignment.center,
-      child: TouchableOpacity(
+      child: TouchableWidget(
         onTap: onTap,
         child: Padding(
           padding: padding,
           child: Icon(
             iconData,
-            color: color ?? AppColors.grey,
+            color: color ?? AppColors.black,
             size: FontSizes.h3,
           ),
         ),

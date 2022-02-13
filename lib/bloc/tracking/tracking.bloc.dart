@@ -252,8 +252,7 @@ class TrackingBloc extends Bloc<TrackingEvent, TrackingState> {
       trackset = trackset.copyWith(tracks: normalized);
       final tracksets = state.tracksets.set(trackset, id: trackset.id);
 
-      // TODO
-      // await _db.deleteTracks(event.ids.toList());
+      await _db.deleteTracks(event.ids.toList());
 
       yield TrackingUpdatedState(
         state.copyWith(tracksets: tracksets),

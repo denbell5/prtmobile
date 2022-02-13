@@ -23,7 +23,7 @@ class TrackListHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const padding = ListHeader.defaultPadding;
-    final leadingTextStyle = ListHeader.defaultTextStyle;
+    final leadingTextStyle = ListHeader.kSmallerTextStyle;
     final allowedHeight = padding.vertical +
         leadingTextStyle.fontSize! * leadingTextStyle.height!;
 
@@ -58,7 +58,7 @@ class TrackListHeader extends StatelessWidget {
                 ),
                 child: Text(
                   'Track List',
-                  style: leadingTextStyle,
+                  style: leadingTextStyle.bolder(),
                 ),
               ),
         trailing: selectionModeEnabled
@@ -68,10 +68,13 @@ class TrackListHeader extends StatelessWidget {
                 padding: padding,
                 adjustToHeight: allowedHeight,
               )
-            : InlineButton(
-                text: 'Add',
-                onTap: onAddTapped,
-                padding: padding,
+            : Padding(
+                padding: EdgeInsets.only(right: padding.left),
+                child: IconTextButton(
+                  text: 'Add',
+                  icon: CupertinoIcons.add,
+                  onTap: onAddTapped,
+                ),
               ),
       ),
     );

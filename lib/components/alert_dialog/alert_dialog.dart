@@ -15,7 +15,7 @@ class YesNoDialog extends StatelessWidget {
     BuildContext context, {
     required bool value,
   }) {
-    return TouchableOpacity(
+    return TouchableWidget(
       onTap: () {
         AppNavigator.of(context).pop(value);
       },
@@ -26,7 +26,7 @@ class YesNoDialog extends StatelessWidget {
           ),
           child: Text(
             value ? 'Yes' : 'No',
-            style: AppTypography.h4.greyed(),
+            style: AppTypography.h5,
           ),
         ),
       ),

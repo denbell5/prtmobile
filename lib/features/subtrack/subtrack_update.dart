@@ -140,7 +140,7 @@ class _SubtrackUpdateDialogState extends State<SubtrackUpdateDialog> {
         '${_formValues.start} - ${_formValues.end}, ${_formValues.pointer}';
     return Text(
       text,
-      style: AppTypography.h4.bold().greyed(),
+      style: FormStyles.kHeaderTextStyle,
     );
   }
 

@@ -23,57 +23,55 @@ class TracksetListHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const padding = ListHeader.defaultPadding;
-    final leadingTextStyle = ListHeader.defaultTextStyle;
+    final leadingTextStyle = ListHeader.kTextStyle;
     final allowedHeight = padding.vertical +
         leadingTextStyle.fontSize! * leadingTextStyle.height!;
 
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: kDefaultPadding,
-      ),
-      child: ListHeader(
-        isLoading: isLoading,
-        padding: EdgeInsets.zero,
-        leading: selectionModeEnabled
-            ? Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  TouchableIcon(
-                    iconData: CupertinoIcons.xmark,
-                    onTap: disableSelectionMode,
-                    padding: padding.copyWith(
-                      right: kDefaultPadding / 2,
-                    ),
-                    adjustToHeight: allowedHeight,
+    return ListHeader(
+      isLoading: isLoading,
+      padding: EdgeInsets.zero,
+      leading: selectionModeEnabled
+          ? Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                TouchableIcon(
+                  iconData: CupertinoIcons.xmark,
+                  onTap: disableSelectionMode,
+                  padding: padding.copyWith(
+                    right: kDefaultPadding / 2,
                   ),
-                  Text(
-                    'Selected $selectedCount tracksets',
-                    style: leadingTextStyle,
-                  ),
-                ],
-              )
-            : Padding(
-                padding: padding.copyWith(
-                  right: 0,
+                  adjustToHeight: allowedHeight,
                 ),
-                child: Text(
-                  'Trackset List',
+                Text(
+                  'Selected $selectedCount tracksets',
                   style: leadingTextStyle,
                 ),
+              ],
+            )
+          : Padding(
+              padding: padding.copyWith(
+                right: 0,
               ),
-        trailing: selectionModeEnabled
-            ? TouchableIcon(
-                iconData: CupertinoIcons.delete,
-                onTap: onDeleteSelectedTapped,
-                padding: padding,
-                adjustToHeight: allowedHeight,
-              )
-            : InlineButton(
+              child: Text(
+                'Trackset List',
+                style: leadingTextStyle.bolder(),
+              ),
+            ),
+      trailing: selectionModeEnabled
+          ? TouchableIcon(
+              iconData: CupertinoIcons.delete,
+              onTap: onDeleteSelectedTapped,
+              padding: padding,
+              adjustToHeight: allowedHeight,
+            )
+          : Padding(
+              padding: EdgeInsets.only(right: padding.left),
+              child: IconTextButton(
                 text: 'Add',
+                icon: CupertinoIcons.plus,
                 onTap: onAddTapped,
-                padding: padding,
               ),
-      ),
+            ),
     );
   }
 }
