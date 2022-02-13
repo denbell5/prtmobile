@@ -15,7 +15,11 @@ class ListHeader extends StatelessWidget {
   final bool isLoading;
   final EdgeInsets? padding;
 
-  static TextStyle get defaultTextStyle => AppTypography.h4;
+  static TextStyle get kTextStyle => AppTypography.h4;
+  static TextStyle get kSmallerTextStyle => kTextStyle.copyWith(
+        fontSize: FontSizes.h4 - 2,
+      );
+
   static const EdgeInsets defaultPadding = EdgeInsets.only(
     left: kDefaultPadding,
     right: kDefaultPadding,

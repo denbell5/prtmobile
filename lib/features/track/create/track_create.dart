@@ -101,7 +101,7 @@ class _TrackCreateDialogState extends State<TrackCreateDialog> {
                 ),
                 Text(
                   'Add new Track',
-                  style: AppTypography.h4.greyed(),
+                  style: FormStyles.kHeaderTextStyle,
                 ),
                 TouchableIcon(
                   iconData: CupertinoIcons.xmark,
@@ -135,7 +135,11 @@ class _TrackCreateDialogState extends State<TrackCreateDialog> {
                           listener: _listenTrackingBloc,
                           builder: (context, state) {
                             return Button(
-                              label: 'Add',
+                              child: Text(
+                                'Save',
+                                style: FormStyles.kSubmitButtonTextStyle,
+                              ),
+                              padding: FormStyles.kSubmitButtonPadding,
                               isLoading: state is TrackingLoadingState,
                               onTap: _onSubmit,
                             );

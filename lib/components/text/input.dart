@@ -38,7 +38,7 @@ class InputState extends State<Input> {
 
   @override
   Widget build(BuildContext context) {
-    const borderRadius = kInputBorderRadius;
+    const borderRadius = kBorderRadius;
     const borderRadiusInsets = EdgeInsets.only(left: borderRadius);
 
     return FormField<String>(
@@ -54,7 +54,7 @@ class InputState extends State<Input> {
               padding: borderRadiusInsets,
               child: Text(
                 widget.label,
-                style: AppTypography.bodyText.greyed(),
+                style: AppTypography.bodyText,
               ),
             ),
             CupertinoTextField(
@@ -64,10 +64,15 @@ class InputState extends State<Input> {
               },
               expands: false,
               decoration: BoxDecoration(
-                border: Border.all(color: AppColors.lightGreyForThin),
+                border: Border.all(color: AppColors.black),
                 borderRadius: BorderRadius.circular(borderRadius),
               ),
-              cursorColor: AppColors.grey,
+              cursorColor: AppColors.black,
+              cursorWidth: 0.7,
+              padding: EdgeInsets.symmetric(
+                horizontal: borderRadius,
+                vertical: borderRadius,
+              ),
             ),
             Padding(
               padding: borderRadiusInsets,

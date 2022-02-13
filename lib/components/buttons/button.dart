@@ -1,39 +1,49 @@
 import 'package:flutter/cupertino.dart';
-import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/styles/styles.dart';
 
 class Button extends StatelessWidget {
   const Button({
     Key? key,
     this.onTap,
-    required this.label,
+    this.label,
     this.disabled = false,
     this.isLoading = false,
-  }) : super(key: key);
+    this.padding,
+    this.child,
+    this.bordered = true,
+  })  : assert(label != null || child != null),
+        super(key: key);
 
   final VoidCallback? onTap;
-  final String label;
+  final String? label;
   final bool disabled;
   final bool isLoading;
+  final EdgeInsets? padding;
+  final Widget? child;
+  final bool bordered;
+
+  Widget _buildContent(BuildContext context) {
+    if (child != null) return child!;
+    return Text(
+      label!,
+      style: AppTypography.h5,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return TouchableOpacity(
+    return GestureDetector(
       onTap: disabled || isLoading ? null : onTap,
       child: Container(
-        padding: const EdgeInsets.all(kDefaultPadding),
+        padding: padding ?? const EdgeInsets.all(kDefaultPadding),
         decoration: BoxDecoration(
-          color: AppColors.lightGrey,
-          borderRadius: BorderRadius.circular(kDefaultPadding / 2),
+          borderRadius: BorderRadius.circular(kBorderRadius),
+          border: bordered ? Border.all(color: AppColors.black) : null,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (!isLoading)
-              Text(
-                label,
-                style: AppTypography.h4.greyed(),
-              ),
+            if (!isLoading) _buildContent(context),
             if (isLoading) const CupertinoActivityIndicator(),
           ],
         ),

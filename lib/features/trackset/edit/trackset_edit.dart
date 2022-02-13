@@ -177,7 +177,7 @@ class _TracksetEditDialogState extends State<TracksetEditDialog> {
                 Expanded(
                   child: Text(
                     'Edit ${widget.trackset.name}',
-                    style: AppTypography.h4.greyed(),
+                    style: FormStyles.kHeaderTextStyle,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
@@ -219,6 +219,11 @@ class _TracksetEditDialogState extends State<TracksetEditDialog> {
                           builder: (context, state) {
                             return Button(
                               label: 'Save',
+                              child: Text(
+                                'Save',
+                                style: FormStyles.kSubmitButtonTextStyle,
+                              ),
+                              padding: FormStyles.kSubmitButtonPadding,
                               isLoading: state is TrackingLoadingState,
                               onTap: _onSubmit,
                             );

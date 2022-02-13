@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/components/text/list_item_header.dart';
@@ -30,8 +31,9 @@ class TracksetView extends StatelessWidget {
     final endDate = formatDate(trackset.endAt);
     final dateRange = '$startDate - $endDate';
     return ListItemHeader(
-      primaryText: trackset.name,
-      secondaryText: dateRange,
+      labelText: 'Trackset',
+      primaryText: dateRange.toUpperCase(),
+      secondaryText: Text(trackset.name),
       onTap: () {
         if (selectionModeEnabled) {
           toggleSelection(trackset.id);
@@ -41,7 +43,6 @@ class TracksetView extends StatelessWidget {
       },
       onLongPress: () => onHeaderLongPressed(trackset.id),
       bgColor: isSelected ? AppColors.lightGrey : null,
-      touchAnimated: !selectionModeEnabled,
     );
   }
 

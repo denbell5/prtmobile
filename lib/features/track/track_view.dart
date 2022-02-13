@@ -8,23 +8,41 @@ import 'package:prtmobile/styles/styles.dart';
 
 import 'track_body.dart';
 
+const kTrackHeaderHeight = 60.0;
+
 class TrackView extends StatelessWidget {
   const TrackView({
     Key? key,
     required this.track,
     required this.onToggle,
+    required this.onHeaderLongPressed,
+    required this.isSelected,
+    required this.selectionModeEnabled,
+    required this.toggleSelection,
   }) : super(key: key);
 
   final Track track;
   final void Function(bool) onToggle;
+  final void Function(String tracksetId) onHeaderLongPressed;
+  final bool isSelected;
+  final bool selectionModeEnabled;
+  final void Function(String tracksetId) toggleSelection;
 
   Widget _buildHeader(BuildContext context) {
     return ListItemHeader(
       primaryText: track.name,
-      secondaryText: '${track.done}/${track.length} points',
       onTap: () {
-        ExpandableState.of(context)!.toggle();
+        if (selectionModeEnabled) {
+          toggleSelection(track.id);
+        } else {
+          ExpandableState.of(context)!.toggle();
+        }
       },
+      onLongPress: () => onHeaderLongPressed(track.id),
+      bgColor: isSelected ? AppColors.lightGrey : null,
+      primaryTextSize: FontSizes.h5,
+      labelText: 'Track',
+      height: kTrackHeaderHeight,
     );
   }
 

@@ -40,7 +40,7 @@ class _SelectableColumnState<T> extends State<SelectableColumn<T>> {
     final textStyle = option.value == _selectedValue
         ? AppTypography.bodyText.bold()
         : AppTypography.bodyText;
-    return TouchableOpacity(
+    return TouchableWidget(
       child: Padding(
         padding: const EdgeInsets.all(kDefaultPadding / 2),
         child: Text(
