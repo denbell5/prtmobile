@@ -20,6 +20,9 @@ class TrackingDb {
       version: 1,
       onCreate: _onCreate,
       onOpen: applyMigrations,
+      onConfigure: (db) async {
+        await db.execute("PRAGMA foreign_keys = ON");
+      },
     );
   }
 
@@ -181,9 +184,11 @@ class TrackingDb {
 
   Future<void> deleteTracks(List<String> ids) async {
     await db.transaction((db) async {
-      // TODO
+      final idsCsv = ids.join(',');
       const schema = TrackDbo.schema;
-      for (var id in ids) {}
+      final script =
+          'DELETE FROM ${schema.tableName} WHERE ${schema.id} IN ($idsCsv);';
+      await db.execute(script);
     });
   }
 }
