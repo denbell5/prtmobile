@@ -68,7 +68,7 @@ class TracksetListHeader extends StatelessWidget {
               padding: EdgeInsets.only(right: padding.left),
               child: IconTextButton(
                 text: 'Add',
-                icon: CupertinoIcons.plus,
+                icon: CupertinoIcons.add,
                 onTap: onAddTapped,
               ),
             ),

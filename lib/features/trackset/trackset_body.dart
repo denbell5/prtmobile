@@ -3,8 +3,8 @@ import 'package:prtmobile/bloc/tracking/tracking.bloc.dart';
 
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/features/track/create/track_create.dart';
-import 'package:prtmobile/features/track/track_list_header.dart';
 import 'package:prtmobile/features/track/track_view.dart';
+import 'package:prtmobile/misc/misc.dart';
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/styles.dart';
 
@@ -24,11 +24,17 @@ class TracksetBody extends StatefulWidget {
 
 class _TracksetBodyState extends State<TracksetBody> {
   final trackListKey = GlobalKey<ExpandableListState>();
-
-  bool _selectionModeEnabled = false;
-  final Set<String> _selectedTrackIds = {};
+  final _trackListSelector = ListSelector<String>();
 
   Trackset get trackset => widget.trackset;
+
+  @override
+  void initState() {
+    super.initState();
+    _trackListSelector.addListener(() {
+      setState(() {});
+    });
+  }
 
   void onToggle({
     required int index,
@@ -64,59 +70,31 @@ class _TracksetBodyState extends State<TracksetBody> {
     );
   }
 
-  void _enableSelectionMode(String tracksetId) {
-    if (_selectionModeEnabled) return;
+  void _enableSelectionMode(String trackId) {
     if (trackListKey.currentState!.isExpanded) return;
-    setState(() {
-      _selectedTrackIds.add(tracksetId);
-      _selectionModeEnabled = true;
-    });
-  }
-
-  void _disableSelectionMode() {
-    setState(() {
-      _selectedTrackIds.clear();
-      _selectionModeEnabled = false;
-    });
-  }
-
-  void _toggleSelection(String trackId) {
-    if (_selectedTrackIds.contains(trackId)) {
-      setState(() {
-        _selectedTrackIds.remove(trackId);
-      });
-    } else {
-      setState(() {
-        _selectedTrackIds.add(trackId);
-      });
-    }
+    _trackListSelector.enableSelectionMode(itemId: trackId);
   }
 
   void _deleteSelectedTracks(BuildContext context) async {
-    final selectedIds = Set<String>.from(_selectedTrackIds);
-    if (selectedIds.isEmpty) return;
-
-    bool canProceed = await showCupertinoDialog(
-      context: context,
-      builder: (context) {
-        return YesNoDialog(
-          title: Text(
-            'Delete ${selectedIds.length} selected track${selectedIds.length == 1 ? '' : 's'}?',
-            style: AppTypography.h5,
+    _trackListSelector.deleteSelectedItems(
+      confirmDeletion: (selectedIds) {
+        return ConfirmDeletionDialog.askConfirmation(
+          context,
+          dialog: ConfirmDeletionDialog(
+            deletedCount: selectedIds.length,
+            entityName: 'track',
+          ),
+        );
+      },
+      delete: (selectedIds) {
+        TrackingBloc.of(context).add(
+          TracksDeleted(
+            ids: selectedIds,
+            tracksetId: trackset.id,
           ),
         );
       },
     );
-
-    if (canProceed) {
-      _disableSelectionMode();
-      TrackingBloc.of(context).add(
-        TracksDeleted(
-          ids: selectedIds,
-          tracksetId: trackset.id,
-        ),
-      );
-    }
   }
 
   Widget _buildTracksetControls(BuildContext context) {
@@ -270,9 +248,9 @@ class _TracksetBodyState extends State<TracksetBody> {
                 );
               },
               onHeaderLongPressed: _enableSelectionMode,
-              isSelected: _selectedTrackIds.contains(tr.id),
-              selectionModeEnabled: _selectionModeEnabled,
-              toggleSelection: _toggleSelection,
+              isSelected: _trackListSelector.selectedIds.contains(tr.id),
+              selectionModeEnabled: _trackListSelector.selectionModeEnabled,
+              toggleSelection: _trackListSelector.toggleItemSelection,
             ),
           ),
         )
@@ -291,14 +269,16 @@ class _TracksetBodyState extends State<TracksetBody> {
           _buildTracksetControls(context),
           const SizedBox(height: kDefaultPadding * 1.5),
           _buildTracksetStats(context),
-          const SizedBox(height: kDefaultPadding),
-          TrackListHeader(
+          const SizedBox(height: kDefaultPadding * 2),
+          RichListHeader(
             isLoading: false,
-            selectionModeEnabled: _selectionModeEnabled,
-            disableSelectionMode: _disableSelectionMode,
+            selectionModeEnabled: _trackListSelector.selectionModeEnabled,
+            disableSelectionMode: _trackListSelector.disableSelectionMode,
             onAddTapped: () => _openTrackCreateDialog(context),
             onDeleteSelectedTapped: () => _deleteSelectedTracks(context),
-            selectedCount: _selectedTrackIds.length,
+            selectedCount: _trackListSelector.selectedIds.length,
+            entityName: 'track',
+            leadingTextStyle: ListHeader.kSmallerTextStyle,
           ),
         ],
       ),

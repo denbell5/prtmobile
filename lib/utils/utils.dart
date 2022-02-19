@@ -5,3 +5,4 @@ export 'debouncer.dart';
 export 'stopwatch.dart';
 export 'list.dart';
 export 'misc.dart';
+export 'text.dart';

@@ -27,56 +27,51 @@ class TrackListHeader extends StatelessWidget {
     final allowedHeight = padding.vertical +
         leadingTextStyle.fontSize! * leadingTextStyle.height!;
 
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: kDefaultPadding,
-      ),
-      child: ListHeader(
-        isLoading: isLoading,
-        padding: EdgeInsets.zero,
-        leading: selectionModeEnabled
-            ? Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  TouchableIcon(
-                    iconData: CupertinoIcons.xmark,
-                    onTap: disableSelectionMode,
-                    padding: padding.copyWith(
-                      right: kDefaultPadding / 2,
-                    ),
-                    adjustToHeight: allowedHeight,
+    return ListHeader(
+      isLoading: isLoading,
+      padding: EdgeInsets.zero,
+      leading: selectionModeEnabled
+          ? Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                TouchableIcon(
+                  iconData: CupertinoIcons.xmark,
+                  onTap: disableSelectionMode,
+                  padding: padding.copyWith(
+                    right: kDefaultPadding / 2,
                   ),
-                  Text(
-                    'Selected $selectedCount tracks',
-                    style: leadingTextStyle,
-                  ),
-                ],
-              )
-            : Padding(
-                padding: padding.copyWith(
-                  right: 0,
+                  adjustToHeight: allowedHeight,
                 ),
-                child: Text(
-                  'Track List',
-                  style: leadingTextStyle.bolder(),
+                Text(
+                  'Selected $selectedCount tracks',
+                  style: leadingTextStyle,
                 ),
+              ],
+            )
+          : Padding(
+              padding: padding.copyWith(
+                right: 0,
               ),
-        trailing: selectionModeEnabled
-            ? TouchableIcon(
-                iconData: CupertinoIcons.delete,
-                onTap: onDeleteSelectedTapped,
-                padding: padding,
-                adjustToHeight: allowedHeight,
-              )
-            : Padding(
-                padding: EdgeInsets.only(right: padding.left),
-                child: IconTextButton(
-                  text: 'Add',
-                  icon: CupertinoIcons.add,
-                  onTap: onAddTapped,
-                ),
+              child: Text(
+                'Track List',
+                style: leadingTextStyle.bolder(),
               ),
-      ),
+            ),
+      trailing: selectionModeEnabled
+          ? TouchableIcon(
+              iconData: CupertinoIcons.delete,
+              onTap: onDeleteSelectedTapped,
+              padding: padding,
+              adjustToHeight: allowedHeight,
+            )
+          : Padding(
+              padding: EdgeInsets.only(right: padding.left),
+              child: IconTextButton(
+                text: 'Add',
+                icon: CupertinoIcons.add,
+                onTap: onAddTapped,
+              ),
+            ),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:prtmobile/components/buttons/buttons.dart';
 import 'package:prtmobile/navigation/navigator.dart';
 import 'package:prtmobile/styles/styles.dart';
+import 'package:prtmobile/utils/utils.dart';
 
 class YesNoDialog extends StatelessWidget {
   const YesNoDialog({
@@ -73,6 +74,40 @@ class YesNoDialog extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class ConfirmDeletionDialog extends StatelessWidget {
+  const ConfirmDeletionDialog({
+    Key? key,
+    required this.deletedCount,
+    required this.entityName,
+  }) : super(key: key);
+
+  final int deletedCount;
+  final String entityName;
+
+  static Future<bool> askConfirmation(
+    BuildContext context, {
+    required ConfirmDeletionDialog dialog,
+  }) async {
+    final isConfirmed = await showCupertinoDialog<bool>(
+      context: context,
+      builder: (context) {
+        return dialog;
+      },
+    );
+    return isConfirmed!;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return YesNoDialog(
+      title: Text(
+        'Delete $deletedCount selected ${pluralize(entityName, count: deletedCount)}?',
+        style: AppTypography.h5,
       ),
     );
   }

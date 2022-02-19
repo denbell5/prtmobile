@@ -2,11 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prtmobile/bloc/tracking/tracking.bloc.dart';
 import 'package:prtmobile/components/components.dart';
-import 'package:prtmobile/components/text/list_item_header.dart';
 import 'package:prtmobile/features/trackset/create/trackset_create.dart';
-import 'package:prtmobile/features/trackset/trackset_list_header.dart';
-
-import 'package:prtmobile/models/models.dart';
+import 'package:prtmobile/misc/misc.dart';
 import 'package:prtmobile/styles/styles.dart';
 import 'package:prtmobile/utils/__mocks__/real_world.dart';
 
@@ -24,13 +21,15 @@ class TracksetList extends StatefulWidget {
 class _TracksetListState extends State<TracksetList> {
   final listKey = GlobalKey<ExpandableListState>();
 
-  bool _selectionModeEnabled = false;
-  final Set<String> _selectedTracksetIds = {};
+  final _listSelector = ListSelector<String>();
 
   @override
   void initState() {
     super.initState();
     _requestTracksets();
+    _listSelector.addListener(() {
+      setState(() {});
+    });
   }
 
   void _requestTracksets() {
@@ -49,45 +48,27 @@ class _TracksetListState extends State<TracksetList> {
   }
 
   void _enableSelectionMode(String tracksetId) {
-    if (_selectionModeEnabled) return;
     if (listKey.currentState!.isExpanded) return;
-    setState(() {
-      _selectedTracksetIds.add(tracksetId);
-      _selectionModeEnabled = true;
-    });
+    _listSelector.enableSelectionMode(itemId: tracksetId);
   }
 
-  void _disableSelectionMode() {
-    setState(() {
-      _selectedTracksetIds.clear();
-      _selectionModeEnabled = false;
-    });
-  }
-
-  void _toggleSelection(String tracksetId) {
-    if (_selectedTracksetIds.contains(tracksetId)) {
-      setState(() {
-        _selectedTracksetIds.remove(tracksetId);
-      });
-    } else {
-      setState(() {
-        _selectedTracksetIds.add(tracksetId);
-      });
-    }
-  }
-
-  NormalizedList<Trackset, String> getTracksets() {
-    // var tracksets = TracksetFactory.buildTracksets(5);
-    // var tracks = TrackFactory.buildTracks(5);
-    // final subtracks = SubtrackFactory.buildSubtracks(5);
-    // final normalizedSubtracks = normalizeSubtracks(subtracks);
-    // tracks =
-    //     tracks.map((e) => e.copyWith(subtracks: normalizedSubtracks)).toList();
-    // final normalizedTracks = normalizeTracks(tracks);
-    // tracksets =
-    //     tracksets.map((e) => e.copyWith(tracks: normalizedTracks)).toList();
-    // return tracksets;
-    return realWorldTracksets;
+  void _deleteSelectedTracksets(BuildContext context) async {
+    _listSelector.deleteSelectedItems(
+      confirmDeletion: (selectedIds) {
+        return ConfirmDeletionDialog.askConfirmation(
+          context,
+          dialog: ConfirmDeletionDialog(
+            deletedCount: selectedIds.length,
+            entityName: 'trackset',
+          ),
+        );
+      },
+      delete: (selectedIds) {
+        TrackingBloc.of(context).add(
+          TracksetsDeleted(selectedIds),
+        );
+      },
+    );
   }
 
   void onToggle({
@@ -98,28 +79,6 @@ class _TracksetListState extends State<TracksetList> {
       index: index,
       isExpanded: isExpanded,
     );
-  }
-
-  void _deleteSelectedTracksets(BuildContext context) async {
-    final selectedIds = Set<String>.from(_selectedTracksetIds);
-    if (selectedIds.isEmpty) return;
-
-    bool canProceed = await showCupertinoDialog(
-      context: context,
-      builder: (context) {
-        return YesNoDialog(
-          title: Text(
-            'Delete ${selectedIds.length} selected trackset${selectedIds.length == 1 ? '' : 's'}?',
-            style: AppTypography.h5,
-          ),
-        );
-      },
-    );
-
-    if (canProceed) {
-      _disableSelectionMode();
-      TrackingBloc.of(context).add(TracksetsDeleted(selectedIds));
-    }
   }
 
   Widget? _buildErrorMessage(TrackingState state) {
@@ -148,13 +107,15 @@ class _TracksetListState extends State<TracksetList> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TracksetListHeader(
+              RichListHeader(
                 isLoading: isLoading,
-                selectionModeEnabled: _selectionModeEnabled,
-                disableSelectionMode: _disableSelectionMode,
+                entityName: 'trackset',
+                leadingTextStyle: ListHeader.kTextStyle,
                 onAddTapped: () => _openTracksetCreateDialog(context),
+                selectionModeEnabled: _listSelector.selectionModeEnabled,
+                disableSelectionMode: _listSelector.disableSelectionMode,
                 onDeleteSelectedTapped: () => _deleteSelectedTracksets(context),
-                selectedCount: _selectedTracksetIds.length,
+                selectedCount: _listSelector.selectedIds.length,
               ),
               if (errorMessage != null) errorMessage,
             ],
@@ -168,14 +129,14 @@ class _TracksetListState extends State<TracksetList> {
                   TracksetView(
                     key: ValueKey(trackset.id),
                     trackset: tracksets.entities[index],
+                    isSelected: _listSelector.selectedIds.contains(trackset.id),
+                    selectionModeEnabled: _listSelector.selectionModeEnabled,
+                    onHeaderLongPressed: _enableSelectionMode,
+                    toggleSelection: _listSelector.toggleItemSelection,
                     onToggle: (isExpanded) => onToggle(
                       index: index,
                       isExpanded: isExpanded,
                     ),
-                    onHeaderLongPressed: _enableSelectionMode,
-                    isSelected: _selectedTracksetIds.contains(trackset.id),
-                    selectionModeEnabled: _selectionModeEnabled,
-                    toggleSelection: _toggleSelection,
                   )))
               .values
               .toList(),
