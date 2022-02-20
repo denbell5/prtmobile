@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:prtmobile/bloc/tracking/tracking.bloc.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/features/subtrack/subtrack.dart';
+import 'package:prtmobile/misc/misc.dart';
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/styles.dart';
 
@@ -22,6 +24,16 @@ class TrackBody extends StatefulWidget {
 class _TrackBodyState extends State<TrackBody> with ListBuilder {
   Track get track => widget.track;
 
+  final _subtrackListSelector = ListSelector<String>();
+
+  @override
+  void initState() {
+    super.initState();
+    _subtrackListSelector.addListener(() {
+      setState(() {});
+    });
+  }
+
   Future<void> _openTrackEditDialog(BuildContext context) async {
     await showCupertinoModalPopup(
       context: context,
@@ -29,6 +41,29 @@ class _TrackBodyState extends State<TrackBody> with ListBuilder {
       builder: (context) {
         return TrackEditDialog(
           track: track,
+        );
+      },
+    );
+  }
+
+  void _deleteSelectedSubtracks(BuildContext context) async {
+    _subtrackListSelector.deleteSelectedItems(
+      confirmDeletion: (selectedIds) {
+        return ConfirmDeletionDialog.askConfirmation(
+          context,
+          dialog: ConfirmDeletionDialog(
+            deletedCount: selectedIds.length,
+            entityName: 'subtrack',
+          ),
+        );
+      },
+      delete: (selectedIds) {
+        TrackingBloc.of(context).add(
+          SubtracksDeleted(
+            ids: selectedIds,
+            trackId: track.id,
+            tracksetId: track.tracksetId,
+          ),
         );
       },
     );
@@ -134,16 +169,15 @@ class _TrackBodyState extends State<TrackBody> with ListBuilder {
   }
 
   Widget _buildSubtrackListHeader(BuildContext context) {
-    return ListHeader(
-      leading: Text(
-        'Subtrack List',
-        style: ListHeader.kSmallerTextStyle.bolder(),
-      ),
-      trailing: IconTextButton(
-        text: 'Add',
-        icon: CupertinoIcons.add,
-        onTap: () {},
-      ),
+    return RichListHeader(
+      isLoading: false,
+      selectionModeEnabled: _subtrackListSelector.selectionModeEnabled,
+      disableSelectionMode: _subtrackListSelector.disableSelectionMode,
+      onAddTapped: () => {}, //_openSubtrackCreateDialog(context),
+      onDeleteSelectedTapped: () => _deleteSelectedSubtracks(context),
+      selectedCount: _subtrackListSelector.selectedIds.length,
+      entityName: 'subtrack',
+      leadingTextStyle: ListHeader.kSmallerTextStyle,
     );
   }
 
@@ -152,7 +186,17 @@ class _TrackBodyState extends State<TrackBody> with ListBuilder {
     return buildList(
       isDivided: false,
       itemCount: subtracks.length,
-      itemBuilder: (index) => SubtrackView(subtrack: subtracks[index]),
+      itemBuilder: (index) => SubtrackView(
+        subtrack: subtracks[index],
+        onEnableSelectionMode: (subtrackId) {
+          _subtrackListSelector.enableSelectionMode(itemId: subtrackId);
+        },
+        toggleItemSelection: _subtrackListSelector.toggleItemSelection,
+        isSelected: _subtrackListSelector.selectedIds.contains(
+          subtracks[index].id,
+        ),
+        selectionModeEnabled: _subtrackListSelector.selectionModeEnabled,
+      ),
     );
   }
 

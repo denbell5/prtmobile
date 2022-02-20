@@ -184,11 +184,34 @@ class TrackingDb {
 
   Future<void> deleteTracks(List<String> ids) async {
     await db.transaction((db) async {
-      final idsCsv = ids.join(',');
       const schema = TrackDbo.schema;
-      final script =
-          'DELETE FROM ${schema.tableName} WHERE ${schema.id} IN ($idsCsv);';
+      final script = _buildDeleteInQuery(
+        tableName: schema.tableName,
+        idName: schema.id,
+        ids: ids,
+      );
       await db.execute(script);
     });
+  }
+
+  Future<void> deleteSubtracks(List<String> ids) async {
+    await db.transaction((db) async {
+      const schema = SubtrackDbo.schema;
+      final script = _buildDeleteInQuery(
+        tableName: schema.tableName,
+        idName: schema.id,
+        ids: ids,
+      );
+      await db.execute(script);
+    });
+  }
+
+  String _buildDeleteInQuery({
+    required String tableName,
+    required String idName,
+    required List<String> ids,
+  }) {
+    final idsCsv = ids.join(',');
+    return 'DELETE FROM $tableName WHERE $idName IN ($idsCsv);';
   }
 }
