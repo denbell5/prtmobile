@@ -41,6 +41,8 @@ class TrackingBloc extends Bloc<TrackingEvent, TrackingState> {
       yield* _mapTrackEditedToState(event);
     } else if (event is TracksDeleted) {
       yield* _mapTracksDeletedToState(event);
+    } else if (event is SubtracksDeleted) {
+      yield* _mapSubtracksDeletedToState(event);
     }
   }
 
@@ -253,6 +255,42 @@ class TrackingBloc extends Bloc<TrackingEvent, TrackingState> {
       final tracksets = state.tracksets.set(trackset, id: trackset.id);
 
       await _db.deleteTracks(event.ids.toList());
+
+      yield TrackingUpdatedState(
+        state.copyWith(tracksets: tracksets),
+        isAfterTracksDeleted: true,
+      );
+    } catch (ex) {
+      yield TrackingErrorState(
+        state,
+        description: 'Failed to delete tracks',
+        failedEvent: event,
+        shouldShowNotification: true,
+      );
+    }
+  }
+
+  Stream<TrackingState> _mapSubtracksDeletedToState(
+    SubtracksDeleted event,
+  ) async* {
+    try {
+      yield TrackingLoadingState(state);
+
+      var trackset = state.tracksets.byId[event.tracksetId]!;
+      var track = trackset.tracks.byId[event.trackId]!;
+
+      var normalized = track.subtracks;
+      for (var id in event.ids) {
+        normalized = normalized.remove(id);
+      }
+
+      track = track.copyWith(subtracks: normalized);
+      trackset = trackset.copyWith(
+        tracks: trackset.tracks.set(track, id: track.id),
+      );
+      final tracksets = state.tracksets.set(trackset, id: trackset.id);
+
+      await _db.deleteSubtracks(event.ids.toList());
 
       yield TrackingUpdatedState(
         state.copyWith(tracksets: tracksets),
