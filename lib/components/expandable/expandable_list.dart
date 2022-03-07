@@ -1,108 +1,108 @@
 import 'package:flutter/widgets.dart';
 import 'package:prtmobile/components/components.dart';
+import 'package:prtmobile/misc/widget_position.dart';
 
 typedef ExpandableListBuilder = Expandable Function(
   BuildContext context,
   int index,
 );
 
-class ExpandableList extends StatefulWidget {
-  const ExpandableList({
+class ExpandableListV2 extends StatefulWidget {
+  const ExpandableListV2({
     Key? key,
-    this.listHeader,
     this.controller,
     this.animationData,
-    required this.expandableHeaderExtent,
-    this.divider,
-    required this.children,
+    this.slivers = const [],
   }) : super(key: key);
 
-  final Widget? listHeader;
+  // ignore: todo
+  // TODO: remove unused fields
   final ScrollController? controller;
-  final double expandableHeaderExtent;
   final AnimationData? animationData;
-  final Widget? divider;
-
-  final List<Widget> children;
+  final List<Widget> slivers;
 
   @override
-  ExpandableListState createState() => ExpandableListState();
+  ExpandableListStateV2 createState() => ExpandableListStateV2();
 }
 
-class ExpandableListState extends State<ExpandableList> with ListBuilder {
-  late ScrollController _controller;
-  var listHeaderHeight = 0.0;
-  var separatorHeight = 0.0;
+class ExpandableListStateV2 extends State<ExpandableListV2> with ListBuilder {
+  late ScrollController _scrollController;
   double previousOffset = 0.0;
-  int? expandedIndex;
-  Key? expandedKey;
 
-  bool get isExpanded => expandedIndex != null;
+  bool _isExpanded = false;
+  bool get isExpanded => _isExpanded;
 
-  ScrollPhysics? get scrollPhysics => expandedIndex == null
-      ? const ClampingScrollPhysics()
-      : const NeverScrollableScrollPhysics();
+  ExpandableState? _expandedExpandable;
+
+  ScrollPhysics? get scrollPhysics => isExpanded
+      ? const NeverScrollableScrollPhysics()
+      : const ClampingScrollPhysics();
+
+  late BoxConstraints _viewportConstraints;
+  BoxConstraints get viewportConstraints => _viewportConstraints;
 
   @override
   void initState() {
     super.initState();
-    _controller = widget.controller ?? ScrollController();
+    _scrollController = widget.controller ?? ScrollController();
   }
 
   @override
-  void didUpdateWidget(ExpandableList oldWidget) {
+  void didUpdateWidget(ExpandableListV2 oldWidget) {
     super.didUpdateWidget(oldWidget);
     _handleReorderWhenExpanded();
   }
 
+  static ExpandableListStateV2? of(BuildContext context) {
+    return context.findAncestorStateOfType<ExpandableListStateV2>();
+  }
+
   void _handleReorderWhenExpanded() {
-    if (expandedKey == null) {
-      return;
-    }
-    final newExpandedIndex = widget.children.indexWhere(
-      (w) => w.key == expandedKey,
-    );
-    if (newExpandedIndex != expandedIndex) {
-      expandedIndex = newExpandedIndex;
-      _controller.jumpTo(
-        _calcScrollToToggledOffset(expandedIndex!),
-      );
-    }
+    WidgetsBinding.instance!.scheduleFrameCallback((timeStamp) {
+      if (!_isExpanded ||
+          _expandedExpandable == null ||
+          !_expandedExpandable!.mounted) {
+        return;
+      }
+      final headerBox = _expandedExpandable!.getBox();
+      final nextOffset = _calcOffsetOf(headerBox);
+      _scrollController.jumpTo(nextOffset);
+    });
   }
 
-  double _calcScrollToToggledOffset(int index) {
-    final value = index * widget.expandableHeaderExtent +
-        listHeaderHeight +
-        index * separatorHeight;
-    return value;
-  }
-
-  void onToggle({
-    required int index,
-    required bool isExpanded,
+  void onToggleV2({
+    required ExpandableState toggledExpandable,
   }) {
     setState(() {
-      expandedIndex = isExpanded ? index : null;
-      if (expandedIndex == null) {
-        expandedKey = null;
+      _isExpanded = !_isExpanded;
+      if (!_isExpanded) {
+        _expandedExpandable = null;
       }
     });
-    if (expandedIndex != null) {
-      previousOffset = _controller.offset;
-      _scrollTo(
-        _calcScrollToToggledOffset(index),
-      );
+    if (_isExpanded) {
+      previousOffset = _scrollController.offset;
+      _expandedExpandable = toggledExpandable;
+      final expandedHeaderBox = toggledExpandable.getBox();
+      final nextOffset = _calcOffsetOf(expandedHeaderBox);
+      _scrollTo(nextOffset);
     } else {
       _scrollTo(previousOffset);
     }
   }
 
+  double _calcOffsetOf(BoxDetails expandedHeaderBox) {
+    final listBox = getBoxOf(context);
+    return _scrollController.offset +
+        expandedHeaderBox.position.dy -
+        listBox.position.dy;
+  }
+
   void _scrollTo(double offset) {
     if (widget.animationData == null) {
-      _controller.jumpTo(offset);
+      _scrollController.jumpTo(offset);
     } else {
       final data = widget.animationData!;
-      _controller.animateTo(
+      _scrollController.animateTo(
         offset,
         duration: data.duration,
         curve: data.curve,
@@ -118,61 +118,18 @@ class ExpandableListState extends State<ExpandableList> with ListBuilder {
     );
   }
 
-  Widget _buildListHeader() {
-    return SliverToBoxAdapter(
-      child: IntrinsicSize(
-        onChange: (size) {
-          listHeaderHeight = size.height;
-        },
-        child: widget.listHeader!,
-      ),
-    );
-  }
-
-  List<Widget> _buildList({
-    required BoxConstraints constraints,
-  }) {
-    return buildList(
-      isDivided: widget.divider != null,
-      itemCount: widget.children.length,
-      itemBuilder: (index) {
-        final child = widget.children[index];
-        if (index == expandedIndex) {
-          expandedKey = child.key;
-        }
-        return KeyedSubtree(
-          key: child.key,
-          child: ConstrainedBox(
-            constraints: constraints,
-            child: child,
-          ),
-        );
-      },
-      firstDividerBuilder: () => IntrinsicSize(
-        onChange: (size) {
-          separatorHeight = size.height;
-        },
-        child: widget.divider!,
-      ),
-      dividerBuilder: () => widget.divider!,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
+        _viewportConstraints = constraints;
         return CustomScrollView(
-          controller: _controller,
+          controller: _scrollController,
           physics: scrollPhysics,
+          cacheExtent: double.maxFinite,
           slivers: [
-            if (widget.listHeader != null) _buildListHeader(),
-            SliverList(
-              delegate: SliverChildListDelegate(
-                _buildList(constraints: constraints),
-              ),
-            ),
-            if (expandedIndex != null)
+            ...widget.slivers,
+            if (_isExpanded)
               _buildExtraScrollableSpace(
                 constraints,
               )

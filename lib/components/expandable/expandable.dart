@@ -1,7 +1,8 @@
 export 'expandable_list.dart';
 export 'models.dart';
-
 import 'package:flutter/widgets.dart';
+import 'package:prtmobile/components/expandable/expandable_list.dart';
+import 'package:prtmobile/misc/widget_position.dart';
 import 'models.dart';
 
 typedef OnExpandableToggle = Function(bool isExpanded);
@@ -28,6 +29,12 @@ class ExpandableState extends State<Expandable>
     with SingleTickerProviderStateMixin {
   var _isExpanded = false;
   late AnimationController _animationController;
+  final headerKey = GlobalKey();
+  late ExpandableListStateV2 _expandableListState;
+
+  static ExpandableState? of(BuildContext context) {
+    return context.findAncestorStateOfType<ExpandableState>();
+  }
 
   @override
   void initState() {
@@ -36,12 +43,13 @@ class ExpandableState extends State<Expandable>
       vsync: this,
       duration: widget.animationData.duration,
     );
+    _expandableListState = ExpandableListStateV2.of(context)!;
   }
 
   void toggle() {
     final wasExpanded = _isExpanded;
     _isExpanded = !_isExpanded;
-    widget.onToggle?.call(_isExpanded);
+    _expandableListState.onToggleV2(toggledExpandable: this);
     if (wasExpanded) {
       _animationController.reverse();
     } else {
@@ -49,23 +57,31 @@ class ExpandableState extends State<Expandable>
     }
   }
 
-  static ExpandableState? of(BuildContext context) {
-    return context.findAncestorStateOfType<ExpandableState>();
+  BoxDetails getBox() {
+    final headerContext = headerKey.currentContext!;
+    final box = getBoxOf(headerContext);
+    return box;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        buildHeader(context),
-        buildBody(context),
-      ],
+    return ConstrainedBox(
+      constraints: _expandableListState.viewportConstraints,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          buildHeader(context),
+          buildBody(context),
+        ],
+      ),
     );
   }
 
   Widget buildHeader(BuildContext context) {
-    return widget.header;
+    return KeyedSubtree(
+      key: headerKey,
+      child: widget.header,
+    );
   }
 
   Widget buildBody(BuildContext context) {

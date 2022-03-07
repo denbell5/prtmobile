@@ -19,7 +19,7 @@ class TracksetList extends StatefulWidget {
 }
 
 class _TracksetListState extends State<TracksetList> {
-  final listKey = GlobalKey<ExpandableListState>();
+  final listKey = GlobalKey<ExpandableListStateV2>();
 
   final _listSelector = ListSelector<String>();
 
@@ -71,16 +71,6 @@ class _TracksetListState extends State<TracksetList> {
     );
   }
 
-  void onToggle({
-    required int index,
-    required bool isExpanded,
-  }) {
-    listKey.currentState!.onToggle(
-      index: index,
-      isExpanded: isExpanded,
-    );
-  }
-
   Widget? _buildErrorMessage(TrackingState state) {
     if (state is! TrackingErrorState ||
         state.failedEvent is! TracksetsRequested) {
@@ -101,45 +91,44 @@ class _TracksetListState extends State<TracksetList> {
         final tracksets = state.tracksets;
         final errorMessage = _buildErrorMessage(state);
         final isLoading = state is TrackingLoadingState;
-        return ExpandableList(
+        return ExpandableListV2(
           key: listKey,
-          listHeader: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              RichListHeader(
-                isLoading: isLoading,
-                entityName: 'trackset',
-                leadingTextStyle: ListHeader.kTextStyle,
-                onAddTapped: () => _openTracksetCreateDialog(context),
-                selectionModeEnabled: _listSelector.selectionModeEnabled,
-                disableSelectionMode: _listSelector.disableSelectionMode,
-                onDeleteSelectedTapped: () => _deleteSelectedTracksets(context),
-                selectedCount: _listSelector.selectedIds.length,
-              ),
-              if (errorMessage != null) errorMessage,
-            ],
-          ),
-          expandableHeaderExtent: kListItemHeaderHeight,
           animationData: kExpandAnimationData,
-          children: tracksets.entities
-              .asMap()
-              .map((index, trackset) => MapEntry(
-                  index,
-                  TracksetView(
-                    key: ValueKey(trackset.id),
-                    trackset: tracksets.entities[index],
-                    isSelected: _listSelector.selectedIds.contains(trackset.id),
+          slivers: [
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  RichListHeader(
+                    isLoading: isLoading,
+                    entityName: 'trackset',
+                    leadingTextStyle: ListHeader.kTextStyle,
+                    onAddTapped: () => _openTracksetCreateDialog(context),
                     selectionModeEnabled: _listSelector.selectionModeEnabled,
-                    onHeaderLongPressed: _enableSelectionMode,
-                    toggleSelection: _listSelector.toggleItemSelection,
-                    onToggle: (isExpanded) => onToggle(
-                      index: index,
-                      isExpanded: isExpanded,
-                    ),
-                  )))
-              .values
-              .toList(),
+                    disableSelectionMode: _listSelector.disableSelectionMode,
+                    onDeleteSelectedTapped: () =>
+                        _deleteSelectedTracksets(context),
+                    selectedCount: _listSelector.selectedIds.length,
+                  ),
+                  if (errorMessage != null) errorMessage,
+                  ...tracksets.entities
+                      .map(
+                        (trackset) => TracksetView(
+                          key: ValueKey(trackset.id),
+                          trackset: trackset,
+                          isSelected:
+                              _listSelector.selectedIds.contains(trackset.id),
+                          selectionModeEnabled:
+                              _listSelector.selectionModeEnabled,
+                          onHeaderLongPressed: _enableSelectionMode,
+                          toggleSelection: _listSelector.toggleItemSelection,
+                          onToggle: (isExpanded) => {},
+                        ),
+                      )
+                      .toList()
+                ],
+              ),
+            ),
+          ],
         );
       },
     );

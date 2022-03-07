@@ -22,27 +22,15 @@ class ExpandableListPocExample extends StatefulWidget {
 class _ExpandableListPocExampleState extends State<ExpandableListPocExample> {
   final scrollController = ScrollController();
   final itemExtent = 50.0;
-  final listKey = GlobalKey<ExpandableListState>();
+  final listKey = GlobalKey<ExpandableListStateV2>();
   final animationData = AnimationData(
     curve: Curves.linear,
     duration: const Duration(milliseconds: 300),
   );
 
-  void onToggle({
-    required int index,
-    required bool isExpanded,
-  }) {
-    listKey.currentState!.onToggle(
-      index: index,
-      isExpanded: isExpanded,
-    );
-  }
-
   Expandable buildListItem(int index) {
     return Expandable(
-      onToggle: (isExpanded) {
-        onToggle(index: index, isExpanded: isExpanded);
-      },
+      onToggle: (isExpanded) {},
       animationData: animationData,
       header: Builder(
         builder: (context) {
@@ -128,14 +116,10 @@ class _ExpandableListPocExampleState extends State<ExpandableListPocExample> {
             ],
           ),
           Flexible(
-            child: ExpandableList(
+            child: ExpandableListV2(
               key: listKey,
               controller: scrollController,
-              expandableHeaderExtent: itemExtent,
-              listHeader: buildListHeader(),
               animationData: animationData,
-              divider: widget.isSeparated ? buildSeparator() : null,
-              children: List.generate(1000, (index) => buildListItem(index)),
             ),
           ),
         ],

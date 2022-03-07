@@ -8,6 +8,7 @@ import 'stories/expandable_list_sort.stories.dart';
 import 'stories/input.stories.dart';
 import 'stories/picker_list.stories.dart';
 import 'stories/subtrack_update.stories.dart';
+import 'stories/tap_details.stories.dart';
 import 'stories/text_size.stories.dart';
 import 'stories/theme.stories.dart';
 import 'stories/touchable_color.stories.dart';
@@ -16,8 +17,10 @@ import 'stories/touchable_opacity.stories.dart';
 import 'storybook.dart';
 
 final stories = <StorybookStory>[
-  TouchableOpacityStories(),
   ExpandableListSortingStories(),
+  ExpandableListPocStories(),
+  TapDetailsStories(),
+  TouchableOpacityStories(),
   DateRangePickerStories(),
   DatePickerStories(),
   InputStories(),
@@ -29,5 +32,4 @@ final stories = <StorybookStory>[
   TouchableColorStories(),
   ThemeStories(),
   ExpandableStories(),
-  ExpandableListPocStories(),
 ];
