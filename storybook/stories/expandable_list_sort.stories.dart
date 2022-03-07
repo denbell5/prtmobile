@@ -5,7 +5,27 @@ import 'package:prtmobile/components/components.dart';
 
 import '../storybook.dart';
 
-final data = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+final data = [
+  'a',
+  'b',
+  'c',
+  'd',
+  'e',
+  'f',
+  'g',
+  'h',
+  'i',
+  'j',
+  'k',
+  'l',
+  'm',
+  'n',
+  'o',
+  'p',
+  'q',
+  'r',
+  's',
+];
 
 class ExpandableListSortingExample extends StatefulWidget {
   const ExpandableListSortingExample({
@@ -20,7 +40,7 @@ class ExpandableListSortingExample extends StatefulWidget {
 class _ExpandableListSortingExampleState
     extends State<ExpandableListSortingExample> {
   final itemExtent = 50.0;
-  final listKey = GlobalKey<ExpandableListState>();
+  final listKey = GlobalKey<ExpandableListStateV2>();
   final animationData = AnimationData(
     curve: Curves.linear,
     duration: const Duration(milliseconds: 300),
@@ -28,22 +48,10 @@ class _ExpandableListSortingExampleState
 
   List<String> _data = data;
 
-  void onToggle({
-    required int index,
-    required bool isExpanded,
-  }) {
-    listKey.currentState!.onToggle(
-      index: index,
-      isExpanded: isExpanded,
-    );
-  }
-
-  Expandable buildListItem(int index) {
+  Expandable buildListItem(String value) {
     return Expandable(
-      key: ValueKey(_data[index]),
-      onToggle: (isExpanded) {
-        onToggle(index: index, isExpanded: isExpanded);
-      },
+      key: ValueKey(value),
+      onToggle: (isExpanded) {},
       animationData: animationData,
       header: Builder(
         builder: (context) {
@@ -60,9 +68,7 @@ class _ExpandableListSortingExampleState
                 ),
                 child: Row(
                   children: [
-                    Text(
-                      _data[index],
-                    ),
+                    Text(value),
                   ],
                 ),
               ),
@@ -76,22 +82,10 @@ class _ExpandableListSortingExampleState
         ),
         child: Center(
           child: Text(
-            _data[index],
+            value,
           ),
         ),
       ),
-    );
-  }
-
-  Widget buildListHeader() {
-    return Column(
-      children: const [
-        Text('Text information 1.'),
-        Text('Text information 2.'),
-        SizedBox(
-          height: 500,
-        ),
-      ],
     );
   }
 
@@ -116,17 +110,22 @@ class _ExpandableListSortingExampleState
             ],
           ),
           Flexible(
-            child: ExpandableList(
+            child: ExpandableListV2(
               key: listKey,
-              expandableHeaderExtent: itemExtent,
               animationData: animationData,
-              divider: HorizontalDivider(),
-              listHeader: buildListHeader(),
-              children: _data
-                  .asMap()
-                  .map((key, value) => MapEntry(key, buildListItem(key)))
-                  .values
-                  .toList(),
+              slivers: [
+                SliverList(
+                  delegate: SliverChildListDelegate(
+                    _data
+                        .map(
+                          (value) => buildListItem(
+                            value,
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

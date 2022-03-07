@@ -17,9 +17,10 @@ import 'stories/touchable_opacity.stories.dart';
 import 'storybook.dart';
 
 final stories = <StorybookStory>[
+  ExpandableListSortingStories(),
+  ExpandableListPocStories(),
   TapDetailsStories(),
   TouchableOpacityStories(),
-  ExpandableListSortingStories(),
   DateRangePickerStories(),
   DatePickerStories(),
   InputStories(),
@@ -31,5 +32,4 @@ final stories = <StorybookStory>[
   TouchableColorStories(),
   ThemeStories(),
   ExpandableStories(),
-  ExpandableListPocStories(),
 ];

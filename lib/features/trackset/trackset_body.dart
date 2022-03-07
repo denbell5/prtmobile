@@ -23,7 +23,7 @@ class TracksetBody extends StatefulWidget {
 }
 
 class _TracksetBodyState extends State<TracksetBody> {
-  final trackListKey = GlobalKey<ExpandableListState>();
+  final trackListKey = GlobalKey<ExpandableListStateV2>();
   final _trackListSelector = ListSelector<String>();
 
   Trackset get trackset => widget.trackset;
@@ -39,12 +39,7 @@ class _TracksetBodyState extends State<TracksetBody> {
   void onToggle({
     required int index,
     required bool isExpanded,
-  }) {
-    trackListKey.currentState!.onToggle(
-      index: index,
-      isExpanded: isExpanded,
-    );
-  }
+  }) {}
 
   Future<void> _openTracksetEditDialog(BuildContext context) async {
     await showCupertinoModalPopup(
@@ -262,29 +257,36 @@ class _TracksetBodyState extends State<TracksetBody> {
   @override
   Widget build(BuildContext context) {
     final trackViews = _buildTrackList(context);
-    return ExpandableList(
+    return ExpandableListV2(
       key: trackListKey,
-      listHeader: Column(
-        children: [
-          _buildTracksetControls(context),
-          const SizedBox(height: kDefaultPadding * 1.5),
-          _buildTracksetStats(context),
-          const SizedBox(height: kDefaultPadding * 2),
-          RichListHeader(
-            isLoading: false,
-            selectionModeEnabled: _trackListSelector.selectionModeEnabled,
-            disableSelectionMode: _trackListSelector.disableSelectionMode,
-            onAddTapped: () => _openTrackCreateDialog(context),
-            onDeleteSelectedTapped: () => _deleteSelectedTracks(context),
-            selectedCount: _trackListSelector.selectedIds.length,
-            entityName: 'track',
-            leadingTextStyle: ListHeader.kSmallerTextStyle,
-          ),
-        ],
-      ),
-      expandableHeaderExtent: kTrackHeaderHeight,
       animationData: kExpandAnimationData,
-      children: trackViews,
+      slivers: [
+        SliverList(
+          delegate: SliverChildListDelegate(
+            [
+              _buildTracksetControls(context),
+              const SizedBox(height: kDefaultPadding * 1.5),
+              _buildTracksetStats(context),
+              const SizedBox(height: kDefaultPadding * 2),
+              RichListHeader(
+                isLoading: false,
+                selectionModeEnabled: _trackListSelector.selectionModeEnabled,
+                disableSelectionMode: _trackListSelector.disableSelectionMode,
+                onAddTapped: () => _openTrackCreateDialog(context),
+                onDeleteSelectedTapped: () => _deleteSelectedTracks(context),
+                selectedCount: _trackListSelector.selectedIds.length,
+                entityName: 'track',
+                leadingTextStyle: ListHeader.kSmallerTextStyle,
+              ),
+            ],
+          ),
+        ),
+        SliverList(
+          delegate: SliverChildListDelegate(
+            trackViews,
+          ),
+        ),
+      ],
     );
   }
 }
