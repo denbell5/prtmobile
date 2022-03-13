@@ -1,3 +1,4 @@
+import 'package:prtmobile/features/subtrack/subtrack_create/subtrack_create.dart';
 import 'package:prtmobile/features/track/create/track_create.dart';
 import 'package:prtmobile/features/track/edit/track_edit.dart';
 import 'package:prtmobile/features/trackset/create/trackset_create.dart';
@@ -66,5 +67,17 @@ class SubtracksDeleted extends TrackingEvent {
     required this.ids,
     required this.trackId,
     required this.tracksetId,
+  });
+}
+
+class SubtrackCreated extends TrackingEvent {
+  final SubtrackCreateValue value;
+  final String tracksetId;
+  final String trackId;
+
+  SubtrackCreated({
+    required this.value,
+    required this.tracksetId,
+    required this.trackId,
   });
 }

@@ -43,6 +43,8 @@ class TrackingBloc extends Bloc<TrackingEvent, TrackingState> {
       yield* _mapTracksDeletedToState(event);
     } else if (event is SubtracksDeleted) {
       yield* _mapSubtracksDeletedToState(event);
+    } else if (event is SubtrackCreated) {
+      yield* _mapSubtrackCreatedToState(event);
     }
   }
 
@@ -300,6 +302,45 @@ class TrackingBloc extends Bloc<TrackingEvent, TrackingState> {
       yield TrackingErrorState(
         state,
         description: 'Failed to delete tracks',
+        failedEvent: event,
+        shouldShowNotification: true,
+      );
+    }
+  }
+
+  Stream<TrackingState> _mapSubtrackCreatedToState(
+    SubtrackCreated event,
+  ) async* {
+    try {
+      yield TrackingLoadingState(state);
+
+      final subtrack = Subtrack(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        trackId: event.trackId,
+        start: event.value.start!,
+        end: event.value.end!,
+        pointer: event.value.start!,
+      );
+
+      var trackset = state.tracksets.byId[event.tracksetId]!;
+      var track = trackset.tracks.byId[event.trackId]!;
+      final subtracks = track.subtracks.set(subtrack, id: subtrack.id);
+
+      track = track.copyWith(subtracks: subtracks);
+      final tracks = trackset.tracks.set(track, id: track.id);
+      trackset = trackset.copyWith(tracks: tracks);
+      final tracksets = state.tracksets.set(trackset, id: trackset.id);
+
+      await _db.insertSubtrack(subtrack);
+
+      yield TrackingUpdatedState(
+        state.copyWith(tracksets: tracksets),
+        isAfterSubtrackCreated: true,
+      );
+    } catch (ex) {
+      yield TrackingErrorState(
+        state,
+        description: 'Failed to add subtrack',
         failedEvent: event,
         shouldShowNotification: true,
       );

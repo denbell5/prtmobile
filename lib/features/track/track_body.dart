@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prtmobile/bloc/tracking/tracking.bloc.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/features/subtrack/subtrack.dart';
+import 'package:prtmobile/features/subtrack/subtrack_create/subtrack_create.dart';
 import 'package:prtmobile/misc/misc.dart';
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/styles.dart';
@@ -168,12 +169,24 @@ class _TrackBodyState extends State<TrackBody> with ListBuilder {
     );
   }
 
+  Future<void> _openSubtrackCreateDialog(BuildContext context) async {
+    await showCupertinoModalPopup(
+      context: context,
+      useRootNavigator: false,
+      builder: (context) {
+        return SubtrackCreateDialog(
+          track: track,
+        );
+      },
+    );
+  }
+
   Widget _buildSubtrackListHeader(BuildContext context) {
     return RichListHeader(
       isLoading: false,
       selectionModeEnabled: _subtrackListSelector.selectionModeEnabled,
       disableSelectionMode: _subtrackListSelector.disableSelectionMode,
-      onAddTapped: () => {}, //_openSubtrackCreateDialog(context),
+      onAddTapped: () => _openSubtrackCreateDialog(context),
       onDeleteSelectedTapped: () => _deleteSelectedSubtracks(context),
       selectedCount: _subtrackListSelector.selectedIds.length,
       entityName: 'subtrack',
