@@ -1,18 +1,16 @@
-import 'package:equatable/equatable.dart';
+import 'package:prtmobile/models/models.dart';
 
-class SubtrackRange extends Equatable {
-  final int start;
-  final int end;
+class SubtrackRange extends Range {
   final int pointer;
 
   const SubtrackRange({
-    required this.start,
-    required this.end,
+    required int start,
+    required int end,
     required this.pointer,
-  });
+  }) : super(start, end);
 
   @override
-  List<Object?> get props => [start, end, pointer];
+  List<Object?> get props => [...super.props, pointer];
 
   bool get isOnStart => pointer == start;
   bool get isOnEnd => pointer == end;

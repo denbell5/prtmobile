@@ -214,4 +214,10 @@ class TrackingDb {
     final idsCsv = ids.join(',');
     return 'DELETE FROM $tableName WHERE $idName IN ($idsCsv);';
   }
+
+  Future<void> insertSubtrack(Subtrack subtrack) async {
+    final dbo = SubtrackDbo.fromSubtrack(subtrack);
+    final raw = dbo.toRaw();
+    await db.insert(SubtrackDbo.schema.tableName, raw);
+  }
 }

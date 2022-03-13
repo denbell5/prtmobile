@@ -45,6 +45,8 @@ class AppTypography {
         fontSize: FontSizes.h5,
         height: 1.3,
       );
+
+  static TextStyle get error => AppTypography.small.red();
 }
 
 extension TextStyleExtensions on TextStyle {
