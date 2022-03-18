@@ -225,6 +225,7 @@ class _TrackBodyState extends State<TrackBody> with ListBuilder {
           builder: (context) {
             return SubtrackUpdateDialog(
               subtrack: widget.track.subtracks.byId[selectedInfo.id]!,
+              track: widget.track,
             );
           },
         );

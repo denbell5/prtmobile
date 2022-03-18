@@ -1,9 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:prtmobile/bloc/tracking/tracking.bloc.dart';
 import 'package:prtmobile/components/components.dart';
+import 'package:prtmobile/features/subtrack/subtrack.dart';
+import 'package:prtmobile/misc/misc.dart';
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/styles/styles.dart';
 import 'package:prtmobile/utils/utils.dart';
+import 'package:prtmobile/navigation/navigator.dart';
 
 enum RangeField { start, end, pointer }
 
@@ -71,13 +76,6 @@ class SubtrackFormValues extends Equatable {
     throw UnimplementedError();
   }
 
-  String? validate() {
-    if (pointer > end) {
-      return 'Pointer is bigger than End';
-    }
-    return null;
-  }
-
   @override
   List<Object?> get props => [start, end, pointer];
 }
@@ -86,9 +84,11 @@ class SubtrackUpdateDialog extends StatefulWidget {
   const SubtrackUpdateDialog({
     Key? key,
     required this.subtrack,
+    required this.track,
   }) : super(key: key);
 
   final Subtrack subtrack;
+  final Track track;
 
   @override
   _SubtrackUpdateDialogState createState() => _SubtrackUpdateDialogState();
@@ -104,7 +104,7 @@ class _SubtrackUpdateDialogState extends State<SubtrackUpdateDialog> {
     );
   }
 
-  String _zeroLevelErrorText = '';
+  String _errorText = '';
   RangeField _selectedField = RangeField.pointer;
 
   @override
@@ -125,8 +125,34 @@ class _SubtrackUpdateDialogState extends State<SubtrackUpdateDialog> {
 
   void _handleValueSelected(int value) {
     _formValues = _formValues.updateField(_selectedField, value);
-    _zeroLevelErrorText = _formValues.validate() ?? '';
+
+    final otherSubtracks = widget.track.subtracks.entities
+        .where((x) => x.id != widget.subtrack.id)
+        .toList();
+    final range = SubtrackRange(
+      start: _formValues.start,
+      end: _formValues.end,
+      pointer: _formValues.pointer,
+    );
+    final errorText = combineValidators([
+      () => validateRange(range),
+      () => validatePointer(range),
+      () => validateIntersection(range: range, subtracks: otherSubtracks),
+    ]);
+
+    _errorText = errorText ?? '';
     setState(() {});
+
+    if (errorText == null) {
+      TrackingBloc.of(context).add(
+        SubtrackEdited(
+          value: _formValues,
+          subtrackId: widget.subtrack.id,
+          trackId: widget.track.id,
+          tracksetId: widget.track.tracksetId,
+        ),
+      );
+    }
   }
 
   void _handleRangeElementSelected(RangeField value) {
@@ -146,7 +172,7 @@ class _SubtrackUpdateDialogState extends State<SubtrackUpdateDialog> {
 
   Widget buildError() {
     return Text(
-      _zeroLevelErrorText,
+      _errorText,
       style: AppTypography.bodyText.red(),
     );
   }
@@ -167,22 +193,56 @@ class _SubtrackUpdateDialogState extends State<SubtrackUpdateDialog> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Opacity(
-                opacity: 0.0,
-                child: TouchableIcon(
-                  iconData: CupertinoIcons.xmark,
-                  onTap: () {},
+          SizedBox(
+            height: 50,
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  left: TouchableIcon.defaultPadding.left,
+                  right: null,
+                  child: Align(
+                    child: BlocBuilder<TrackingBloc, TrackingState>(
+                      builder: (context, state) {
+                        var status = '';
+                        if (_errorText.isNotEmpty) {
+                          status = '';
+                        } else if (state is TrackingLoadingState &&
+                            state.isEditingSubtrack) {
+                          status = 'Saving...';
+                        } else if (state is TrackingUpdatedState &&
+                            state.isAfterSubtrackEdited) {
+                          status = 'Saved';
+                        } else if (state is TrackingErrorState &&
+                            state.isSubtrackEditFailed) {
+                          status = 'Error';
+                        }
+                        return Text(
+                          status,
+                          style: AppTypography.bodyText.copyWith(
+                            height: FormStyles.kHeaderTextStyle.height,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                 ),
-              ),
-              buildHeader(),
-              TouchableIcon(
-                iconData: CupertinoIcons.xmark,
-                onTap: () {},
-              ),
-            ],
+                Positioned.fill(
+                  child: Align(
+                    child: buildHeader(),
+                  ),
+                ),
+                Positioned(
+                  right: 0,
+                  child: TouchableIcon(
+                    adjustToHeight: 50,
+                    iconData: CupertinoIcons.xmark,
+                    onTap: () {
+                      AppNavigator.of(context).pop();
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: kDefaultPadding),
           Row(
@@ -224,9 +284,9 @@ class _SubtrackUpdateDialogState extends State<SubtrackUpdateDialog> {
               Expanded(child: Container()),
             ],
           ),
-          const SizedBox(height: kDefaultPadding / 2),
+          const Height(kDefaultPadding),
           buildError(),
-          const SizedBox(height: kDefaultPadding / 2),
+          const Height(kDefaultPadding / 2),
         ],
       ),
     );

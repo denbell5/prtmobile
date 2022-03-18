@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prtmobile/bloc/tracking/tracking.bloc.dart';
 import 'package:prtmobile/components/components.dart';
+import 'package:prtmobile/features/subtrack/subtrack.dart';
+import 'package:prtmobile/misc/misc.dart';
 import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/navigation/navigator.dart';
 import 'package:prtmobile/styles/styles.dart';
-import 'package:collection/collection.dart';
-import 'package:prtmobile/utils/utils.dart';
 
 class SubtrackCreateValue {
   final int? start;
@@ -115,26 +115,12 @@ class _SubtrackCreateDialogState extends State<SubtrackCreateDialog> {
   }
 
   String? _validateHigherLevel() {
-    // object-level validation
-    final start = _value.start!;
-    final end = _value.end!;
-    if (start > end) {
-      return 'Start cannot be greater than end';
-    }
-
-    // collection-level validation
     final subtracks = widget.track.subtracks.entities;
-    final intersectingSubtrack = subtracks.firstWhereOrNull(
-      (sb) => hasIntersection(
-        sb,
-        Range(start, end),
-      ),
-    );
-    if (intersectingSubtrack != null) {
-      return 'Intersects with existing subtrack ${intersectingSubtrack.start} - ${intersectingSubtrack.end}';
-    }
-
-    return null;
+    final range = Range(_value.start!, _value.end!);
+    return combineValidators([
+      () => validateRange(range),
+      () => validateIntersection(range: range, subtracks: subtracks),
+    ]);
   }
 
   @override
