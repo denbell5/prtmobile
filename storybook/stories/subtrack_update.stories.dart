@@ -19,6 +19,12 @@ class SubtrackUpdateExample extends StatefulWidget {
 class _SubtrackUpdateExampleState extends State<SubtrackUpdateExample> {
   @override
   Widget build(BuildContext context) {
+    final subtrack = SubtrackFactory.buildSubtrack(0, trackId: '0');
+    final track = TrackFactory.buildTrack(
+      0,
+      tracksetId: '0',
+      subtracks: [subtrack],
+    );
     return Padding(
       padding: const EdgeInsets.only(
         top: 100,
@@ -26,7 +32,8 @@ class _SubtrackUpdateExampleState extends State<SubtrackUpdateExample> {
       child: Column(
         children: [
           SubtrackUpdateDialog(
-            subtrack: SubtrackFactory.buildSubtrack(0, trackId: '1'),
+            subtrack: subtrack,
+            track: track,
           ),
         ],
       ),
