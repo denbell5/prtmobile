@@ -29,19 +29,24 @@ class TrackingErrorState extends TrackingState {
   final String description;
   final TrackingEvent failedEvent;
   final bool shouldShowNotification;
+  final bool isSubtrackEditFailed;
 
   TrackingErrorState(
     TrackingState state, {
     required this.description,
     required this.failedEvent,
     this.shouldShowNotification = false,
+    this.isSubtrackEditFailed = false,
   }) : super.fromState(state);
 }
 
 class TrackingLoadingState extends TrackingState {
+  final bool isEditingSubtrack;
+
   TrackingLoadingState(
-    TrackingState state,
-  ) : super.fromState(state);
+    TrackingState state, {
+    this.isEditingSubtrack = false,
+  }) : super.fromState(state);
 }
 
 class TrackingUpdatedState extends TrackingState {
@@ -52,6 +57,7 @@ class TrackingUpdatedState extends TrackingState {
   final bool isAfterTrackEdited;
   final bool isAfterTracksDeleted;
   final bool isAfterSubtrackCreated;
+  final bool isAfterSubtrackEdited;
 
   TrackingUpdatedState(
     TrackingState state, {
@@ -62,6 +68,7 @@ class TrackingUpdatedState extends TrackingState {
     this.isAfterTrackEdited = false,
     this.isAfterTracksDeleted = false,
     this.isAfterSubtrackCreated = false,
+    this.isAfterSubtrackEdited = false,
   }) : super.fromState(state);
 
   @override

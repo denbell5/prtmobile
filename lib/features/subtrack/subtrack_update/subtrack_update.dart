@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:prtmobile/bloc/tracking/tracking.bloc.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/features/subtrack/subtrack.dart';
 import 'package:prtmobile/misc/misc.dart';
@@ -140,6 +142,17 @@ class _SubtrackUpdateDialogState extends State<SubtrackUpdateDialog> {
 
     _errorText = errorText ?? '';
     setState(() {});
+
+    if (errorText == null) {
+      TrackingBloc.of(context).add(
+        SubtrackEdited(
+          value: _formValues,
+          subtrackId: widget.subtrack.id,
+          trackId: widget.track.id,
+          tracksetId: widget.track.tracksetId,
+        ),
+      );
+    }
   }
 
   void _handleRangeElementSelected(RangeField value) {
@@ -188,11 +201,28 @@ class _SubtrackUpdateDialogState extends State<SubtrackUpdateDialog> {
                   left: TouchableIcon.defaultPadding.left,
                   right: null,
                   child: Align(
-                    child: Text(
-                      'Saving',
-                      style: AppTypography.bodyText.copyWith(
-                        height: FormStyles.kHeaderTextStyle.height,
-                      ),
+                    child: BlocBuilder<TrackingBloc, TrackingState>(
+                      builder: (context, state) {
+                        var status = '';
+                        if (_errorText.isNotEmpty) {
+                          status = '';
+                        } else if (state is TrackingLoadingState &&
+                            state.isEditingSubtrack) {
+                          status = 'Saving...';
+                        } else if (state is TrackingUpdatedState &&
+                            state.isAfterSubtrackEdited) {
+                          status = 'Saved';
+                        } else if (state is TrackingErrorState &&
+                            state.isSubtrackEditFailed) {
+                          status = 'Error';
+                        }
+                        return Text(
+                          status,
+                          style: AppTypography.bodyText.copyWith(
+                            height: FormStyles.kHeaderTextStyle.height,
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),

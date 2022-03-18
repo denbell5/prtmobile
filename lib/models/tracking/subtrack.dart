@@ -53,4 +53,20 @@ class Subtrack extends SubtrackRange {
         end: end,
         pointer: pointer,
       );
+
+  Subtrack copyWith({
+    String? id,
+    String? trackId,
+    int? start,
+    int? end,
+    int? pointer,
+  }) {
+    return Subtrack(
+      id: id ?? this.id,
+      trackId: trackId ?? this.trackId,
+      start: start ?? this.start,
+      end: end ?? this.end,
+      pointer: pointer ?? this.pointer,
+    );
+  }
 }

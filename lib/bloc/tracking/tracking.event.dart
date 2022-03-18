@@ -1,3 +1,4 @@
+import 'package:prtmobile/features/subtrack/subtrack.dart';
 import 'package:prtmobile/features/subtrack/subtrack_create/subtrack_create.dart';
 import 'package:prtmobile/features/track/create/track_create.dart';
 import 'package:prtmobile/features/track/edit/track_edit.dart';
@@ -79,5 +80,19 @@ class SubtrackCreated extends TrackingEvent {
     required this.value,
     required this.tracksetId,
     required this.trackId,
+  });
+}
+
+class SubtrackEdited extends TrackingEvent {
+  final SubtrackFormValues value;
+  final String subtrackId;
+  final String trackId;
+  final String tracksetId;
+
+  SubtrackEdited({
+    required this.value,
+    required this.subtrackId,
+    required this.trackId,
+    required this.tracksetId,
   });
 }

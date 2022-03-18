@@ -220,4 +220,16 @@ class TrackingDb {
     final raw = dbo.toRaw();
     await db.insert(SubtrackDbo.schema.tableName, raw);
   }
+
+  Future<void> updateSubtrack(Subtrack subtrack) async {
+    final dbo = SubtrackDbo.fromSubtrack(subtrack);
+    final raw = dbo.toRaw();
+    const schema = SubtrackDbo.schema;
+    await db.update(
+      schema.tableName,
+      raw,
+      where: '${schema.id} = ?',
+      whereArgs: [dbo.id],
+    );
+  }
 }
