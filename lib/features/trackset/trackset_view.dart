@@ -11,7 +11,6 @@ class TracksetView extends StatelessWidget {
   const TracksetView({
     Key? key,
     required this.trackset,
-    required this.onToggle,
     required this.onHeaderLongPressed,
     required this.isSelected,
     required this.selectionModeEnabled,
@@ -19,7 +18,7 @@ class TracksetView extends StatelessWidget {
   }) : super(key: key);
 
   final Trackset trackset;
-  final void Function(bool) onToggle;
+
   final void Function(String tracksetId) onHeaderLongPressed;
   final bool isSelected;
   final bool selectionModeEnabled;
@@ -48,7 +47,6 @@ class TracksetView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expandable(
-      onToggle: onToggle,
       animationData: kExpandAnimationData,
       header: Builder(builder: (context) {
         return _buildHeader(context);

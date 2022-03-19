@@ -5,7 +5,7 @@ import 'package:prtmobile/bloc/tracking/tracking.bloc.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/db/db.dart';
 import 'package:prtmobile/features/home/home.dart';
-import 'package:prtmobile/features/store/trackset_store.dart';
+import 'package:prtmobile/features/store/store.dart';
 import 'package:prtmobile/navigation/routes.dart';
 import 'package:prtmobile/styles/styles.dart';
 
@@ -34,6 +34,9 @@ class MyApp extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<TrackingDb>.value(value: db),
+        RepositoryProvider<TrackingStoreDb>.value(
+          value: TrackingStoreDb(),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -44,6 +47,12 @@ class MyApp extends StatelessWidget {
               return TrackingBloc(db: db);
             },
           ),
+          BlocProvider(
+            create: (context) {
+              final db = Provider.of<TrackingStoreDb>(context, listen: false);
+              return TrackingStoreBloc(db: db);
+            },
+          )
         ],
         child: CupertinoApp(
           debugShowCheckedModeBanner: false,

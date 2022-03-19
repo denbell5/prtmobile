@@ -15,7 +15,6 @@ class SubtrackRange extends Range {
   bool get isOnStart => pointer == start;
   bool get isOnEnd => pointer == end;
 
-  int get length => end - start + 1;
   int get done {
     if (isOnStart) return 0;
     if (isOnEnd) return length;

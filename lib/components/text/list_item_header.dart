@@ -7,7 +7,7 @@ const kListItemHeaderHeight = 80.0;
 class ListItemHeader extends StatelessWidget {
   const ListItemHeader({
     Key? key,
-    required this.primaryText,
+    this.primaryText,
     this.secondaryText,
     required this.onTap,
     this.axis = Axis.vertical,
@@ -21,7 +21,7 @@ class ListItemHeader extends StatelessWidget {
   })  : assert(!(label != null && labelText != null)),
         super(key: key);
 
-  final String primaryText;
+  final String? primaryText;
   final Widget? secondaryText;
   final VoidCallback onTap;
   final VoidCallback? onLongPress;
@@ -41,7 +41,7 @@ class ListItemHeader extends StatelessWidget {
   List<Widget> _buildTextWidgets({required bool isHorizontal}) {
     Widget primary = this.primary ??
         Text(
-          primaryText,
+          primaryText!,
           style: AppTypography.h4.copyWith(
             fontSize: primaryTextSize,
           ),
