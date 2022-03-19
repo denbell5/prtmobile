@@ -10,6 +10,7 @@ class TouchableIcon extends StatelessWidget {
     this.padding,
     this.adjustToHeight,
     this.color,
+    this.size,
   }) : super(key: key);
 
   final IconData iconData;
@@ -17,12 +18,13 @@ class TouchableIcon extends StatelessWidget {
   final EdgeInsets? padding;
   final double? adjustToHeight;
   final Color? color;
+  final double? size;
 
   static const EdgeInsets defaultPadding = EdgeInsets.all(kDefaultPadding);
 
   @override
   Widget build(BuildContext context) {
-    var iconSize = FontSizes.h3;
+    var iconSize = size ?? FontSizes.h3;
     var padding = this.padding ?? defaultPadding;
     if (adjustToHeight != null) {
       if (adjustToHeight! < iconSize) {
@@ -45,7 +47,7 @@ class TouchableIcon extends StatelessWidget {
           child: Icon(
             iconData,
             color: color ?? AppColors.black,
-            size: FontSizes.h3,
+            size: iconSize,
           ),
         ),
       ),

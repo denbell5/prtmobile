@@ -5,6 +5,8 @@ import 'package:prtmobile/bloc/tracking/tracking.bloc.dart';
 import 'package:prtmobile/components/components.dart';
 import 'package:prtmobile/db/db.dart';
 import 'package:prtmobile/features/home/home.dart';
+import 'package:prtmobile/features/store/trackset_store.dart';
+import 'package:prtmobile/navigation/routes.dart';
 import 'package:prtmobile/styles/styles.dart';
 
 void main() async {
@@ -81,11 +83,14 @@ class __AppRootNavigatorState extends State<_AppRootNavigator> {
   Widget build(BuildContext context) {
     return Navigator(
       key: _navigatorKey,
-      initialRoute: '/',
+      initialRoute: AppRoutes.home,
       onGenerateRoute: (settings) {
         late WidgetBuilder builder;
-        if (settings.name == '/') {
+        if (settings.name == AppRoutes.home) {
           builder = (context) => const HomeScreen();
+        }
+        if (settings.name == AppRoutes.store) {
+          builder = (context) => const TracksetStore();
         }
         return CupertinoPageRoute<PageRoute>(
           builder: (context) => builder(context),
