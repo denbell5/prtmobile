@@ -43,12 +43,11 @@ class _SubtrackViewState extends State<SubtrackView>
   @override
   Widget build(BuildContext context) {
     return ListItemHeader(
-      axis: Axis.horizontal,
       height: kSubtrackViewHeaderHeight,
       primaryTextSize: FontSizes.h4 - 1,
       primaryText:
           '${subtrack.start} - ${subtrack.end}, stopped on ${subtrack.pointer}',
-      secondaryText: Text('completed ${subtrack.done}/${subtrack.length}'),
+      trailing: Text('completed ${subtrack.done}/${subtrack.length}'),
       onTap: onSelected,
       bgColor: widget.isSelected ? AppColors.lightGrey : null,
       onLongPress: () => widget.onEnableSelectionMode(subtrack.id),

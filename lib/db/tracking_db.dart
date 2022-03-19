@@ -87,54 +87,32 @@ class TrackingDb {
 
   /// For testing purposes only
   Future<void> seedTracksets() async {
-    Future<void> insertTracksets(
-      Transaction db,
-      List<Trackset> tracksets,
-    ) async {
-      final tracksetDbos = tracksets.mapList(TracksetDbo.fromTrackset);
-      final tracksetsRaw = tracksetDbos.mapList((dbo) => dbo.toRaw());
-      for (var raw in tracksetsRaw) {
-        await db.insert(TracksetDbo.schema.tableName, raw);
-      }
-    }
-
-    Future<void> insertTracks(
-      Transaction db,
-      List<Track> tracks,
-    ) async {
-      final trackDbos = tracks.mapList(TrackDbo.fromTrack);
-      final tracksRaw = trackDbos.mapList((dbo) => dbo.toRaw());
-      for (var raw in tracksRaw) {
-        await db.insert(TrackDbo.schema.tableName, raw);
-      }
-    }
-
-    Future<void> insertSubtracks(
-      Transaction db,
-      List<Subtrack> subtracks,
-    ) async {
-      final subtrackDbos = subtracks.mapList(SubtrackDbo.fromSubtrack);
-      final subtracksRaw = subtrackDbos.mapList((dbo) => dbo.toRaw());
-      for (var raw in subtracksRaw) {
-        await db.insert(SubtrackDbo.schema.tableName, raw);
-      }
-    }
-
     final tracksets = getRealWorldTracksets().entities;
-    final tracks = tracksets.selectMany((e) => e.tracks.entities);
-    final subtracks = tracks.selectMany((x) => x.subtracks.entities);
-
-    await db.transaction((db) async {
-      await insertTracksets(db, tracksets);
-      await insertTracks(db, tracks);
-      await insertSubtracks(db, subtracks);
-    });
+    for (var trackset in tracksets) {
+      await insertTracksetEnriched(trackset);
+    }
   }
 
   Future<void> insertTrackset(Trackset trackset) async {
+    return _insertTrackset(db, trackset);
+  }
+
+  Future<void> _insertTrackset(DatabaseExecutor db, Trackset trackset) async {
     final dbo = TracksetDbo.fromTrackset(trackset);
     final raw = dbo.toRaw();
     await db.insert(TracksetDbo.schema.tableName, raw);
+  }
+
+  Future<void> insertTracksetEnriched(Trackset trackset) async {
+    await db.transaction((db) async {
+      await _insertTrackset(db, trackset);
+
+      final tracks = trackset.tracks.entities;
+      await _insertTracks(db, tracks);
+
+      final subtracks = tracks.selectMany((x) => x.subtracks.entities);
+      await _insertSubtracks(db, subtracks);
+    });
   }
 
   Future<void> updateTrackset(Trackset trackset) async {
@@ -168,6 +146,17 @@ class TrackingDb {
     final dbo = TrackDbo.fromTrack(track);
     final raw = dbo.toRaw();
     await db.insert(TrackDbo.schema.tableName, raw);
+  }
+
+  Future<void> _insertTracks(
+    Transaction db,
+    List<Track> tracks,
+  ) async {
+    final trackDbos = tracks.mapList(TrackDbo.fromTrack);
+    final tracksRaw = trackDbos.mapList((dbo) => dbo.toRaw());
+    for (var raw in tracksRaw) {
+      await db.insert(TrackDbo.schema.tableName, raw);
+    }
   }
 
   Future<void> updateTrack(Track track) async {
@@ -219,6 +208,17 @@ class TrackingDb {
     final dbo = SubtrackDbo.fromSubtrack(subtrack);
     final raw = dbo.toRaw();
     await db.insert(SubtrackDbo.schema.tableName, raw);
+  }
+
+  Future<void> _insertSubtracks(
+    Transaction db,
+    List<Subtrack> subtracks,
+  ) async {
+    final subtrackDbos = subtracks.mapList(SubtrackDbo.fromSubtrack);
+    final subtracksRaw = subtrackDbos.mapList((dbo) => dbo.toRaw());
+    for (var raw in subtracksRaw) {
+      await db.insert(SubtrackDbo.schema.tableName, raw);
+    }
   }
 
   Future<void> updateSubtrack(Subtrack subtrack) async {

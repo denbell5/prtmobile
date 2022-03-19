@@ -24,10 +24,8 @@ class _SubtrackSoViewState extends State<SubtrackSoView>
   @override
   Widget build(BuildContext context) {
     return ListItemHeader(
-      axis: Axis.horizontal,
       height: kSubtrackViewHeaderHeight,
       primaryTextSize: FontSizes.h4 - 1,
-      secondaryText: Text('total ${subtrack.length}'),
       primary: RichText(
         text: TextSpan(
           style: CupertinoTheme.of(context).textTheme.textStyle,
@@ -39,6 +37,7 @@ class _SubtrackSoViewState extends State<SubtrackSoView>
           ],
         ),
       ),
+      trailing: Text('total ${subtrack.length}'),
       onTap: () {},
     );
   }

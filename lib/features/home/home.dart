@@ -50,9 +50,19 @@ class _HomeScreenState extends State<HomeScreen> {
   // ignore: todo
   // TODO: in separate widget
   void _listenToTrackingBloc(BuildContext context, TrackingState state) {
+    void show(String text) {
+      AppSnackbar.of(context)!.show(text: text);
+    }
+
     if (state is TrackingErrorState) {
       if (state.shouldShowNotification) {
-        AppSnackbar.of(context)!.show(text: state.description);
+        show(state.description);
+      }
+      return;
+    }
+    if (state is TrackingUpdatedState) {
+      if (state.isAfterTracksetSoAdded) {
+        show('Added trackset ${state.updatedTrackset!.name}');
       }
     }
   }

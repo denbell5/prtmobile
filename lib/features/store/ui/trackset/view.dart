@@ -11,12 +11,31 @@ class TracksetSoView extends StatelessWidget {
 
   final TracksetSo trackset;
 
+  void _openAddTracksetDialog(BuildContext context) {
+    showCupertinoModalPopup(
+      context: context,
+      useRootNavigator: false,
+      builder: (context) {
+        return AddTracksetSoDialog(
+          trackset: trackset,
+        );
+      },
+    );
+  }
+
   Widget _buildHeader(BuildContext context) {
     return ListItemHeader(
       labelText: 'Trackset',
       primaryText: trackset.name,
       secondaryText: Text(
         'Recommended length: ${trackset.recommendedDays} days',
+      ),
+      trailing: IconTextButton(
+        text: 'Add',
+        icon: CupertinoIcons.add,
+        onTap: () {
+          _openAddTracksetDialog(context);
+        },
       ),
       onTap: () {
         ExpandableState.of(context)!.toggle();

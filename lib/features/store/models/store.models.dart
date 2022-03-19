@@ -1,3 +1,5 @@
+export 'store.mappings.dart';
+
 import 'package:prtmobile/models/models.dart';
 
 class TracksetSo {

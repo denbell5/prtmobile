@@ -5,8 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:prtmobile/db/db.dart';
+import 'package:prtmobile/features/store/store.dart';
 import 'package:prtmobile/models/models.dart';
-import 'package:prtmobile/utils/normalization.dart';
+import 'package:prtmobile/utils/utils.dart';
 
 import 'tracking.event.dart';
 import 'tracking.state.dart';
@@ -47,6 +48,8 @@ class TrackingBloc extends Bloc<TrackingEvent, TrackingState> {
       yield* _mapSubtrackCreatedToState(event);
     } else if (event is SubtrackEdited) {
       yield* _mapSubtrackEditedToState(event);
+    } else if (event is TracksetSoAdded) {
+      yield* _mapTracksetSoAddedToState(event);
     }
   }
 
@@ -172,6 +175,32 @@ class TrackingBloc extends Bloc<TrackingEvent, TrackingState> {
       yield TrackingErrorState(
         state,
         description: 'Failed to delete tracksets',
+        failedEvent: event,
+        shouldShowNotification: true,
+      );
+    }
+  }
+
+  Stream<TrackingState> _mapTracksetSoAddedToState(
+    TracksetSoAdded event,
+  ) async* {
+    try {
+      yield TrackingLoadingState(state, isAddingTracksetSo: true);
+
+      final trackset = event.tracksetSo.toTrackset(dateRange: event.dateRange);
+      final tracksets = state.tracksets.set(trackset, id: trackset.id);
+
+      await _db.insertTracksetEnriched(trackset);
+
+      yield TrackingUpdatedState(
+        state.copyWith(tracksets: tracksets),
+        isAfterTracksetSoAdded: true,
+        updatedTrackset: trackset,
+      );
+    } catch (ex) {
+      yield TrackingErrorState(
+        state,
+        description: 'Failed to add trackset',
         failedEvent: event,
         shouldShowNotification: true,
       );
