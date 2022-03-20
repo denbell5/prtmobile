@@ -2,31 +2,43 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prtmobile/features/tracking/tracking.dart';
 import 'package:prtmobile/core/core.dart';
-import 'package:prtmobile/features/store/store.dart';
 import 'package:prtmobile/navigation/navigator.dart';
 
-class AddTracksetSoDialog extends StatefulWidget {
-  const AddTracksetSoDialog({
-    Key? key,
-    required this.trackset,
-  }) : super(key: key);
+class TrackCreateValue {
+  final String name;
 
-  final TracksetSo trackset;
+  TrackCreateValue({
+    required this.name,
+  });
 
-  @override
-  _AddTracksetSoDialogState createState() => _AddTracksetSoDialogState();
+  TrackCreateValue copyWith({
+    String? name,
+  }) {
+    return TrackCreateValue(
+      name: name ?? this.name,
+    );
+  }
 }
 
-class _AddTracksetSoDialogState extends State<AddTracksetSoDialog> {
+class TrackCreateDialog extends StatefulWidget {
+  const TrackCreateDialog({
+    Key? key,
+    required this.tracksetId,
+  }) : super(key: key);
+
+  final String tracksetId;
+
+  @override
+  _TrackCreateDialogState createState() => _TrackCreateDialogState();
+}
+
+class _TrackCreateDialogState extends State<TrackCreateDialog> {
   final _formKey = GlobalKey<FormState>();
 
   bool _isFormValid = false;
 
-  late DateRange _value = DateRange(
-    start: DateTime.now(),
-    end: DateTime.now().add(
-      Duration(days: widget.trackset.recommendedDays),
-    ),
+  TrackCreateValue _value = TrackCreateValue(
+    name: '',
   );
 
   void _validateForm() {
@@ -41,25 +53,31 @@ class _AddTracksetSoDialogState extends State<AddTracksetSoDialog> {
       _formKey.currentState!.save();
       final bloc = TrackingBloc.of(context);
       bloc.add(
-        TracksetSoAdded(
-          tracksetSo: widget.trackset,
-          dateRange: _value,
+        TrackCreated(
+          value: _value,
+          tracksetId: widget.tracksetId,
         ),
       );
     }
   }
 
   void _listenTrackingBloc(BuildContext context, TrackingState state) {
-    if (state is TrackingUpdatedState && state.isAfterTracksetSoAdded) {
+    if (state is TrackingUpdatedState && state.isAfterTrackCreated) {
       AppNavigator.of(context).pop();
     }
   }
 
-  Widget _buildDateRangePicker(BuildContext context) {
-    return DateRangePicker(
-      initialValue: _value,
-      onSaved: (dateRange) {
-        _value = dateRange!;
+  Widget _buildNameInput(BuildContext context) {
+    return Input(
+      label: 'Name',
+      onSaved: (name) {
+        _value = _value.copyWith(name: name);
+      },
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter Track name';
+        }
+        return null;
       },
     );
   }
@@ -81,7 +99,7 @@ class _AddTracksetSoDialogState extends State<AddTracksetSoDialog> {
                   ),
                 ),
                 Text(
-                  'Add ${widget.trackset.name}',
+                  'Add new Track',
                   style: FormStyles.kHeaderTextStyle,
                 ),
                 TouchableIcon(
@@ -106,7 +124,7 @@ class _AddTracksetSoDialogState extends State<AddTracksetSoDialog> {
                   },
                   child: Column(
                     children: [
-                      _buildDateRangePicker(context),
+                      _buildNameInput(context),
                       const Spacer(),
                       Padding(
                         padding: const EdgeInsets.only(
@@ -121,8 +139,7 @@ class _AddTracksetSoDialogState extends State<AddTracksetSoDialog> {
                                 style: FormStyles.kSubmitButtonTextStyle,
                               ),
                               padding: FormStyles.kSubmitButtonPadding,
-                              isLoading: state is TrackingLoadingState &&
-                                  state.isAddingTracksetSo,
+                              isLoading: state is TrackingLoadingState,
                               onTap: _onSubmit,
                             );
                           },

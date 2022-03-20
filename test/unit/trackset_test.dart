@@ -1,5 +1,5 @@
+import 'package:prtmobile/features/tracking/models/models.dart';
 import 'package:test/test.dart';
-import 'package:prtmobile/core/core.dart';
 
 void main() {
   Trackset exampleTrackset({

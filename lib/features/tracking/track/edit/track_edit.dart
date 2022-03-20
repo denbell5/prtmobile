@@ -2,31 +2,43 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prtmobile/features/tracking/tracking.dart';
 import 'package:prtmobile/core/core.dart';
-import 'package:prtmobile/features/store/store.dart';
 import 'package:prtmobile/navigation/navigator.dart';
 
-class AddTracksetSoDialog extends StatefulWidget {
-  const AddTracksetSoDialog({
-    Key? key,
-    required this.trackset,
-  }) : super(key: key);
+class TrackEditValue {
+  final String name;
 
-  final TracksetSo trackset;
+  TrackEditValue({
+    required this.name,
+  });
 
-  @override
-  _AddTracksetSoDialogState createState() => _AddTracksetSoDialogState();
+  TrackEditValue copyWith({
+    String? name,
+  }) {
+    return TrackEditValue(
+      name: name ?? this.name,
+    );
+  }
 }
 
-class _AddTracksetSoDialogState extends State<AddTracksetSoDialog> {
+class TrackEditDialog extends StatefulWidget {
+  const TrackEditDialog({
+    Key? key,
+    required this.track,
+  }) : super(key: key);
+
+  final Track track;
+
+  @override
+  _TrackEditDialogState createState() => _TrackEditDialogState();
+}
+
+class _TrackEditDialogState extends State<TrackEditDialog> {
   final _formKey = GlobalKey<FormState>();
 
   bool _isFormValid = false;
 
-  late DateRange _value = DateRange(
-    start: DateTime.now(),
-    end: DateTime.now().add(
-      Duration(days: widget.trackset.recommendedDays),
-    ),
+  late TrackEditValue _value = TrackEditValue(
+    name: widget.track.name,
   );
 
   void _validateForm() {
@@ -41,25 +53,33 @@ class _AddTracksetSoDialogState extends State<AddTracksetSoDialog> {
       _formKey.currentState!.save();
       final bloc = TrackingBloc.of(context);
       bloc.add(
-        TracksetSoAdded(
-          tracksetSo: widget.trackset,
-          dateRange: _value,
+        TrackEdited(
+          value: _value,
+          trackId: widget.track.id,
+          tracksetId: widget.track.tracksetId,
         ),
       );
     }
   }
 
   void _listenTrackingBloc(BuildContext context, TrackingState state) {
-    if (state is TrackingUpdatedState && state.isAfterTracksetSoAdded) {
+    if (state is TrackingUpdatedState && state.isAfterTrackEdited) {
       AppNavigator.of(context).pop();
     }
   }
 
-  Widget _buildDateRangePicker(BuildContext context) {
-    return DateRangePicker(
-      initialValue: _value,
-      onSaved: (dateRange) {
-        _value = dateRange!;
+  Widget _buildNameInput(BuildContext context) {
+    return Input(
+      label: 'Name',
+      initialValue: _value.name,
+      onSaved: (name) {
+        _value = _value.copyWith(name: name);
+      },
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter Track name';
+        }
+        return null;
       },
     );
   }
@@ -80,9 +100,14 @@ class _AddTracksetSoDialogState extends State<AddTracksetSoDialog> {
                     onTap: () {},
                   ),
                 ),
-                Text(
-                  'Add ${widget.trackset.name}',
-                  style: FormStyles.kHeaderTextStyle,
+                Expanded(
+                  child: Text(
+                    'Edit ${widget.track.name}',
+                    style: FormStyles.kHeaderTextStyle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
                 TouchableIcon(
                   iconData: CupertinoIcons.xmark,
@@ -106,7 +131,7 @@ class _AddTracksetSoDialogState extends State<AddTracksetSoDialog> {
                   },
                   child: Column(
                     children: [
-                      _buildDateRangePicker(context),
+                      _buildNameInput(context),
                       const Spacer(),
                       Padding(
                         padding: const EdgeInsets.only(
@@ -121,8 +146,7 @@ class _AddTracksetSoDialogState extends State<AddTracksetSoDialog> {
                                 style: FormStyles.kSubmitButtonTextStyle,
                               ),
                               padding: FormStyles.kSubmitButtonPadding,
-                              isLoading: state is TrackingLoadingState &&
-                                  state.isAddingTracksetSo,
+                              isLoading: state is TrackingLoadingState,
                               onTap: _onSubmit,
                             );
                           },
