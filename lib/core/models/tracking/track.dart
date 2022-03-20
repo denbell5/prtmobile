@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:prtmobile/models/models.dart';
+import 'package:prtmobile/core/core.dart';
 
 class Track extends Equatable {
   final String id;

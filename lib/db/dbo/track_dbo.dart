@@ -1,4 +1,4 @@
-import 'package:prtmobile/models/models.dart';
+import 'package:prtmobile/core/core.dart';
 
 class _TrackDboSchema {
   const _TrackDboSchema();

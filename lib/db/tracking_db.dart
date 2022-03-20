@@ -1,5 +1,5 @@
 import 'package:prtmobile/db/db.dart';
-import 'package:prtmobile/models/models.dart';
+import 'package:prtmobile/core/core.dart';
 import 'package:prtmobile/utils/__mocks__/real_world.dart';
 import 'package:prtmobile/utils/utils.dart';
 import 'package:sqflite/sqflite.dart';

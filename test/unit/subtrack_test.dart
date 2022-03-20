@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:prtmobile/models/models.dart';
+import 'package:prtmobile/core/core.dart';
 
 void main() {
   test('one-value-range', () {

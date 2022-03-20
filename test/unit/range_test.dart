@@ -1,6 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:prtmobile/models/models.dart';
+import 'package:prtmobile/core/core.dart';
 import 'package:prtmobile/utils/utils.dart';
 import 'package:test/test.dart';
 

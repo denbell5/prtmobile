@@ -1,4 +1,4 @@
-import 'package:prtmobile/models/models.dart';
+import 'package:prtmobile/core/core.dart';
 import 'package:collection/collection.dart';
 import 'package:prtmobile/utils/utils.dart';
 

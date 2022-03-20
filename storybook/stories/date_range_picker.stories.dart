@@ -2,7 +2,6 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:prtmobile/core/core.dart';
-import 'package:prtmobile/models/models.dart';
 
 import '../storybook.dart';
 

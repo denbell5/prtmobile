@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:prtmobile/bloc/tracking/tracking.bloc.dart';
-import 'package:prtmobile/models/models.dart';
+import 'package:prtmobile/core/core.dart';
 
 class TrackingState extends Equatable {
   final NormalizedList<Trackset, String> tracksets;

@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:prtmobile/db/db.dart';
 import 'package:prtmobile/features/store/store.dart';
-import 'package:prtmobile/models/models.dart';
+import 'package:prtmobile/core/core.dart';
 import 'package:prtmobile/utils/utils.dart';
 
 import 'tracking.event.dart';

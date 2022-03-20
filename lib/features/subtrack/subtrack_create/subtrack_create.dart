@@ -4,7 +4,6 @@ import 'package:prtmobile/bloc/tracking/tracking.bloc.dart';
 import 'package:prtmobile/core/core.dart';
 import 'package:prtmobile/features/subtrack/subtrack.dart';
 import 'package:prtmobile/misc/misc.dart';
-import 'package:prtmobile/models/models.dart';
 import 'package:prtmobile/navigation/navigator.dart';
 
 class SubtrackCreateValue {

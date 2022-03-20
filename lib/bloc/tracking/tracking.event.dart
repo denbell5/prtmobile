@@ -5,7 +5,7 @@ import 'package:prtmobile/features/track/create/track_create.dart';
 import 'package:prtmobile/features/track/edit/track_edit.dart';
 import 'package:prtmobile/features/trackset/create/trackset_create.dart';
 import 'package:prtmobile/features/trackset/edit/trackset_edit.dart';
-import 'package:prtmobile/models/models.dart';
+import 'package:prtmobile/core/core.dart';
 
 abstract class TrackingEvent {}
 
