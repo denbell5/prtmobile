@@ -4,8 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prtmobile/features/tracking/tracking.dart';
 import 'package:prtmobile/core/core.dart';
 
-import 'package:prtmobile/navigation/navigator.dart';
-
 enum RangeField { start, end, pointer }
 
 const _fieldOptions = [

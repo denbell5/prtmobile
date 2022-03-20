@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prtmobile/features/tracking/tracking.dart';
 import 'package:prtmobile/core/core.dart';
 import 'package:prtmobile/features/store/store.dart';
-import 'package:prtmobile/navigation/navigator.dart';
 
 class AddTracksetSoDialog extends StatefulWidget {
   const AddTracksetSoDialog({

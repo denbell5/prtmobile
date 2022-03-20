@@ -2,8 +2,6 @@ export 'menu_icon.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:prtmobile/core/core.dart';
-import 'package:prtmobile/navigation/navigator.dart';
-import 'package:prtmobile/navigation/routes.dart';
 
 class AppMenu extends StatelessWidget {
   const AppMenu({Key? key}) : super(key: key);

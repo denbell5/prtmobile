@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:prtmobile/core/core.dart';
-import 'package:prtmobile/navigation/navigator.dart';
 
 class YesNoDialog extends StatelessWidget {
   const YesNoDialog({

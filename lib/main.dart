@@ -5,7 +5,6 @@ import 'package:prtmobile/features/tracking/tracking.dart';
 import 'package:prtmobile/core/core.dart';
 import 'package:prtmobile/features/home/home.dart';
 import 'package:prtmobile/features/store/store.dart';
-import 'package:prtmobile/navigation/routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
