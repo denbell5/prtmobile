@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:prtmobile/components/components.dart';
+import 'package:prtmobile/core/core.dart';
 import 'package:prtmobile/features/store/store.dart';
-
-import 'package:prtmobile/styles/styles.dart';
 
 class TrackSoBody extends StatefulWidget {
   const TrackSoBody({

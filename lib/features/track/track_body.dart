@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prtmobile/bloc/tracking/tracking.bloc.dart';
-import 'package:prtmobile/components/components.dart';
+import 'package:prtmobile/core/core.dart';
 import 'package:prtmobile/features/subtrack/subtrack.dart';
 import 'package:prtmobile/features/subtrack/subtrack_create/subtrack_create.dart';
 import 'package:prtmobile/misc/misc.dart';
 import 'package:prtmobile/models/models.dart';
-import 'package:prtmobile/styles/styles.dart';
 
 import 'edit/track_edit.dart';
 

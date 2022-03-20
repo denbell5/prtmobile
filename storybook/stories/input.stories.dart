@@ -1,8 +1,7 @@
 // ignore_for_file: prefer_const_constructors, avoid_print
 
 import 'package:flutter/cupertino.dart';
-import 'package:prtmobile/components/components.dart';
-import 'package:prtmobile/styles/styles.dart';
+import 'package:prtmobile/core/core.dart';
 
 import '../storybook.dart';
 

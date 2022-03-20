@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
-import 'package:prtmobile/components/components.dart';
+import 'package:prtmobile/core/core.dart';
 import 'package:prtmobile/models/models.dart';
-import 'package:prtmobile/styles/styles.dart';
 import 'package:prtmobile/utils/utils.dart';
 
 import 'trackset_body.dart';

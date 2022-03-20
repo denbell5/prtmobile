@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:prtmobile/components/components.dart';
+import 'package:prtmobile/core/core.dart';
 import 'package:prtmobile/features/store/store.dart';
 import 'package:prtmobile/navigation/navigator.dart';
-import 'package:prtmobile/styles/styles.dart';
 
 class TracksetStore extends StatefulWidget {
   const TracksetStore({

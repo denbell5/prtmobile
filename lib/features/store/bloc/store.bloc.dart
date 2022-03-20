@@ -4,10 +4,7 @@ export 'store.state.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:prtmobile/features/store/db/db.dart';
-
-import 'store.event.dart';
-import 'store.state.dart';
+import 'package:prtmobile/features/store/store.dart';
 
 class TrackingStoreBloc extends Bloc<TrackingStoreEvent, TrackingStoreState> {
   final TrackingStoreDb _db;

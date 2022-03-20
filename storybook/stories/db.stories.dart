@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
-import 'package:prtmobile/components/buttons/buttons.dart';
+import 'package:prtmobile/core/core.dart';
 import 'package:prtmobile/db/tracking_db.dart';
 import 'package:sqflite/sqflite.dart';
 
