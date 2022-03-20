@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:prtmobile/core/core.dart';
-import 'package:prtmobile/utils/utils.dart';
 
 Subtrack _generateRange({
   required int minValue,

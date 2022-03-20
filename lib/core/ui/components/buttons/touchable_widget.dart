@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:prtmobile/utils/utils.dart';
+import 'package:prtmobile/core/core.dart';
 
 class TouchableWidget extends StatefulWidget {
   final Widget child;

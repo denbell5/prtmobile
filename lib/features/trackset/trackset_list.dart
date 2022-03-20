@@ -3,12 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prtmobile/bloc/tracking/tracking.bloc.dart';
 import 'package:prtmobile/core/core.dart';
 import 'package:prtmobile/features/trackset/create/trackset_create.dart';
-import 'package:prtmobile/misc/misc.dart';
-import 'package:prtmobile/utils/__mocks__/real_world.dart';
 
 import 'trackset_view.dart';
-
-final realWorldTracksets = getRealWorldTracksets();
 
 class TracksetList extends StatefulWidget {
   const TracksetList({Key? key}) : super(key: key);

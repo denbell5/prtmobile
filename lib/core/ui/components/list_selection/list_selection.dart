@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:prtmobile/core/core.dart';
-import 'package:prtmobile/utils/utils.dart';
 
 mixin ListItemSelectionMixin on State {
   bool selectionModeEnabled = false;

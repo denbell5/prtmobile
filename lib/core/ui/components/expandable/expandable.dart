@@ -2,7 +2,6 @@ export 'expandable_list.dart';
 export 'models.dart';
 import 'package:flutter/widgets.dart';
 import 'package:prtmobile/core/core.dart';
-import 'package:prtmobile/misc/widget_position.dart';
 
 typedef OnExpandableToggle = Function(bool isExpanded);
 
