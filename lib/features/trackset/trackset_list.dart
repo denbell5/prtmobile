@@ -121,7 +121,6 @@ class _TracksetListState extends State<TracksetList> {
                               _listSelector.selectionModeEnabled,
                           onHeaderLongPressed: _enableSelectionMode,
                           toggleSelection: _listSelector.toggleItemSelection,
-                          onToggle: (isExpanded) => {},
                         ),
                       )
                       .toList()

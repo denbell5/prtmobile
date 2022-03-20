@@ -1,9 +1,11 @@
 import 'package:prtmobile/features/subtrack/subtrack.dart';
+import 'package:prtmobile/features/store/store.dart';
 import 'package:prtmobile/features/subtrack/subtrack_create/subtrack_create.dart';
 import 'package:prtmobile/features/track/create/track_create.dart';
 import 'package:prtmobile/features/track/edit/track_edit.dart';
 import 'package:prtmobile/features/trackset/create/trackset_create.dart';
 import 'package:prtmobile/features/trackset/edit/trackset_edit.dart';
+import 'package:prtmobile/models/models.dart';
 
 abstract class TrackingEvent {}
 
@@ -25,6 +27,16 @@ class TracksetsDeleted extends TrackingEvent {
   final Set<String> ids;
 
   TracksetsDeleted(this.ids);
+}
+
+class TracksetSoAdded extends TrackingEvent {
+  final TracksetSo tracksetSo;
+  final DateRange dateRange;
+
+  TracksetSoAdded({
+    required this.tracksetSo,
+    required this.dateRange,
+  });
 }
 
 class TrackCreated extends TrackingEvent {

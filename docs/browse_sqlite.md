@@ -8,7 +8,7 @@ Connect to db
 cd $home\AppData\Local\Android\Sdk\platform-tools
 .\adb devices
 .\adb -s emulator-5554 shell
-cd /data/user/0/com.example.prtmobile/databases
+cd /data/user/0/com.prt/databases
 sqlite3 prt.db
 
 # Fix adb permission denied

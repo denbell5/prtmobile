@@ -42,10 +42,12 @@ class TrackingErrorState extends TrackingState {
 
 class TrackingLoadingState extends TrackingState {
   final bool isEditingSubtrack;
+  final bool isAddingTracksetSo;
 
   TrackingLoadingState(
     TrackingState state, {
     this.isEditingSubtrack = false,
+    this.isAddingTracksetSo = false,
   }) : super.fromState(state);
 }
 
@@ -58,6 +60,8 @@ class TrackingUpdatedState extends TrackingState {
   final bool isAfterTracksDeleted;
   final bool isAfterSubtrackCreated;
   final bool isAfterSubtrackEdited;
+  final bool isAfterTracksetSoAdded;
+  final Trackset? updatedTrackset;
 
   TrackingUpdatedState(
     TrackingState state, {
@@ -69,6 +73,8 @@ class TrackingUpdatedState extends TrackingState {
     this.isAfterTracksDeleted = false,
     this.isAfterSubtrackCreated = false,
     this.isAfterSubtrackEdited = false,
+    this.isAfterTracksetSoAdded = false,
+    this.updatedTrackset,
   }) : super.fromState(state);
 
   @override

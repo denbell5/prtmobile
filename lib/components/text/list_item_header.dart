@@ -7,10 +7,9 @@ const kListItemHeaderHeight = 80.0;
 class ListItemHeader extends StatelessWidget {
   const ListItemHeader({
     Key? key,
-    required this.primaryText,
+    this.primaryText,
     this.secondaryText,
     required this.onTap,
-    this.axis = Axis.vertical,
     this.onLongPress,
     this.bgColor,
     this.primaryTextSize,
@@ -18,14 +17,14 @@ class ListItemHeader extends StatelessWidget {
     this.labelText,
     this.height,
     this.primary,
+    this.trailing,
   })  : assert(!(label != null && labelText != null)),
         super(key: key);
 
-  final String primaryText;
+  final String? primaryText;
   final Widget? secondaryText;
   final VoidCallback onTap;
   final VoidCallback? onLongPress;
-  final Axis axis;
   final Color? bgColor;
 
   final double? primaryTextSize;
@@ -36,23 +35,21 @@ class ListItemHeader extends StatelessWidget {
   final double? height;
   final Widget? primary;
 
+  final Widget? trailing;
+
   static final labelTextStyle = AppTypography.small.bold().height1();
 
-  List<Widget> _buildTextWidgets({required bool isHorizontal}) {
+  List<Widget> _buildTextWidgets() {
     Widget primary = this.primary ??
         Text(
-          primaryText,
+          primaryText!,
           style: AppTypography.h4.copyWith(
             fontSize: primaryTextSize,
           ),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         );
-    if (isHorizontal) {
-      primary = Expanded(
-        child: primary,
-      );
-    }
+
     return [
       if (label != null) label!,
       if (labelText != null)
@@ -67,17 +64,11 @@ class ListItemHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final content = axis == Axis.vertical
-        ? Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: _buildTextWidgets(isHorizontal: false),
-          )
-        : Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: _buildTextWidgets(isHorizontal: true),
-          );
+    final content = Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: _buildTextWidgets(),
+    );
     return TouchableWidget(
       onTap: onTap,
       onLongPress: onLongPress,
@@ -95,6 +86,7 @@ class ListItemHeader extends StatelessWidget {
                 Expanded(
                   child: content,
                 ),
+                if (trailing != null) trailing!,
               ],
             ),
           ),

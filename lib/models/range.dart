@@ -6,6 +6,8 @@ class Range extends Equatable {
 
   const Range(this.start, this.end);
 
+  int get length => end - start + 1;
+
   @override
   List<Object?> get props => [start, end];
 }

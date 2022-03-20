@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "313713453734",
+    "project_id": "prtprogresstracker",
+    "storage_bucket": "prtprogresstracker.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:313713453734:android:4f606405054c808465e267",
+        "android_client_info": {
+          "package_name": "com.prt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "313713453734-eq61jsv7s1et10nfu0b808mmbqrtstue.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.prt",
+            "certificate_hash": "dc26d27a39afbdf3a718aaf4b5edde4eef48025b"
+          }
+        },
+        {
+          "client_id": "313713453734-hdbot6qhsdja4nl9o6f9vsmicj3roq4c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA__X8zIc65oRr7Mjeew3ZlARrIOnG4qjw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "313713453734-hdbot6qhsdja4nl9o6f9vsmicj3roq4c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

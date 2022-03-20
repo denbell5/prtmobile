@@ -1,4 +1,4 @@
-package com.example.prtmobile
+package com.prt
 
 import io.flutter.embedding.android.FlutterActivity
 

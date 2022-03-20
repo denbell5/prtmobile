@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prtmobile/bloc/tracking/tracking.bloc.dart';
-import 'package:prtmobile/components/snackbar/snackbar.dart';
+import 'package:prtmobile/components/components.dart';
+import 'package:prtmobile/features/menu/menu.dart';
 import 'package:prtmobile/features/trackset/trackset_list.dart';
 import 'package:prtmobile/styles/styles.dart';
 import 'package:prtmobile/utils/utils.dart';
@@ -33,33 +34,35 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildNavbar({
+  ObstructingPreferredSizeWidget _buildNavbar({
     required double topBarPadding,
   }) {
-    return PhysicalModel(
-      color: CupertinoTheme.of(context).barBackgroundColor,
-      elevation: 1,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(
-              top: topBarPadding + kDefaultPadding * 1.5,
-              bottom: kDefaultPadding,
-            ),
-            child: _buildTodayText(),
-          ),
-        ],
+    return AppNavbar(
+      topBarPadding: topBarPadding,
+      leading: const Padding(
+        padding: EdgeInsets.only(top: 5.0),
+        child: MenuIcon(),
       ),
+      middle: _buildTodayText(),
     );
   }
 
   // ignore: todo
   // TODO: in separate widget
   void _listenToTrackingBloc(BuildContext context, TrackingState state) {
+    void show(String text) {
+      AppSnackbar.of(context)!.show(text: text);
+    }
+
     if (state is TrackingErrorState) {
       if (state.shouldShowNotification) {
-        AppSnackbar.of(context)!.show(text: state.description);
+        show(state.description);
+      }
+      return;
+    }
+    if (state is TrackingUpdatedState) {
+      if (state.isAfterTracksetSoAdded) {
+        show('Added trackset ${state.updatedTrackset!.name}');
       }
     }
   }
@@ -68,12 +71,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final topBarPadding = MediaQuery.of(context).padding.top;
     return CupertinoPageScaffold(
+      navigationBar: _buildNavbar(topBarPadding: topBarPadding),
       child: BlocListener<TrackingBloc, TrackingState>(
         listener: _listenToTrackingBloc,
         child: Column(
-          children: [
-            _buildNavbar(topBarPadding: topBarPadding),
-            const Flexible(
+          children: const [
+            Flexible(
               child: TracksetList(),
             ),
           ],
