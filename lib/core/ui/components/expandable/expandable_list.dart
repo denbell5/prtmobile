@@ -37,8 +37,8 @@ class ExpandableListStateV2 extends State<ExpandableListV2> with ListBuilder {
       ? const NeverScrollableScrollPhysics()
       : const ClampingScrollPhysics();
 
-  late BoxConstraints _viewportConstraints;
-  BoxConstraints get viewportConstraints => _viewportConstraints;
+  final ValueNotifier<BoxConstraints?> viewportConstraints =
+      ValueNotifier(null);
 
   @override
   void initState() {
@@ -121,7 +121,7 @@ class ExpandableListStateV2 extends State<ExpandableListV2> with ListBuilder {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        _viewportConstraints = constraints;
+        viewportConstraints.value = constraints;
         return CustomScrollView(
           controller: _scrollController,
           physics: scrollPhysics,

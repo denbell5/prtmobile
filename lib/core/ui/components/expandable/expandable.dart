@@ -63,15 +63,20 @@ class ExpandableState extends State<Expandable>
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: _expandableListState.viewportConstraints,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          buildHeader(context),
-          buildBody(context),
-        ],
-      ),
+    return ValueListenableBuilder<BoxConstraints?>(
+      valueListenable: _expandableListState.viewportConstraints,
+      builder: (context, constraints, _) {
+        return ConstrainedBox(
+          constraints: constraints!,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              buildHeader(context),
+              buildBody(context),
+            ],
+          ),
+        );
+      },
     );
   }
 
