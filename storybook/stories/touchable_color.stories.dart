@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prtmobile/components/components.dart';
-import 'package:prtmobile/styles/styles.dart';
+import 'package:prtmobile/core/core.dart';
 
 import '../storybook.dart';
 

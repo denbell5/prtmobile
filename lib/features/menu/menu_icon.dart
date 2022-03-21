@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:prtmobile/components/components.dart';
+import 'package:prtmobile/core/core.dart';
 import 'package:prtmobile/features/menu/menu.dart';
-import 'package:prtmobile/styles/styles.dart';
 
 class MenuIcon extends StatelessWidget {
   const MenuIcon({

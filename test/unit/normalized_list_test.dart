@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:prtmobile/models/models.dart';
+import 'package:prtmobile/core/core.dart';
 
 class _Item {
   final String id;

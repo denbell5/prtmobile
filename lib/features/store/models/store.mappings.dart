@@ -1,6 +1,6 @@
 import 'package:prtmobile/features/store/store.dart';
-import 'package:prtmobile/models/models.dart';
-import 'package:prtmobile/utils/utils.dart';
+import 'package:prtmobile/core/core.dart';
+import 'package:prtmobile/features/tracking/tracking.dart';
 
 extension SubtrackSoMaps on SubtrackSo {
   Subtrack toSubtrack({

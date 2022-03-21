@@ -3,7 +3,7 @@
 import 'dart:math';
 
 import 'package:flutter/widgets.dart';
-import 'package:prtmobile/components/buttons/buttons.dart';
+import 'package:prtmobile/core/core.dart';
 
 import '../storybook.dart';
 

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:prtmobile/components/text/list_item_header.dart';
 import 'package:prtmobile/features/store/store.dart';
-import 'package:prtmobile/styles/styles.dart';
+import 'package:prtmobile/core/core.dart';
 
 const kSubtrackViewHeaderHeight = 50.0;
 
