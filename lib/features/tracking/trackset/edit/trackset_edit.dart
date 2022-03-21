@@ -157,82 +157,85 @@ class _TracksetEditDialogState extends State<TracksetEditDialog> {
   Widget build(BuildContext context) {
     const formFieldDivider = SizedBox(height: kDefaultPadding / 2);
     return BottomDialog(
-      child: BottomSafeArea(
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Opacity(
-                  opacity: 0.0,
-                  child: TouchableIcon(
+      child: ScrollableBottomSafeArea(
+        builder: (context, originalConstraints, bottomInset) {
+          return Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Opacity(
+                    opacity: 0.0,
+                    child: TouchableIcon(
+                      iconData: CupertinoIcons.xmark,
+                      onTap: () {},
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      'Edit ${widget.trackset.name}',
+                      style: FormStyles.kHeaderTextStyle,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  TouchableIcon(
                     iconData: CupertinoIcons.xmark,
-                    onTap: () {},
+                    onTap: () {
+                      AppNavigator.of(context).pop();
+                    },
                   ),
-                ),
-                Expanded(
-                  child: Text(
-                    'Edit ${widget.trackset.name}',
-                    style: FormStyles.kHeaderTextStyle,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
+                ],
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: kDefaultPadding,
+                    left: kDefaultPadding,
+                    right: kDefaultPadding,
                   ),
-                ),
-                TouchableIcon(
-                  iconData: CupertinoIcons.xmark,
-                  onTap: () {
-                    AppNavigator.of(context).pop();
-                  },
-                ),
-              ],
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  top: kDefaultPadding,
-                  left: kDefaultPadding,
-                  right: kDefaultPadding,
-                ),
-                child: Form(
-                  key: _formKey,
-                  onChanged: () {
-                    _validateForm();
-                  },
-                  child: Column(
-                    children: [
-                      _buildNameInput(context),
-                      _buildNameFromDateCheckbox(context),
-                      formFieldDivider,
-                      _buildDateRangePicker(context),
-                      const Spacer(),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          bottom: kDefaultPadding * 2,
+                  child: Form(
+                    key: _formKey,
+                    onChanged: () {
+                      _validateForm();
+                    },
+                    child: Column(
+                      children: [
+                        _buildNameInput(context),
+                        _buildNameFromDateCheckbox(context),
+                        formFieldDivider,
+                        _buildDateRangePicker(context),
+                        if (bottomInset < 100) const Spacer(),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: kDefaultPadding,
+                            bottom: kDefaultPadding * 2,
+                          ),
+                          child: BlocConsumer<TrackingBloc, TrackingState>(
+                            listener: _listenTrackingBloc,
+                            builder: (context, state) {
+                              return Button(
+                                label: 'Save',
+                                child: Text(
+                                  'Save',
+                                  style: FormStyles.kSubmitButtonTextStyle,
+                                ),
+                                padding: FormStyles.kSubmitButtonPadding,
+                                isLoading: state is TrackingLoadingState,
+                                onTap: _onSubmit,
+                              );
+                            },
+                          ),
                         ),
-                        child: BlocConsumer<TrackingBloc, TrackingState>(
-                          listener: _listenTrackingBloc,
-                          builder: (context, state) {
-                            return Button(
-                              label: 'Save',
-                              child: Text(
-                                'Save',
-                                style: FormStyles.kSubmitButtonTextStyle,
-                              ),
-                              padding: FormStyles.kSubmitButtonPadding,
-                              isLoading: state is TrackingLoadingState,
-                              onTap: _onSubmit,
-                            );
-                          },
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
+            ],
+          );
+        },
       ),
     );
   }

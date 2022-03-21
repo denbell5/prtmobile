@@ -1,12 +1,20 @@
 import 'package:flutter/widgets.dart';
 
+typedef BottomSafeAreaChildBuilder = Widget Function(
+  BuildContext context,
+  double bottomInset,
+);
+
 class BottomSafeArea extends StatelessWidget {
   const BottomSafeArea({
     Key? key,
-    required this.child,
-  }) : super(key: key);
+    this.child,
+    this.builder,
+  })  : assert(child != null || builder != null),
+        super(key: key);
 
-  final Widget child;
+  final Widget? child;
+  final BottomSafeAreaChildBuilder? builder;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +23,7 @@ class BottomSafeArea extends StatelessWidget {
       padding: EdgeInsets.only(
         bottom: bottomPadding,
       ),
-      child: child,
+      child: builder?.call(context, bottomPadding) ?? child!,
     );
   }
 }

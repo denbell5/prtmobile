@@ -143,76 +143,79 @@ class _TracksetCreateDialogState extends State<TracksetCreateDialog> {
   Widget build(BuildContext context) {
     const formFieldDivider = SizedBox(height: kDefaultPadding / 2);
     return BottomDialog(
-      child: BottomSafeArea(
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Opacity(
-                  opacity: 0.0,
-                  child: TouchableIcon(
-                    iconData: CupertinoIcons.xmark,
-                    onTap: () {},
+      child: ScrollableBottomSafeArea(
+        builder: (context, originalConstraints, bottomInset) {
+          return Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Opacity(
+                    opacity: 0.0,
+                    child: TouchableIcon(
+                      iconData: CupertinoIcons.xmark,
+                      onTap: () {},
+                    ),
                   ),
-                ),
-                Text(
-                  'Add new trackset',
-                  style: FormStyles.kHeaderTextStyle,
-                ),
-                TouchableIcon(
-                  iconData: CupertinoIcons.xmark,
-                  onTap: () {
-                    AppNavigator.of(context).pop();
-                  },
-                ),
-              ],
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  top: kDefaultPadding,
-                  left: kDefaultPadding,
-                  right: kDefaultPadding,
-                ),
-                child: Form(
-                  key: _formKey,
-                  onChanged: () {
-                    _validateForm();
-                  },
-                  child: Column(
-                    children: [
-                      _buildNameInput(context),
-                      _buildNameFromDateCheckbox(context),
-                      formFieldDivider,
-                      _buildDateRangePicker(context),
-                      const Spacer(),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          bottom: kDefaultPadding * 2,
+                  Text(
+                    'Add new trackset',
+                    style: FormStyles.kHeaderTextStyle,
+                  ),
+                  TouchableIcon(
+                    iconData: CupertinoIcons.xmark,
+                    onTap: () {
+                      AppNavigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: kDefaultPadding,
+                    left: kDefaultPadding,
+                    right: kDefaultPadding,
+                  ),
+                  child: Form(
+                    key: _formKey,
+                    onChanged: () {
+                      _validateForm();
+                    },
+                    child: Column(
+                      children: [
+                        _buildNameInput(context),
+                        _buildNameFromDateCheckbox(context),
+                        formFieldDivider,
+                        _buildDateRangePicker(context),
+                        if (bottomInset < 100) const Spacer(),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: kDefaultPadding,
+                            bottom: kDefaultPadding * 2,
+                          ),
+                          child: BlocConsumer<TrackingBloc, TrackingState>(
+                            listener: _listenTrackingBloc,
+                            builder: (context, state) {
+                              return Button(
+                                child: Text(
+                                  'Save',
+                                  style: FormStyles.kSubmitButtonTextStyle,
+                                ),
+                                padding: FormStyles.kSubmitButtonPadding,
+                                isLoading: state is TrackingLoadingState,
+                                onTap: _onSubmit,
+                              );
+                            },
+                          ),
                         ),
-                        child: BlocConsumer<TrackingBloc, TrackingState>(
-                          listener: _listenTrackingBloc,
-                          builder: (context, state) {
-                            return Button(
-                              child: Text(
-                                'Save',
-                                style: FormStyles.kSubmitButtonTextStyle,
-                              ),
-                              padding: FormStyles.kSubmitButtonPadding,
-                              isLoading: state is TrackingLoadingState,
-                              onTap: _onSubmit,
-                            );
-                          },
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
+            ],
+          );
+        },
       ),
     );
   }

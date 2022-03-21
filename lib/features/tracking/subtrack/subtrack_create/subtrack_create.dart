@@ -121,108 +121,110 @@ class _SubtrackCreateDialogState extends State<SubtrackCreateDialog> {
   @override
   Widget build(BuildContext context) {
     return BottomDialog(
-      child: BottomSafeArea(
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Opacity(
-                  opacity: 0.0,
-                  child: TouchableIcon(
-                    iconData: CupertinoIcons.xmark,
-                    onTap: () {},
+      child: ScrollableBottomSafeArea(
+        builder: (context, originalConstraints, bottomInset) {
+          return Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Opacity(
+                    opacity: 0.0,
+                    child: TouchableIcon(
+                      iconData: CupertinoIcons.xmark,
+                      onTap: () {},
+                    ),
                   ),
-                ),
-                Text(
-                  'Add new Subtrack',
-                  style: FormStyles.kHeaderTextStyle,
-                ),
-                TouchableIcon(
-                  iconData: CupertinoIcons.xmark,
-                  onTap: () {
-                    AppNavigator.of(context).pop();
-                  },
-                ),
-              ],
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  top: kDefaultPadding,
-                  left: kDefaultPadding,
-                  right: kDefaultPadding,
-                ),
-                child: Form(
-                  key: _formKey,
-                  onChanged: () {
-                    _validateAndSaveForm();
-                    if (_isFormValid) {
-                      _formKey.currentState!.save();
-                      setState(() {
-                        _higherLevelErrorText = _validateHigherLevel();
-                      });
-                    }
-                  },
-                  child: Column(
-                    children: [
-                      Input(
-                        label: 'Start',
-                        onSaved: (startString) {
-                          _saveIntIfParses(
-                            startString,
-                            (start) => _value = _value.copyWith(start: start),
-                          );
-                        },
-                        validator: (startText) {
-                          return _validateIntField(startText, name: 'Start');
-                        },
-                      ),
-                      Input(
-                        label: 'End',
-                        onSaved: (endString) {
-                          _saveIntIfParses(
-                            endString,
-                            (end) => _value = _value.copyWith(end: end),
-                          );
-                        },
-                        validator: (endText) {
-                          return _validateIntField(endText, name: 'End');
-                        },
-                      ),
-                      const Height(kDefaultPadding / 2),
-                      Text(
-                        _higherLevelErrorText ?? '',
-                        style: AppTypography.error,
-                      ),
-                      const Height(kDefaultPadding / 2),
-                      const Spacer(),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          bottom: kDefaultPadding * 2,
-                        ),
-                        child: BlocConsumer<TrackingBloc, TrackingState>(
-                          listener: _listenTrackingBloc,
-                          builder: (context, state) {
-                            return Button(
-                              child: Text(
-                                'Save',
-                                style: FormStyles.kSubmitButtonTextStyle,
-                              ),
-                              padding: FormStyles.kSubmitButtonPadding,
-                              isLoading: state is TrackingLoadingState,
-                              onTap: _onSubmit,
+                  Text(
+                    'Add new Subtrack',
+                    style: FormStyles.kHeaderTextStyle,
+                  ),
+                  TouchableIcon(
+                    iconData: CupertinoIcons.xmark,
+                    onTap: () {
+                      AppNavigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: kDefaultPadding,
+                    left: kDefaultPadding,
+                    right: kDefaultPadding,
+                  ),
+                  child: Form(
+                    key: _formKey,
+                    onChanged: () {
+                      _validateAndSaveForm();
+                      if (_isFormValid) {
+                        _formKey.currentState!.save();
+                        setState(() {
+                          _higherLevelErrorText = _validateHigherLevel();
+                        });
+                      }
+                    },
+                    child: Column(
+                      children: [
+                        Input(
+                          label: 'Start',
+                          onSaved: (startString) {
+                            _saveIntIfParses(
+                              startString,
+                              (start) => _value = _value.copyWith(start: start),
                             );
                           },
+                          validator: (startText) {
+                            return _validateIntField(startText, name: 'Start');
+                          },
                         ),
-                      ),
-                    ],
+                        Input(
+                          label: 'End',
+                          onSaved: (endString) {
+                            _saveIntIfParses(
+                              endString,
+                              (end) => _value = _value.copyWith(end: end),
+                            );
+                          },
+                          validator: (endText) {
+                            return _validateIntField(endText, name: 'End');
+                          },
+                        ),
+                        const Height(kDefaultPadding / 2),
+                        Text(
+                          _higherLevelErrorText ?? '',
+                          style: AppTypography.error,
+                        ),
+                        const Height(kDefaultPadding / 2),
+                        if (bottomInset < 100) const Spacer(),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            bottom: kDefaultPadding * 2,
+                          ),
+                          child: BlocConsumer<TrackingBloc, TrackingState>(
+                            listener: _listenTrackingBloc,
+                            builder: (context, state) {
+                              return Button(
+                                child: Text(
+                                  'Save',
+                                  style: FormStyles.kSubmitButtonTextStyle,
+                                ),
+                                padding: FormStyles.kSubmitButtonPadding,
+                                isLoading: state is TrackingLoadingState,
+                                onTap: _onSubmit,
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
+            ],
+          );
+        },
       ),
     );
   }
