@@ -7,6 +7,7 @@ import 'stories/expandable_list_poc.stories.dart';
 import 'stories/expandable_list_sort.stories.dart';
 import 'stories/input.stories.dart';
 import 'stories/picker_list.stories.dart';
+import 'stories/progress_bar.stories.dart';
 import 'stories/subtrack_update.stories.dart';
 import 'stories/tap_details.stories.dart';
 import 'stories/text_size.stories.dart';
@@ -17,6 +18,7 @@ import 'stories/touchable_opacity.stories.dart';
 import 'storybook.dart';
 
 final stories = <StorybookStory>[
+  ProgressBarStories(),
   ExpandableListSortingStories(),
   ExpandableListPocStories(),
   TapDetailsStories(),

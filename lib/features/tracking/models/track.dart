@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:prtmobile/core/core.dart';
+import 'package:prtmobile/core/func/func.dart' as func;
 
 import 'models.dart';
 
@@ -38,4 +39,6 @@ class Track extends Equatable {
       subtracks.entities.fold(0, (sum, subtrack) => sum += subtrack.done);
   int get left =>
       subtracks.entities.fold(0, (sum, subtrack) => sum += subtrack.left);
+
+  double get progress => func.progress(done, length);
 }

@@ -90,72 +90,77 @@ class _TrackBodyState extends State<TrackBody> with ListBuilder {
       padding: const EdgeInsets.only(
         left: kDefaultPadding,
         right: kDefaultPadding,
-        top: kDefaultPadding / 4,
-        bottom: kDefaultPadding,
       ),
       child: Row(
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  const Icon(CupertinoIcons.collections),
-                  RichText(
-                    text: TextSpan(
-                      style: CupertinoTheme.of(context).textTheme.textStyle,
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: ' ${track.subtracks.all.length} ',
-                          style: StatStyles.kAccentTextStyle,
-                        ),
-                        TextSpan(
-                          text: 'subtracks',
-                          style: StatStyles.kSecondaryTextStyle,
-                        ),
-                      ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const Icon(CupertinoIcons.collections),
+                    RichText(
+                      text: TextSpan(
+                        style: CupertinoTheme.of(context).textTheme.textStyle,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: ' ${track.subtracks.all.length} ',
+                            style: StatStyles.kAccentTextStyle,
+                          ),
+                          TextSpan(
+                            text: 'subtracks',
+                            style: StatStyles.kSecondaryTextStyle,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              divider,
-              Row(
-                children: [
-                  const Icon(CupertinoIcons.graph_square),
-                  RichText(
-                    text: TextSpan(
-                      style: CupertinoTheme.of(context).textTheme.textStyle,
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: ' ${track.left} ',
-                          style: StatStyles.kAccentTextStyle,
-                        ),
-                        TextSpan(
-                          text: 'points to do,',
-                          style: StatStyles.kSecondaryTextStyle,
-                        ),
-                        TextSpan(
-                          text: ' ${track.done} ',
-                          style: StatStyles.kAccentTextStyle,
-                        ),
-                        TextSpan(
-                          text: 'out of',
-                          style: StatStyles.kSecondaryTextStyle,
-                        ),
-                        TextSpan(
-                          text: ' ${track.length} ',
-                          style: StatStyles.kAccentTextStyle,
-                        ),
-                        TextSpan(
-                          text: 'done',
-                          style: StatStyles.kSecondaryTextStyle,
-                        ),
-                      ],
+                  ],
+                ),
+                divider,
+                Row(
+                  children: [
+                    const Icon(CupertinoIcons.graph_square),
+                    RichText(
+                      text: TextSpan(
+                        style: CupertinoTheme.of(context).textTheme.textStyle,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: ' ${track.left} ',
+                            style: StatStyles.kAccentTextStyle,
+                          ),
+                          TextSpan(
+                            text: 'points to do,',
+                            style: StatStyles.kSecondaryTextStyle,
+                          ),
+                          TextSpan(
+                            text: ' ${track.done} ',
+                            style: StatStyles.kAccentTextStyle,
+                          ),
+                          TextSpan(
+                            text: 'out of',
+                            style: StatStyles.kSecondaryTextStyle,
+                          ),
+                          TextSpan(
+                            text: ' ${track.length} ',
+                            style: StatStyles.kAccentTextStyle,
+                          ),
+                          TextSpan(
+                            text: 'done',
+                            style: StatStyles.kSecondaryTextStyle,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+                const Height(kDefaultPadding * 1.5),
+                ProgressBar(
+                  progress: track.progress,
+                  height: 8,
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -231,9 +236,9 @@ class _TrackBodyState extends State<TrackBody> with ListBuilder {
             delegate: SliverChildListDelegate(
               [
                 _buildTrackControls(context),
-                const SizedBox(height: kDefaultPadding * 1.5),
+                const Height(kDefaultPadding * 1.5),
                 _buildTrackStats(context),
-                const SizedBox(height: kDefaultPadding),
+                const Height(kDefaultPadding * 1.5),
                 _buildSubtrackListHeader(context),
               ],
             ),
