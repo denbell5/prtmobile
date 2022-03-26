@@ -45,7 +45,17 @@ class _SubtrackViewState extends State<SubtrackView>
       primaryTextSize: FontSizes.h4 - 1,
       primaryText:
           '${subtrack.start} - ${subtrack.end}, stopped on ${subtrack.pointer}',
-      trailing: Text('completed ${subtrack.done}/${subtrack.length}'),
+      trailing: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text('${subtrack.done}/${subtrack.length}'),
+          ProgressBar(
+            height: 5,
+            width: 60,
+            progress: subtrack.progress,
+          ),
+        ],
+      ),
       onTap: onSelected,
       bgColor: widget.isSelected ? AppColors.lightGrey : null,
       onLongPress: () => widget.onEnableSelectionMode(subtrack.id),

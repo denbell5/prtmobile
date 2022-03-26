@@ -1,4 +1,5 @@
 import 'package:prtmobile/core/core.dart';
+import 'package:prtmobile/core/func/func.dart' as func;
 
 class SubtrackRange extends Range {
   final int pointer;
@@ -26,6 +27,8 @@ class SubtrackRange extends Range {
     if (isOnEnd) return 0;
     return end - pointer + 1;
   }
+
+  double get progress => func.progress(done, length);
 }
 
 class Subtrack extends SubtrackRange {

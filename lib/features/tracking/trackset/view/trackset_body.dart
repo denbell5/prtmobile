@@ -115,104 +115,111 @@ class _TracksetBodyState extends State<TracksetBody> {
       ),
       child: Row(
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  const Icon(CupertinoIcons.calendar),
-                  RichText(
-                    text: TextSpan(
-                      style: CupertinoTheme.of(context).textTheme.textStyle,
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: ' ${trackset.daysLeft().toString()} ',
-                          style: StatStyles.kAccentTextStyle,
-                        ),
-                        TextSpan(
-                          text: 'days left,',
-                          style: StatStyles.kSecondaryTextStyle,
-                        ),
-                        TextSpan(
-                          text: ' ${trackset.daysPassed()} ',
-                          style: StatStyles.kAccentTextStyle,
-                        ),
-                        TextSpan(
-                          text: 'out of',
-                          style: StatStyles.kSecondaryTextStyle,
-                        ),
-                        TextSpan(
-                          text: ' ${trackset.totalDays} ',
-                          style: StatStyles.kAccentTextStyle,
-                        ),
-                        TextSpan(
-                          text: 'passed',
-                          style: StatStyles.kSecondaryTextStyle,
-                        ),
-                      ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const Icon(CupertinoIcons.calendar),
+                    RichText(
+                      text: TextSpan(
+                        style: CupertinoTheme.of(context).textTheme.textStyle,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: ' ${trackset.daysLeft().toString()} ',
+                            style: StatStyles.kAccentTextStyle,
+                          ),
+                          TextSpan(
+                            text: 'days left,',
+                            style: StatStyles.kSecondaryTextStyle,
+                          ),
+                          TextSpan(
+                            text: ' ${trackset.daysPassed()} ',
+                            style: StatStyles.kAccentTextStyle,
+                          ),
+                          TextSpan(
+                            text: 'out of',
+                            style: StatStyles.kSecondaryTextStyle,
+                          ),
+                          TextSpan(
+                            text: ' ${trackset.totalDays} ',
+                            style: StatStyles.kAccentTextStyle,
+                          ),
+                          TextSpan(
+                            text: 'passed',
+                            style: StatStyles.kSecondaryTextStyle,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              divider,
-              Row(
-                children: [
-                  const Icon(CupertinoIcons.graph_square),
-                  RichText(
-                    text: TextSpan(
-                      style: CupertinoTheme.of(context).textTheme.textStyle,
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: ' ${trackset.left} ',
-                          style: StatStyles.kAccentTextStyle,
-                        ),
-                        TextSpan(
-                          text: 'points to do,',
-                          style: StatStyles.kSecondaryTextStyle,
-                        ),
-                        TextSpan(
-                          text: ' ${trackset.done} ',
-                          style: StatStyles.kSecondaryTextStyle,
-                        ),
-                        TextSpan(
-                          text: 'out of',
-                          style: StatStyles.kSecondaryTextStyle,
-                        ),
-                        TextSpan(
-                          text: ' ${trackset.length} ',
-                          style: StatStyles.kAccentTextStyle,
-                        ),
-                        TextSpan(
-                          text: 'done',
-                          style: StatStyles.kSecondaryTextStyle,
-                        ),
-                      ],
+                  ],
+                ),
+                divider,
+                Row(
+                  children: [
+                    const Icon(CupertinoIcons.speedometer),
+                    RichText(
+                      text: TextSpan(
+                        style: CupertinoTheme.of(context).textTheme.textStyle,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: ' ${trackset.dailyGoal} ',
+                            style: StatStyles.kAccentTextStyle,
+                          ),
+                          TextSpan(
+                            text: 'to complete daily',
+                            style: StatStyles.kSecondaryTextStyle,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              divider,
-              Row(
-                children: [
-                  const Icon(CupertinoIcons.speedometer),
-                  RichText(
-                    text: TextSpan(
-                      style: CupertinoTheme.of(context).textTheme.textStyle,
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: ' ${trackset.dailyGoal} ',
-                          style: StatStyles.kAccentTextStyle,
-                        ),
-                        TextSpan(
-                          text: 'to complete daily',
-                          style: StatStyles.kSecondaryTextStyle,
-                        ),
-                      ],
+                  ],
+                ),
+                divider,
+                Row(
+                  children: [
+                    const Icon(CupertinoIcons.graph_square),
+                    RichText(
+                      text: TextSpan(
+                        style: CupertinoTheme.of(context).textTheme.textStyle,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: ' ${trackset.left} ',
+                            style: StatStyles.kAccentTextStyle,
+                          ),
+                          TextSpan(
+                            text: 'points to do,',
+                            style: StatStyles.kSecondaryTextStyle,
+                          ),
+                          TextSpan(
+                            text: ' ${trackset.done} ',
+                            style: StatStyles.kSecondaryTextStyle,
+                          ),
+                          TextSpan(
+                            text: 'out of',
+                            style: StatStyles.kSecondaryTextStyle,
+                          ),
+                          TextSpan(
+                            text: ' ${trackset.length} ',
+                            style: StatStyles.kAccentTextStyle,
+                          ),
+                          TextSpan(
+                            text: 'done',
+                            style: StatStyles.kSecondaryTextStyle,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+                const Height(kDefaultPadding * 1.5),
+                ProgressBar(
+                  progress: trackset.progress,
+                  height: 8,
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -258,9 +265,9 @@ class _TracksetBodyState extends State<TracksetBody> {
           delegate: SliverChildListDelegate(
             [
               _buildTracksetControls(context),
-              const SizedBox(height: kDefaultPadding * 1.5),
+              const Height(kDefaultPadding * 1.5),
               _buildTracksetStats(context),
-              const SizedBox(height: kDefaultPadding * 2),
+              const Height(kDefaultPadding * 1.5),
               RichListHeader(
                 isLoading: false,
                 selectionModeEnabled: _trackListSelector.selectionModeEnabled,

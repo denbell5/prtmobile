@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:prtmobile/core/core.dart';
-
+import 'package:prtmobile/core/func/func.dart' as func;
 import 'models.dart';
 
 class Trackset extends Equatable {
@@ -95,6 +95,8 @@ class Trackset extends Equatable {
       tracks.entities.fold(0, (sum, track) => sum += track.length);
   int get done => tracks.entities.fold(0, (sum, track) => sum += track.done);
   int get left => tracks.entities.fold(0, (sum, track) => sum += track.left);
+
+  double get progress => func.progress(done, length);
 
   int get dailyGoal {
     final _daysLeft = daysLeft();

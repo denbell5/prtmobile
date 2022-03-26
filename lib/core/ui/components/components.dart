@@ -19,3 +19,4 @@ export 'dividers/nothing.dart';
 export 'dividers/width.dart';
 export 'navbar/navbar.dart';
 export 'bottom-safe-area/scrollable_bottom_safe_area.dart';
+export 'progress_bar/progress_bar.dart';
