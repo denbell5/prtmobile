@@ -52,10 +52,7 @@ class InputState extends State<Input> {
           children: [
             Padding(
               padding: borderRadiusInsets,
-              child: Text(
-                widget.label,
-                style: AppTypography.bodyText,
-              ),
+              child: Text(widget.label),
             ),
             CupertinoTextField(
               controller: _controller,
@@ -78,7 +75,7 @@ class InputState extends State<Input> {
               padding: borderRadiusInsets,
               child: Text(
                 state.errorText ?? '',
-                style: AppTypography.small.red(),
+                style: AppTypography.error,
               ),
             )
           ],

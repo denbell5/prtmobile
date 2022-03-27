@@ -21,7 +21,6 @@ class _SubtrackSoViewState extends State<SubtrackSoView>
   @override
   Widget build(BuildContext context) {
     return ListItemHeader(
-      primaryTextSize: FontSizes.h4 - 1,
       primary: RichText(
         text: TextSpan(
           style: CupertinoTheme.of(context).textTheme.textStyle,

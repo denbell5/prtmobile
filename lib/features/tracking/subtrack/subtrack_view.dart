@@ -39,9 +39,6 @@ class _SubtrackViewState extends State<SubtrackView>
   @override
   Widget build(BuildContext context) {
     return ListItemHeader(
-      primaryTextSize: FontSizes.h4 - 1,
-      primaryText:
-          '${subtrack.start} - ${subtrack.end}, stopped on ${subtrack.pointer}',
       trailing: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

@@ -43,10 +43,7 @@ class DatePicker extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(left: leftInset),
-            child: Text(
-              label,
-              style: AppTypography.bodyText,
-            ),
+            child: Text(label),
           ),
           Row(
             children: [
@@ -65,7 +62,7 @@ class DatePicker extends StatelessWidget {
               padding: const EdgeInsets.only(left: leftInset),
               child: Text(
                 errorText ?? '',
-                style: AppTypography.small.red(),
+                style: AppTypography.error,
               ),
             )
         ],

@@ -167,7 +167,7 @@ class _SubtrackUpdateDialogState extends State<SubtrackUpdateDialog> {
   Widget buildError() {
     return Text(
       _errorText,
-      style: AppTypography.bodyText.red(),
+      style: AppTypography.error,
     );
   }
 
@@ -210,12 +210,7 @@ class _SubtrackUpdateDialogState extends State<SubtrackUpdateDialog> {
                             state.isSubtrackEditFailed) {
                           status = 'Error';
                         }
-                        return Text(
-                          status,
-                          style: AppTypography.bodyText.copyWith(
-                            height: FormStyles.kHeaderTextStyle.height,
-                          ),
-                        );
+                        return Text(status);
                       },
                     ),
                   ),
@@ -280,7 +275,7 @@ class _SubtrackUpdateDialogState extends State<SubtrackUpdateDialog> {
           ),
           const Height(kDefaultPadding),
           buildError(),
-          const Height(kDefaultPadding / 2),
+          const Height(kDefaultPadding),
         ],
       ),
     );

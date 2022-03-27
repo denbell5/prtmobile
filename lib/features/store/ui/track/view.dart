@@ -13,8 +13,11 @@ class TrackSoView extends StatelessWidget {
   Widget _buildHeader(BuildContext context) {
     return ListItemHeader(
       labelText: 'Track',
-      primaryText: track.name,
-      primaryTextSize: FontSizes.h6,
+      primary: Text(
+        track.name,
+        style: AppTypography.h5,
+        maxLines: 2,
+      ),
       onTap: () {
         ExpandableState.of(context)!.toggle();
       },

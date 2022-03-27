@@ -93,9 +93,7 @@ class ListHeader extends StatelessWidget {
   final EdgeInsets? padding;
 
   static TextStyle get kTextStyle => AppTypography.h4;
-  static TextStyle get kSmallerTextStyle => kTextStyle.copyWith(
-        fontSize: FontSizes.h4 - 2,
-      );
+  static TextStyle get kSmallerTextStyle => AppTypography.h5;
 
   static const EdgeInsets defaultPadding = EdgeInsets.only(
     left: kDefaultPadding,
