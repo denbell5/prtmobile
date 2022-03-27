@@ -73,7 +73,7 @@ class _TracksetSoBodyState extends State<TracksetSoBody> {
         SliverList(
           delegate: SliverChildListDelegate(
             [
-              const Height(kDefaultPadding * 1),
+              const Height(kDefaultPadding),
               _buildTracksetStats(context),
               const Height(kDefaultPadding * 1.5),
               ListHeader(

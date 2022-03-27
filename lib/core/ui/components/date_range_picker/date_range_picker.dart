@@ -49,7 +49,7 @@ class _DateRangePickerState extends State<DateRangePicker> {
               },
               errorSpacePreserved: false,
             ),
-            const SizedBox(height: kDefaultPadding / 2),
+            const Height(kDefaultPadding / 2),
             DatePicker(
               label: 'Ends',
               dateValue: currentValue.end,

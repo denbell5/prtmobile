@@ -37,7 +37,7 @@ class Button extends StatelessWidget {
       child: Container(
         padding: padding ?? const EdgeInsets.all(kDefaultPadding),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(kBorderRadius),
+          borderRadius: BorderRadius.circular(kComponentBorderRadius),
           border: bordered ? Border.all(color: AppColors.black) : null,
         ),
         child: Row(

@@ -38,7 +38,7 @@ class YesNoDialog extends StatelessWidget {
         decoration: BoxDecoration(
           color: CupertinoTheme.of(context).scaffoldBackgroundColor,
           borderRadius: BorderRadius.circular(
-            kDefaultPadding * 0.75,
+            kSurfaceBorderRadius,
           ),
         ),
         child: FractionallySizedBox(

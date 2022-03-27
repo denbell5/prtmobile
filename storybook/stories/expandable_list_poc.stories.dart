@@ -71,19 +71,6 @@ class _ExpandableListPocExampleState extends State<ExpandableListPocExample> {
     );
   }
 
-  Widget buildSeparator() {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(
-            width: kDividerHeight,
-            color: AppColors.black,
-          ),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(

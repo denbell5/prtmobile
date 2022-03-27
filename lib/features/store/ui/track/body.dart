@@ -18,12 +18,11 @@ class _TrackSoBodyState extends State<TrackSoBody> with ListBuilder {
   TrackSo get track => widget.track;
 
   Widget _buildTrackStats(BuildContext context) {
-    const divider = SizedBox(height: kDefaultPadding * 0.5);
+    const divider = Height(kDefaultPadding * 0.5);
     return Padding(
       padding: const EdgeInsets.only(
         left: kDefaultPadding,
         right: kDefaultPadding,
-        top: kDefaultPadding / 4,
         bottom: kDefaultPadding,
       ),
       child: Row(
@@ -107,9 +106,9 @@ class _TrackSoBodyState extends State<TrackSoBody> with ListBuilder {
         SliverList(
           delegate: SliverChildListDelegate(
             [
-              const SizedBox(height: kDefaultPadding * 1.5),
+              const Height(kDefaultPadding * 1.5),
               _buildTrackStats(context),
-              const SizedBox(height: kDefaultPadding),
+              const Height(kDefaultPadding),
               _buildSubtrackListHeader(context),
             ],
           ),

@@ -19,7 +19,7 @@ class DatePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const leftInset = kBorderRadius;
+    const leftInset = kComponentBorderRadius;
     final bgColor = CupertinoTheme.of(context).scaffoldBackgroundColor;
     return GestureDetector(
       onTap: () {

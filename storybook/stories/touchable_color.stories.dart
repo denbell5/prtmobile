@@ -30,7 +30,7 @@ class _TouchableColorExampleState extends State<TouchableColorExample> {
             color: Colors.amber,
             touchColor: AppColors.grey,
           ),
-          const SizedBox(height: 10),
+          const Height(10),
           const Text('From white to light grey'),
           TouchableColor(
             child: const SizedBox(

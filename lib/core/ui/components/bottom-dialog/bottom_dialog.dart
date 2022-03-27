@@ -29,8 +29,8 @@ class BottomDialog extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: CupertinoTheme.of(context).scaffoldBackgroundColor,
                   borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(kDefaultPadding * 0.75),
-                    topRight: Radius.circular(kDefaultPadding * 0.75),
+                    topLeft: Radius.circular(kSurfaceBorderRadius),
+                    topRight: Radius.circular(kSurfaceBorderRadius),
                   ),
                 ),
                 child: child,

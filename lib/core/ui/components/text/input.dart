@@ -38,7 +38,7 @@ class InputState extends State<Input> {
 
   @override
   Widget build(BuildContext context) {
-    const borderRadius = kBorderRadius;
+    const borderRadius = kComponentBorderRadius;
     const borderRadiusInsets = EdgeInsets.only(left: borderRadius);
 
     return FormField<String>(

@@ -85,7 +85,7 @@ class _TrackBodyState extends State<TrackBody> with ListBuilder {
   }
 
   Widget _buildTrackStats(BuildContext context) {
-    const divider = SizedBox(height: kDefaultPadding * 0.5);
+    const divider = Height(kDefaultPadding * 0.5);
     return Padding(
       padding: const EdgeInsets.only(
         left: kDefaultPadding,

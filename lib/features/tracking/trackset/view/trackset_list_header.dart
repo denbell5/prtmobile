@@ -37,7 +37,7 @@ class TracksetListHeader extends StatelessWidget {
                   iconData: CupertinoIcons.xmark,
                   onTap: disableSelectionMode,
                   padding: padding.copyWith(
-                    right: kDefaultPadding / 2,
+                    right: kDefaultPadding * 0.5,
                   ),
                   adjustToHeight: allowedHeight,
                 ),

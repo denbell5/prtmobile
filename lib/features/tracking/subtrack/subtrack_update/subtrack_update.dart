@@ -233,7 +233,7 @@ class _SubtrackUpdateDialogState extends State<SubtrackUpdateDialog> {
               ],
             ),
           ),
-          const SizedBox(height: kDefaultPadding),
+          const Height(kDefaultPadding),
           Row(
             children: [
               Expanded(
