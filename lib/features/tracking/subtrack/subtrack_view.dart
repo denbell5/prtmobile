@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prtmobile/core/core.dart';
 import 'package:prtmobile/features/tracking/tracking.dart';
 
-const kSubtrackViewHeaderHeight = 60.0;
-
 class SubtrackView extends StatefulWidget {
   const SubtrackView({
     Key? key,
@@ -41,7 +39,6 @@ class _SubtrackViewState extends State<SubtrackView>
   @override
   Widget build(BuildContext context) {
     return ListItemHeader(
-      height: kSubtrackViewHeaderHeight,
       primaryTextSize: FontSizes.h4 - 1,
       primaryText:
           '${subtrack.start} - ${subtrack.end}, stopped on ${subtrack.pointer}',

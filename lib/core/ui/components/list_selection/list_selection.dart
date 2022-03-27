@@ -49,7 +49,7 @@ mixin ListItemSelectionMixin on State {
         return YesNoDialog(
           title: Text(
             'Delete ${selectedIds.length} selected ${pluralize(entityName, count: selectedIds.length)}?',
-            style: AppTypography.h5,
+            style: AppTypography.h6,
           ),
         );
       },

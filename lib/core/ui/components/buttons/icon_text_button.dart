@@ -30,7 +30,7 @@ class IconTextButton extends StatelessWidget {
   );
   static const kSpaceBetweenIconAndText = kDefaultPadding / 4;
 
-  static final kTextStyle = AppTypography.h5;
+  static final kTextStyle = AppTypography.h6;
   static final kIconSize = kTextStyle.fontSize! + 5;
 
   @override

@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:prtmobile/core/core.dart';
 
-const kListItemHeaderHeight = 80.0;
-
 class ListItemHeader extends StatelessWidget {
   const ListItemHeader({
     Key? key,
@@ -14,7 +12,6 @@ class ListItemHeader extends StatelessWidget {
     this.primaryTextSize,
     this.label,
     this.labelText,
-    this.height,
     this.primary,
     this.trailing,
   })  : assert(!(label != null && labelText != null)),
@@ -31,7 +28,6 @@ class ListItemHeader extends StatelessWidget {
   final Widget? label;
   final String? labelText;
 
-  final double? height;
   final Widget? primary;
 
   final Widget? trailing;
@@ -76,18 +72,16 @@ class ListItemHeader extends StatelessWidget {
         duration: const Duration(milliseconds: 200),
         child: Padding(
           padding: const EdgeInsets.symmetric(
+            vertical: kDefaultPadding,
             horizontal: kDefaultPadding,
           ),
-          child: SizedBox(
-            height: height ?? kListItemHeaderHeight,
-            child: Row(
-              children: [
-                Expanded(
-                  child: content,
-                ),
-                if (trailing != null) trailing!,
-              ],
-            ),
+          child: Row(
+            children: [
+              Expanded(
+                child: content,
+              ),
+              if (trailing != null) trailing!,
+            ],
           ),
         ),
       ),

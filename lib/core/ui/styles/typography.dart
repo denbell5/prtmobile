@@ -9,7 +9,8 @@ class FontSizes {
   static const double h2 = 26;
   static const double h3 = 24;
   static const double h4 = 20;
-  static const double h5 = 16;
+  static const double h5 = 18;
+  static const double h6 = 16;
 }
 
 class AppTypography {
@@ -44,6 +45,11 @@ class AppTypography {
 
   static TextStyle get h5 => const TextStyle(
         fontSize: FontSizes.h5,
+        height: kFontHeight,
+      );
+
+  static TextStyle get h6 => const TextStyle(
+        fontSize: FontSizes.h6,
         height: 1.3,
       );
 

@@ -2,8 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:prtmobile/core/core.dart';
 import 'package:prtmobile/features/store/store.dart';
 
-const kTrackHeaderHeight = 60.0;
-
 class TrackSoView extends StatelessWidget {
   const TrackSoView({
     Key? key,
@@ -16,8 +14,7 @@ class TrackSoView extends StatelessWidget {
     return ListItemHeader(
       labelText: 'Track',
       primaryText: track.name,
-      primaryTextSize: FontSizes.h5,
-      height: kTrackHeaderHeight,
+      primaryTextSize: FontSizes.h6,
       onTap: () {
         ExpandableState.of(context)!.toggle();
       },

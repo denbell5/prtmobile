@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prtmobile/core/core.dart';
 import 'package:prtmobile/features/tracking/tracking.dart';
 
-const kTrackHeaderHeight = 60.0;
-
 class TrackView extends StatelessWidget {
   const TrackView({
     Key? key,
@@ -25,7 +23,11 @@ class TrackView extends StatelessWidget {
 
   Widget _buildHeader(BuildContext context) {
     return ListItemHeader(
-      primaryText: track.name,
+      primary: Text(
+        track.name,
+        style: AppTypography.h5,
+        maxLines: 2,
+      ),
       onTap: () {
         if (selectionModeEnabled) {
           toggleSelection(track.id);
@@ -35,9 +37,7 @@ class TrackView extends StatelessWidget {
       },
       onLongPress: () => onHeaderLongPressed(track.id),
       bgColor: isSelected ? AppColors.lightGrey : null,
-      primaryTextSize: FontSizes.h5,
       labelText: 'Track',
-      height: kTrackHeaderHeight,
     );
   }
 

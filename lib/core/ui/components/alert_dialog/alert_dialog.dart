@@ -24,7 +24,7 @@ class YesNoDialog extends StatelessWidget {
           ),
           child: Text(
             value ? 'Yes' : 'No',
-            style: AppTypography.h5,
+            style: AppTypography.h6,
           ),
         ),
       ),
@@ -104,7 +104,7 @@ class ConfirmDeletionDialog extends StatelessWidget {
     return YesNoDialog(
       title: Text(
         'Delete $deletedCount selected ${pluralize(entityName, count: deletedCount)}?',
-        style: AppTypography.h5,
+        style: AppTypography.h6,
       ),
     );
   }

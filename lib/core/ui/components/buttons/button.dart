@@ -26,7 +26,7 @@ class Button extends StatelessWidget {
     if (child != null) return child!;
     return Text(
       label!,
-      style: AppTypography.h5,
+      style: AppTypography.h6,
     );
   }
 

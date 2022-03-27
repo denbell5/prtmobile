@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:prtmobile/features/store/store.dart';
 import 'package:prtmobile/core/core.dart';
 
-const kSubtrackViewHeaderHeight = 50.0;
-
 class SubtrackSoView extends StatefulWidget {
   const SubtrackSoView({
     Key? key,
@@ -23,7 +21,6 @@ class _SubtrackSoViewState extends State<SubtrackSoView>
   @override
   Widget build(BuildContext context) {
     return ListItemHeader(
-      height: kSubtrackViewHeaderHeight,
       primaryTextSize: FontSizes.h4 - 1,
       primary: RichText(
         text: TextSpan(
