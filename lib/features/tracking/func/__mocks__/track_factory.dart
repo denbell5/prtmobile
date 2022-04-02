@@ -1,3 +1,4 @@
+import 'package:prtmobile/features/tracking/func/__mocks__/mocks.dart';
 import 'package:prtmobile/features/tracking/tracking.dart';
 
 class TrackFactory {
@@ -5,8 +6,16 @@ class TrackFactory {
     int index, {
     required String tracksetId,
     List<Subtrack> subtracks = const [],
+    int? subtrackCount,
   }) {
-    final normalizedSubtracks = normalizeSubtracks(subtracks);
+    var _subtracks = subtracks;
+    if (subtrackCount != null) {
+      _subtracks = SubtrackFactory.buildSubtracks(
+        subtrackCount,
+        trackId: '$index',
+      );
+    }
+    final normalizedSubtracks = normalizeSubtracks(_subtracks);
     return Track(
       id: '$index',
       tracksetId: tracksetId,
@@ -18,11 +27,16 @@ class TrackFactory {
   static List<Track> buildTracks(
     int count, {
     required String tracksetId,
+    int? subtrackCount,
   }) {
     final values = <Track>[];
     for (var i = 0; i < count; i++) {
       values.add(
-        buildTrack(i, tracksetId: tracksetId),
+        buildTrack(
+          i,
+          tracksetId: tracksetId,
+          subtrackCount: subtrackCount,
+        ),
       );
     }
     return values;

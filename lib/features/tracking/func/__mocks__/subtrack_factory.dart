@@ -5,11 +5,12 @@ class SubtrackFactory {
     int index, {
     int? aPointer,
     required String trackId,
+    int k = 100,
   }) {
     // 1-6-10, 11-16-20, 21-26-30, ...
-    final start = index * 10 + 1;
-    final end = (index + 1) * 10;
-    final pointer = aPointer ?? end - 4;
+    final start = index * k + 1;
+    final end = (index + 1) * k;
+    final pointer = (aPointer ?? end - (k * 0.4)).toInt();
     return Subtrack(
       id: 'subtrack-$index',
       trackId: trackId,
