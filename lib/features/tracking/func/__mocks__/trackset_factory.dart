@@ -9,18 +9,19 @@ class TracksetFactory {
     int? trackCount,
     int? subtrackCount,
   }) {
+    final tracksetId = '$index';
     var _tracks = tracks;
     if (trackCount != null) {
       _tracks = TrackFactory.buildTracks(
         trackCount,
-        tracksetId: '$index',
+        tracksetId: tracksetId,
         subtrackCount: subtrackCount,
       );
     }
     final normalizedTracks = normalizeTracks(_tracks);
     final now = DateTime.now();
     return Trackset(
-      id: '$index',
+      id: tracksetId,
       name: name ?? 'Trackset-$index',
       startAt: now,
       endAt: now.add(const Duration(days: 7)),

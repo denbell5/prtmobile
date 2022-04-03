@@ -8,16 +8,17 @@ class TrackFactory {
     List<Subtrack> subtracks = const [],
     int? subtrackCount,
   }) {
+    final trackId = '$tracksetId-$index';
     var _subtracks = subtracks;
     if (subtrackCount != null) {
       _subtracks = SubtrackFactory.buildSubtracks(
         subtrackCount,
-        trackId: '$index',
+        trackId: trackId,
       );
     }
     final normalizedSubtracks = normalizeSubtracks(_subtracks);
     return Track(
-      id: '$index',
+      id: trackId,
       tracksetId: tracksetId,
       name: 'Track $index',
       subtracks: normalizedSubtracks,

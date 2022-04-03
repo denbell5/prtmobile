@@ -12,7 +12,7 @@ class SubtrackFactory {
     final end = (index + 1) * k;
     final pointer = (aPointer ?? end - (k * 0.4)).toInt();
     return Subtrack(
-      id: 'subtrack-$index',
+      id: '$trackId-$index',
       trackId: trackId,
       start: start,
       end: end,
