@@ -44,14 +44,25 @@ class ExpandableState extends State<Expandable>
     _expandableListState = ExpandableListStateV2.of(context)!;
   }
 
-  void toggle() {
+  void toggle() async {
     final wasExpanded = _isExpanded;
-    _isExpanded = !_isExpanded;
+    if (!wasExpanded) {
+      setState(() {
+        _isExpanded = !_isExpanded;
+      });
+    }
+
     _expandableListState.onToggleV2(toggledExpandable: this);
     if (wasExpanded) {
-      _animationController.reverse();
+      await _animationController.reverse();
     } else {
-      _animationController.forward();
+      await _animationController.forward();
+    }
+
+    if (wasExpanded) {
+      setState(() {
+        _isExpanded = !_isExpanded;
+      });
     }
   }
 
@@ -94,7 +105,10 @@ class ExpandableState extends State<Expandable>
           parent: _animationController,
           curve: widget.animationData.curve,
         ),
-        child: widget.body,
+        child: Offstage(
+          offstage: !_isExpanded,
+          child: widget.body,
+        ),
       ),
     );
   }
