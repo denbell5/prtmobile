@@ -6,6 +6,7 @@ import 'expandable_test_app.dart';
 void main() async {
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized()
       as IntegrationTestWidgetsFlutterBinding;
+  binding.framePolicy = LiveTestWidgetsFlutterBindingFramePolicy.fullyLive;
 
   testWidgets('Expanding animation benchmark', (WidgetTester tester) async {
     await tester.pumpWidget(const ExpandableTestApp());
