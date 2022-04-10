@@ -14,8 +14,6 @@ class ExpandableListV2 extends StatefulWidget {
     this.slivers = const [],
   }) : super(key: key);
 
-  // ignore: todo
-  // TODO: remove unused fields
   final ScrollController? controller;
   final AnimationData? animationData;
   final List<Widget> slivers;
@@ -30,6 +28,8 @@ class ExpandableListStateV2 extends State<ExpandableListV2> with ListBuilder {
 
   bool _isExpanded = false;
   bool get isExpanded => _isExpanded;
+
+  bool _isScrolling = false;
 
   ExpandableState? _expandedExpandable;
 
@@ -60,7 +60,8 @@ class ExpandableListStateV2 extends State<ExpandableListV2> with ListBuilder {
     WidgetsBinding.instance!.scheduleFrameCallback((timeStamp) {
       if (!_isExpanded ||
           _expandedExpandable == null ||
-          !_expandedExpandable!.mounted) {
+          !_expandedExpandable!.mounted ||
+          _isScrolling) {
         return;
       }
       final headerBox = _expandedExpandable!.getBox();
@@ -117,22 +118,39 @@ class ExpandableListStateV2 extends State<ExpandableListV2> with ListBuilder {
     );
   }
 
+  void _watchIsScrolling(ScrollNotification notification) {
+    if (notification.depth != 0) {
+      return;
+    }
+    if (notification is ScrollEndNotification) {
+      _isScrolling = false;
+    } else if (notification is ScrollStartNotification) {
+      _isScrolling = true;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
         viewportConstraints.value = constraints;
-        return CustomScrollView(
-          controller: _scrollController,
-          physics: scrollPhysics,
-          cacheExtent: double.maxFinite,
-          slivers: [
-            ...widget.slivers,
-            if (_isExpanded)
-              _buildExtraScrollableSpace(
-                constraints,
-              )
-          ],
+        return NotificationListener<ScrollNotification>(
+          onNotification: (notification) {
+            _watchIsScrolling(notification);
+            return false;
+          },
+          child: CustomScrollView(
+            controller: _scrollController,
+            physics: scrollPhysics,
+            cacheExtent: double.maxFinite,
+            slivers: [
+              ...widget.slivers,
+              if (_isExpanded)
+                _buildExtraScrollableSpace(
+                  constraints,
+                )
+            ],
+          ),
         );
       },
     );

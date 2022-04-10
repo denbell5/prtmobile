@@ -4,25 +4,35 @@ import 'package:prtmobile/features/tracking/tracking.dart';
 
 class TrackingState extends Equatable {
   final NormalizedList<Trackset, String> tracksets;
+  final TrackingPath? lastUpdatedSubtrackPath;
 
-  TrackingState.initial() : tracksets = NormalizedList.createEmpty();
+  TrackingState.initial()
+      : tracksets = NormalizedList.createEmpty(),
+        lastUpdatedSubtrackPath = null;
 
   const TrackingState({
     required this.tracksets,
+    required this.lastUpdatedSubtrackPath,
   });
 
-  TrackingState.fromState(TrackingState state) : tracksets = state.tracksets;
+  TrackingState.fromState(TrackingState state)
+      : tracksets = state.tracksets,
+        lastUpdatedSubtrackPath = state.lastUpdatedSubtrackPath;
 
   TrackingState copyWith({
     NormalizedList<Trackset, String>? tracksets,
+    Nullable<TrackingPath>? lastUpdatedSubtrackPath,
   }) {
     return TrackingState(
       tracksets: tracksets ?? this.tracksets,
+      lastUpdatedSubtrackPath: lastUpdatedSubtrackPath != null
+          ? lastUpdatedSubtrackPath.value
+          : this.lastUpdatedSubtrackPath,
     );
   }
 
   @override
-  List<Object?> get props => [tracksets];
+  List<Object?> get props => [tracksets, lastUpdatedSubtrackPath];
 }
 
 class TrackingErrorState extends TrackingState {
@@ -62,6 +72,9 @@ class TrackingUpdatedState extends TrackingState {
   final bool isAfterSubtrackEdited;
   final bool isAfterTracksetSoAdded;
   final Trackset? updatedTrackset;
+  final String? tracksetIdToBeOpened;
+  final String? trackIdToBeOpened;
+  final String? subtrackIdToBeOpened;
 
   TrackingUpdatedState(
     TrackingState state, {
@@ -75,10 +88,16 @@ class TrackingUpdatedState extends TrackingState {
     this.isAfterSubtrackEdited = false,
     this.isAfterTracksetSoAdded = false,
     this.updatedTrackset,
+    this.tracksetIdToBeOpened,
+    this.trackIdToBeOpened,
+    this.subtrackIdToBeOpened,
   }) : super.fromState(state);
 
   @override
   List<Object?> get props => [
         ...super.props,
+        tracksetIdToBeOpened,
+        trackIdToBeOpened,
+        subtrackIdToBeOpened,
       ];
 }

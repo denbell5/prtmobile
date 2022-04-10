@@ -9,6 +9,7 @@ final migrations = [
   _CreateSubtracksTable(),
   _AddIsDeletedToTrackset(),
   _MakeTrackIdForeignKeyInSubtrack(),
+  _AddUpdatedAtToSubtrack(),
 ];
 
 class _CreateTracksetsTable extends Migration {
@@ -77,5 +78,17 @@ class _MakeTrackIdForeignKeyInSubtrack extends Migration {
     await db.execute(
       'DROP TABLE ${subtrackSchema.tableName}_old;',
     );
+  }
+}
+
+class _AddUpdatedAtToSubtrack extends Migration {
+  @override
+  Future<void> execute(Transaction db) async {
+    const schema = SubtrackDbo.schema;
+    final script = '''
+      ALTER TABLE ${schema.tableName}
+      ADD ${schema.updatedAt} TEXT NULL
+    ''';
+    await db.execute(script);
   }
 }

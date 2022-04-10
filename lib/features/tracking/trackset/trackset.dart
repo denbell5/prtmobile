@@ -5,3 +5,4 @@ export 'view/trackset_list.dart';
 export 'view/trackset_list_header.dart';
 export 'view/trackset_view.dart';
 export 'view/trackset_header.dart';
+export 'view/open_last_updated.dart';

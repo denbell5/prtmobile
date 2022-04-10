@@ -26,6 +26,8 @@ class Expandable extends StatefulWidget {
 class ExpandableState extends State<Expandable>
     with SingleTickerProviderStateMixin {
   var _isExpanded = false;
+  bool get isExpanded => _isExpanded;
+
   late AnimationController _animationController;
   final headerKey = GlobalKey();
   late ExpandableListStateV2 _expandableListState;

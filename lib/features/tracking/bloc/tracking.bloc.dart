@@ -4,6 +4,7 @@ export 'tracking.state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:prtmobile/core/core.dart';
 import 'package:prtmobile/features/store/store.dart';
 import 'package:prtmobile/features/tracking/tracking.dart';
 
@@ -45,7 +46,10 @@ class TrackingBloc extends Bloc<TrackingEvent, TrackingState> {
       yield* _mapSubtrackEditedToState(event);
     } else if (event is TracksetSoAdded) {
       yield* _mapTracksetSoAddedToState(event);
+    } else if (event is LastUpdatedTracksetOpened) {
+      yield* _mapLastUpdatedSubtrackOpenedToState(event);
     }
+    yield* _findLastUpdatedSubtrack();
   }
 
   Stream<TrackingState> _mapTracksetsRequestedToState(
@@ -69,6 +73,39 @@ class TrackingBloc extends Bloc<TrackingEvent, TrackingState> {
         failedEvent: event,
       );
     }
+  }
+
+  Stream<TrackingState> _findLastUpdatedSubtrack() async* {
+    final tracks = state.tracksets.entities.selectMany(
+      (x) => x.tracks.entities,
+    );
+    final subtracks = tracks
+        .selectMany((x) => x.subtracks.entities)
+        .where((x) => x.updatedAt != null)
+        .toList();
+
+    if (subtracks.isEmpty) {
+      yield state.copyWith(
+        lastUpdatedSubtrackPath: Nullable(null),
+      );
+      return;
+    }
+
+    subtracks.sort((a, b) => a.updatedAt!.compareTo(b.updatedAt!));
+
+    final subtrack = subtracks.last;
+    final track = tracks.firstWhere((x) => x.id == subtrack.trackId);
+    final trackset = state.tracksets.byId[track.tracksetId]!;
+
+    final path = TrackingPath(
+      tracksetId: trackset.id,
+      trackId: track.id,
+      subtrackId: subtrack.id,
+    );
+
+    yield state.copyWith(
+      lastUpdatedSubtrackPath: Nullable(path),
+    );
   }
 
   Stream<TrackingState> _mapTracksetCreatedToState(
@@ -383,6 +420,7 @@ class TrackingBloc extends Bloc<TrackingEvent, TrackingState> {
         start: event.value.start,
         end: event.value.end,
         pointer: event.value.pointer,
+        updatedAt: Nullable(DateTime.now().toUtc()),
       );
       final subtracks = track.subtracks.set(subtrack, id: subtrack.id);
       track = track.copyWith(subtracks: subtracks);
@@ -405,6 +443,19 @@ class TrackingBloc extends Bloc<TrackingEvent, TrackingState> {
         shouldShowNotification: true,
         isSubtrackEditFailed: true,
       );
+    }
+  }
+
+  Stream<TrackingState> _mapLastUpdatedSubtrackOpenedToState(event) async* {
+    yield* _findLastUpdatedSubtrack();
+    if (state.lastUpdatedSubtrackPath != null) {
+      const interval = Duration(milliseconds: 900);
+      final path = state.lastUpdatedSubtrackPath!;
+      yield TrackingUpdatedState(state, tracksetIdToBeOpened: path.tracksetId);
+      await Future.delayed(interval);
+      yield TrackingUpdatedState(state, trackIdToBeOpened: path.trackId);
+      await Future.delayed(interval);
+      yield TrackingUpdatedState(state, subtrackIdToBeOpened: path.subtrackId);
     }
   }
 }

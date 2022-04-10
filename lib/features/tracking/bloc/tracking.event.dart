@@ -103,3 +103,5 @@ class SubtrackEdited extends TrackingEvent {
     required this.tracksetId,
   });
 }
+
+class LastUpdatedTracksetOpened extends TrackingEvent {}
