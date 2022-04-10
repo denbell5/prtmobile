@@ -10,6 +10,7 @@ class _SubtrackDboSchema {
   final String start = 'start';
   final String end = 'end';
   final String pointer = 'pointer';
+  final String updatedAt = 'updatedAt';
 }
 
 class SubtrackDbo {
@@ -20,6 +21,7 @@ class SubtrackDbo {
   final int start;
   final int end;
   final int pointer;
+  final String? updatedAt;
 
   SubtrackDbo({
     required this.id,
@@ -27,6 +29,7 @@ class SubtrackDbo {
     required this.start,
     required this.end,
     required this.pointer,
+    required this.updatedAt,
   });
 
   Map<String, dynamic> toRaw() {
@@ -36,6 +39,7 @@ class SubtrackDbo {
       schema.start: start,
       schema.end: end,
       schema.pointer: pointer,
+      schema.updatedAt: updatedAt,
     };
   }
 
@@ -46,6 +50,7 @@ class SubtrackDbo {
       start: map[schema.start],
       end: map[schema.end],
       pointer: map[schema.pointer],
+      updatedAt: map[schema.updatedAt],
     );
   }
 
@@ -66,6 +71,8 @@ class SubtrackDbo {
       start: track.start,
       end: track.end,
       pointer: track.pointer,
+      updatedAt:
+          track.updatedAt == null ? null : track.updatedAt!.toIso8601String(),
     );
   }
 
@@ -76,6 +83,7 @@ class SubtrackDbo {
       start: start,
       end: end,
       pointer: pointer,
+      updatedAt: updatedAt == null ? null : DateTime.parse(updatedAt!),
     );
   }
 }
