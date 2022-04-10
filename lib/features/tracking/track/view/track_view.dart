@@ -22,22 +22,34 @@ class TrackView extends StatelessWidget {
   final void Function(String tracksetId) toggleSelection;
 
   Widget _buildHeader(BuildContext context) {
-    return ListItemHeader(
-      primary: Text(
-        track.name,
-        style: AppTypography.h5,
-        maxLines: 2,
-      ),
-      onTap: () {
-        if (selectionModeEnabled) {
-          toggleSelection(track.id);
-        } else {
-          ExpandableState.of(context)!.toggle();
+    return BlocListener<TrackingBloc, TrackingState>(
+      listener: (context, state) {
+        if (state is TrackingUpdatedState && state.trackIdToBeOpened != null) {
+          if (track.id == state.trackIdToBeOpened) {
+            final expandable = ExpandableState.of(context)!;
+            if (!expandable.isExpanded) {
+              ExpandableState.of(context)!.toggle();
+            }
+          }
         }
       },
-      onLongPress: () => onHeaderLongPressed(track.id),
-      bgColor: isSelected ? AppColors.lightGrey : null,
-      labelText: 'Track',
+      child: ListItemHeader(
+        primary: Text(
+          track.name,
+          style: AppTypography.h5,
+          maxLines: 2,
+        ),
+        onTap: () {
+          if (selectionModeEnabled) {
+            toggleSelection(track.id);
+          } else {
+            ExpandableState.of(context)!.toggle();
+          }
+        },
+        onLongPress: () => onHeaderLongPressed(track.id),
+        bgColor: isSelected ? AppColors.lightGrey : null,
+        labelText: 'Track',
+      ),
     );
   }
 

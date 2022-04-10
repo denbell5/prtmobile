@@ -38,38 +38,49 @@ class _SubtrackViewState extends State<SubtrackView>
 
   @override
   Widget build(BuildContext context) {
-    return ListItemHeader(
-      trailing: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text('${subtrack.done}/${subtrack.length}'),
-          ProgressBar(
-            height: 5,
-            width: 60,
-            progress: subtrack.progress,
-          ),
-        ],
-      ),
-      onTap: onSelected,
-      bgColor: widget.isSelected ? AppColors.lightGrey : null,
-      onLongPress: () => widget.onEnableSelectionMode(subtrack.id),
-      primary: RichText(
-        text: TextSpan(
-          style: CupertinoTheme.of(context).textTheme.textStyle,
-          children: <TextSpan>[
-            TextSpan(
-              text: '${subtrack.start} - ${subtrack.end}, ',
-              style: StatStyles.kAccentTextStyle,
-            ),
-            TextSpan(
-              text: 'stopped on',
-              style: StatStyles.kSecondaryTextStyle,
-            ),
-            TextSpan(
-              text: ' ${subtrack.pointer}',
-              style: StatStyles.kAccentTextStyle,
+    return BlocListener<TrackingBloc, TrackingState>(
+      listener: (context, state) {
+        if (state is TrackingUpdatedState &&
+            state.subtrackIdToBeOpened != null) {
+          if (subtrack.id == state.subtrackIdToBeOpened) {
+            final cubit = BlocProvider.of<SelectedSubtrackCubit>(context);
+            cubit.emitChange(subtrack.id);
+          }
+        }
+      },
+      child: ListItemHeader(
+        trailing: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('${subtrack.done}/${subtrack.length}'),
+            ProgressBar(
+              height: 5,
+              width: 60,
+              progress: subtrack.progress,
             ),
           ],
+        ),
+        onTap: onSelected,
+        bgColor: widget.isSelected ? AppColors.lightGrey : null,
+        onLongPress: () => widget.onEnableSelectionMode(subtrack.id),
+        primary: RichText(
+          text: TextSpan(
+            style: CupertinoTheme.of(context).textTheme.textStyle,
+            children: <TextSpan>[
+              TextSpan(
+                text: '${subtrack.start} - ${subtrack.end}, ',
+                style: StatStyles.kAccentTextStyle,
+              ),
+              TextSpan(
+                text: 'stopped on',
+                style: StatStyles.kSecondaryTextStyle,
+              ),
+              TextSpan(
+                text: ' ${subtrack.pointer}',
+                style: StatStyles.kAccentTextStyle,
+              ),
+            ],
+          ),
         ),
       ),
     );

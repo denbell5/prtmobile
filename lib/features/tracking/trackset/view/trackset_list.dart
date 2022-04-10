@@ -76,9 +76,27 @@ class _TracksetListState extends State<TracksetList> {
     );
   }
 
+  void _openToLastUpdatedSubtrack() {
+    if (_listSelector.selectionModeEnabled ||
+        listKey.currentState?.isExpanded == true) {
+      return;
+    }
+    TrackingBloc.of(context).add(
+      LastUpdatedTracksetOpened(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TrackingBloc, TrackingState>(
+      buildWhen: (prev, curr) {
+        final isOpening = prev is TrackingUpdatedState &&
+            curr is TrackingUpdatedState &&
+            (prev.tracksetIdToBeOpened != curr.tracksetIdToBeOpened ||
+                prev.trackIdToBeOpened != curr.trackIdToBeOpened ||
+                prev.subtrackIdToBeOpened != curr.subtrackIdToBeOpened);
+        return !isOpening;
+      },
       builder: (context, state) {
         final tracksets = state.tracksets;
         final errorMessage = _buildErrorMessage(state);
@@ -102,6 +120,13 @@ class _TracksetListState extends State<TracksetList> {
                     selectedCount: _listSelector.selectedIds.length,
                   ),
                   if (errorMessage != null) errorMessage,
+                  if (state.lastUpdatedSubtrackPath != null) ...[
+                    const Height(kDefaultPadding),
+                    OpenLastUpdatedSubtrackWidget(
+                      onTap: _openToLastUpdatedSubtrack,
+                    ),
+                    const Height(kDefaultPadding),
+                  ],
                   ...tracksets.entities
                       .map(
                         (trackset) => TracksetView(

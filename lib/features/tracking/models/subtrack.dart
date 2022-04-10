@@ -34,6 +34,7 @@ class SubtrackRange extends Range {
 class Subtrack extends SubtrackRange {
   final String id;
   final String trackId;
+  final DateTime? updatedAt;
 
   const Subtrack({
     required this.id,
@@ -41,6 +42,7 @@ class Subtrack extends SubtrackRange {
     required int start,
     required int end,
     required int pointer,
+    this.updatedAt,
   }) : super(
           start: start,
           end: end,
@@ -48,7 +50,12 @@ class Subtrack extends SubtrackRange {
         );
 
   @override
-  List<Object?> get props => [...super.props, id, trackId];
+  List<Object?> get props => [
+        ...super.props,
+        id,
+        trackId,
+        updatedAt,
+      ];
 
   SubtrackRange get baseRange => SubtrackRange(
         start: start,
@@ -62,6 +69,7 @@ class Subtrack extends SubtrackRange {
     int? start,
     int? end,
     int? pointer,
+    Nullable<DateTime>? updatedAt,
   }) {
     return Subtrack(
       id: id ?? this.id,
@@ -69,6 +77,7 @@ class Subtrack extends SubtrackRange {
       start: start ?? this.start,
       end: end ?? this.end,
       pointer: pointer ?? this.pointer,
+      updatedAt: updatedAt != null ? updatedAt.value : this.updatedAt,
     );
   }
 }
