@@ -21,7 +21,7 @@ class ExpandableListPocExample extends StatefulWidget {
 class _ExpandableListPocExampleState extends State<ExpandableListPocExample> {
   final scrollController = ScrollController();
   final itemExtent = 50.0;
-  final listKey = GlobalKey<ExpandableListStateV2>();
+  final listKey = GlobalKey<ExpandableListState>();
   final animationData = AnimationData(
     curve: Curves.linear,
     duration: const Duration(milliseconds: 300),
@@ -102,7 +102,7 @@ class _ExpandableListPocExampleState extends State<ExpandableListPocExample> {
             ],
           ),
           Flexible(
-            child: ExpandableListV2(
+            child: ExpandableList(
               key: listKey,
               controller: scrollController,
               animationData: animationData,

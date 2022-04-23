@@ -16,7 +16,7 @@ class TracksetBody extends StatefulWidget {
 }
 
 class _TracksetBodyState extends State<TracksetBody> {
-  final trackListKey = GlobalKey<ExpandableListStateV2>();
+  final trackListKey = GlobalKey<ExpandableListState>();
   final _trackListSelector = ListSelector<String>();
 
   Trackset get trackset => widget.trackset;
@@ -257,7 +257,7 @@ class _TracksetBodyState extends State<TracksetBody> {
   @override
   Widget build(BuildContext context) {
     final trackViews = _buildTrackList(context);
-    return ExpandableListV2(
+    return ExpandableList(
       key: trackListKey,
       animationData: kExpandAnimationData,
       slivers: [

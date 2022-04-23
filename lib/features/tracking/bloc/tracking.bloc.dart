@@ -191,12 +191,6 @@ class TrackingBloc extends Bloc<TrackingEvent, TrackingState> {
         normalized = normalized.remove(id);
       }
 
-      var tracksets = normalized.entities;
-      tracksets.sort(
-        (a, b) => a.startAt.compareTo(b.startAt) * -1,
-      );
-      normalized = normalizeTracksets(tracksets);
-
       await _db.deleteTracksets(event.ids.toList());
 
       yield TrackingUpdatedState(

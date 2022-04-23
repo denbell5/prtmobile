@@ -46,7 +46,7 @@ class _TracksetStoreState extends State<TracksetStore> {
               style: AppTypography.h3.white(),
             ),
           ),
-          child: ExpandableListV2(
+          child: ExpandableList(
             animationData: kExpandAnimationData,
             slivers: [
               SliverToBoxAdapter(

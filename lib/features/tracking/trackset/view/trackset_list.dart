@@ -11,7 +11,7 @@ class TracksetList extends StatefulWidget {
 }
 
 class _TracksetListState extends State<TracksetList> {
-  final listKey = GlobalKey<ExpandableListStateV2>();
+  final listKey = GlobalKey<ExpandableListState>();
 
   final _listSelector = ListSelector<String>();
 
@@ -101,7 +101,7 @@ class _TracksetListState extends State<TracksetList> {
         final tracksets = state.tracksets;
         final errorMessage = _buildErrorMessage(state);
         final isLoading = state is TrackingLoadingState;
-        return ExpandableListV2(
+        return ExpandableList(
           key: listKey,
           animationData: kExpandAnimationData,
           slivers: [

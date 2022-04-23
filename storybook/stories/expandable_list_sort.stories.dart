@@ -40,7 +40,7 @@ class ExpandableListSortingExample extends StatefulWidget {
 class _ExpandableListSortingExampleState
     extends State<ExpandableListSortingExample> {
   final itemExtent = 50.0;
-  final listKey = GlobalKey<ExpandableListStateV2>();
+  final listKey = GlobalKey<ExpandableListState>();
   final animationData = AnimationData(
     curve: Curves.linear,
     duration: const Duration(milliseconds: 300),
@@ -110,7 +110,7 @@ class _ExpandableListSortingExampleState
             ],
           ),
           Flexible(
-            child: ExpandableListV2(
+            child: ExpandableList(
               key: listKey,
               animationData: animationData,
               slivers: [

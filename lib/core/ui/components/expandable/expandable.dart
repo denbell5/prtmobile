@@ -30,7 +30,7 @@ class ExpandableState extends State<Expandable>
 
   late AnimationController _animationController;
   final headerKey = GlobalKey();
-  late ExpandableListStateV2 _expandableListState;
+  late ExpandableListState _expandableListState;
 
   static ExpandableState? of(BuildContext context) {
     return context.findAncestorStateOfType<ExpandableState>();
@@ -43,7 +43,7 @@ class ExpandableState extends State<Expandable>
       vsync: this,
       duration: widget.animationData.duration,
     );
-    _expandableListState = ExpandableListStateV2.of(context)!;
+    _expandableListState = ExpandableListState.of(context)!;
   }
 
   void toggle() async {
@@ -54,7 +54,7 @@ class ExpandableState extends State<Expandable>
       });
     }
 
-    _expandableListState.onToggleV2(toggledExpandable: this);
+    _expandableListState.onToggle(toggledExpandable: this);
     if (wasExpanded) {
       await _animationController.reverse();
     } else {

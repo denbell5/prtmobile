@@ -6,8 +6,8 @@ typedef ExpandableListBuilder = Expandable Function(
   int index,
 );
 
-class ExpandableListV2 extends StatefulWidget {
-  const ExpandableListV2({
+class ExpandableList extends StatefulWidget {
+  const ExpandableList({
     Key? key,
     this.controller,
     this.animationData,
@@ -19,10 +19,10 @@ class ExpandableListV2 extends StatefulWidget {
   final List<Widget> slivers;
 
   @override
-  ExpandableListStateV2 createState() => ExpandableListStateV2();
+  ExpandableListState createState() => ExpandableListState();
 }
 
-class ExpandableListStateV2 extends State<ExpandableListV2> with ListBuilder {
+class ExpandableListState extends State<ExpandableList> with ListBuilder {
   late ScrollController _scrollController;
   double previousOffset = 0.0;
 
@@ -47,13 +47,13 @@ class ExpandableListStateV2 extends State<ExpandableListV2> with ListBuilder {
   }
 
   @override
-  void didUpdateWidget(ExpandableListV2 oldWidget) {
+  void didUpdateWidget(ExpandableList oldWidget) {
     super.didUpdateWidget(oldWidget);
     _handleReorderWhenExpanded();
   }
 
-  static ExpandableListStateV2? of(BuildContext context) {
-    return context.findAncestorStateOfType<ExpandableListStateV2>();
+  static ExpandableListState? of(BuildContext context) {
+    return context.findAncestorStateOfType<ExpandableListState>();
   }
 
   void _handleReorderWhenExpanded() {
@@ -70,7 +70,7 @@ class ExpandableListStateV2 extends State<ExpandableListV2> with ListBuilder {
     });
   }
 
-  void onToggleV2({
+  void onToggle({
     required ExpandableState toggledExpandable,
   }) {
     setState(() {
