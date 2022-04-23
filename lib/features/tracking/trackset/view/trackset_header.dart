@@ -35,8 +35,8 @@ class TracksetHeader extends StatelessWidget {
       },
       child: ListItemHeader(
         labelText: 'Trackset',
-        primaryText: dateRange.toUpperCase(),
-        secondaryText: Text(trackset.name),
+        primaryText: trackset.name,
+        secondaryText: Text(dateRange.toUpperCase()),
         onTap: () {
           if (selectionModeEnabled) {
             toggleSelection(trackset.id);
