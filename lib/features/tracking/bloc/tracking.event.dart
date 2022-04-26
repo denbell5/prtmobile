@@ -104,4 +104,4 @@ class SubtrackEdited extends TrackingEvent {
   });
 }
 
-class LastUpdatedTracksetOpened extends TrackingEvent {}
+class LastUpdatedSubtrackOpened extends TrackingEvent {}

@@ -82,7 +82,7 @@ class _TracksetListState extends State<TracksetList> {
       return;
     }
     TrackingBloc.of(context).add(
-      LastUpdatedTracksetOpened(),
+      LastUpdatedSubtrackOpened(),
     );
   }
 

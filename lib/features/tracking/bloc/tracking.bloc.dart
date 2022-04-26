@@ -46,7 +46,7 @@ class TrackingBloc extends Bloc<TrackingEvent, TrackingState> {
       yield* _mapSubtrackEditedToState(event);
     } else if (event is TracksetSoAdded) {
       yield* _mapTracksetSoAddedToState(event);
-    } else if (event is LastUpdatedTracksetOpened) {
+    } else if (event is LastUpdatedSubtrackOpened) {
       yield* _mapLastUpdatedSubtrackOpenedToState(event);
     }
     yield* _findLastUpdatedSubtrack();
