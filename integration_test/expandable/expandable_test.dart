@@ -12,13 +12,13 @@ void main() async {
     await tester.pumpWidget(const ExpandableTestApp());
     await tester.pumpAndSettle();
 
-    final itemFinder = find.byType(TracksetHeader).first;
-    expect(itemFinder, findsOneWidget);
+    final tracksetHeader = find.byType(TracksetHeader).first;
+    expect(tracksetHeader, findsOneWidget);
 
     for (var i = 0; i < 10; i++) {
       await binding.traceAction(
         () async {
-          await tester.tap(itemFinder);
+          await tester.tap(tracksetHeader);
           await tester.pumpAndSettle();
         },
         reportKey: 'expandable',
@@ -26,7 +26,7 @@ void main() async {
       );
 
       // collapse expandable back
-      await tester.tap(itemFinder);
+      await tester.tap(tracksetHeader);
       await tester.pumpAndSettle();
     }
   });

@@ -65,7 +65,7 @@ class ExpandableListState extends State<ExpandableList> with ListBuilder {
         return;
       }
       final headerBox = _expandedExpandable!.getBox();
-      final nextOffset = _calcOffsetOf(headerBox);
+      final nextOffset = _calcOffsetFor(headerBox);
       _scrollController.jumpTo(nextOffset);
     });
   }
@@ -83,14 +83,14 @@ class ExpandableListState extends State<ExpandableList> with ListBuilder {
       previousOffset = _scrollController.offset;
       _expandedExpandable = toggledExpandable;
       final expandedHeaderBox = toggledExpandable.getBox();
-      final nextOffset = _calcOffsetOf(expandedHeaderBox);
+      final nextOffset = _calcOffsetFor(expandedHeaderBox);
       _scrollTo(nextOffset);
     } else {
       _scrollTo(previousOffset);
     }
   }
 
-  double _calcOffsetOf(BoxDetails expandedHeaderBox) {
+  double _calcOffsetFor(BoxDetails expandedHeaderBox) {
     final listBox = getBoxOf(context);
     return _scrollController.offset +
         expandedHeaderBox.position.dy -
