@@ -1,9 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/widgets.dart';
-import 'package:prtmobile/features/subtrack/subtrack.dart';
-
-import 'package:prtmobile/utils/utils.dart';
+import 'package:prtmobile/features/tracking/func/__mocks__/mocks.dart';
+import 'package:prtmobile/features/tracking/tracking.dart';
 
 import '../storybook.dart';
 
@@ -19,6 +18,12 @@ class SubtrackUpdateExample extends StatefulWidget {
 class _SubtrackUpdateExampleState extends State<SubtrackUpdateExample> {
   @override
   Widget build(BuildContext context) {
+    final subtrack = SubtrackFactory.buildSubtrack(0, trackId: '0');
+    final track = TrackFactory.buildTrack(
+      0,
+      tracksetId: '0',
+      subtracks: [subtrack],
+    );
     return Padding(
       padding: const EdgeInsets.only(
         top: 100,
@@ -26,7 +31,8 @@ class _SubtrackUpdateExampleState extends State<SubtrackUpdateExample> {
       child: Column(
         children: [
           SubtrackUpdateDialog(
-            subtrack: SubtrackFactory.buildSubtrack(0),
+            subtrack: subtrack,
+            track: track,
           ),
         ],
       ),

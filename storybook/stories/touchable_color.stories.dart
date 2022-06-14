@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prtmobile/components/components.dart';
-import 'package:prtmobile/styles/styles.dart';
+import 'package:prtmobile/core/core.dart';
 
 import '../storybook.dart';
 
@@ -31,7 +30,7 @@ class _TouchableColorExampleState extends State<TouchableColorExample> {
             color: Colors.amber,
             touchColor: AppColors.grey,
           ),
-          const SizedBox(height: 10),
+          const Height(10),
           const Text('From white to light grey'),
           TouchableColor(
             child: const SizedBox(

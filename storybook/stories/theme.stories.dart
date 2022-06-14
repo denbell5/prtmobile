@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prtmobile/styles/styles.dart';
+import 'package:prtmobile/core/core.dart';
 
 import '../storybook.dart';
 
@@ -16,7 +16,7 @@ class ThemeExample extends StatefulWidget {
 }
 
 class _ThemeExampleState extends State<ThemeExample> {
-  Widget get divider => const SizedBox(height: 5);
+  Widget get divider => const Height(5);
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +110,7 @@ class CustomThemeExample extends StatefulWidget {
 }
 
 class _CustomThemeExampleState extends State<CustomThemeExample> {
-  Widget get divider => const SizedBox(height: 5);
+  Widget get divider => const Height(5);
 
   @override
   Widget build(BuildContext context) {

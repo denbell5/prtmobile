@@ -1,8 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:prtmobile/components/components.dart';
-import 'package:prtmobile/styles/styles.dart';
+import 'package:prtmobile/core/core.dart';
 
 import '../storybook.dart';
 
@@ -28,21 +27,9 @@ class _ExpandableListPocExampleState extends State<ExpandableListPocExample> {
     duration: const Duration(milliseconds: 300),
   );
 
-  void onToggle({
-    required int index,
-    required bool isExpanded,
-  }) {
-    listKey.currentState!.onToggle(
-      index: index,
-      isExpanded: isExpanded,
-    );
-  }
-
   Expandable buildListItem(int index) {
     return Expandable(
-      onToggle: (isExpanded) {
-        onToggle(index: index, isExpanded: isExpanded);
-      },
+      onToggle: (isExpanded) {},
       animationData: animationData,
       header: Builder(
         builder: (context) {
@@ -84,19 +71,6 @@ class _ExpandableListPocExampleState extends State<ExpandableListPocExample> {
     );
   }
 
-  Widget buildSeparator() {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(
-            width: kDividerHeight,
-            color: AppColors.black,
-          ),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -131,12 +105,7 @@ class _ExpandableListPocExampleState extends State<ExpandableListPocExample> {
             child: ExpandableList(
               key: listKey,
               controller: scrollController,
-              expandableHeaderExtent: itemExtent,
-              listHeader: buildListHeader(),
               animationData: animationData,
-              divider: widget.isSeparated ? buildSeparator() : null,
-              itemCount: 1000,
-              itemBuilder: (index) => buildListItem(index),
             ),
           ),
         ],

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prtmobile/components/components.dart';
-import 'package:prtmobile/styles/styles.dart';
+import 'package:prtmobile/core/core.dart';
 import '../storybook.dart';
 
 class TextSizeExample extends StatefulWidget {
@@ -59,11 +58,11 @@ class _TextSizeExampleState extends State<TextSizeExample> {
               ),
             ),
           ),
-          const SizedBox(height: 7.5),
+          const Height(7.5),
           Text('Actual height - $actualTextHeight'),
           Text('Raw calculated height - $rawCalculatedHeight'),
           Text('Rounded calculated height - $calculatedHeight'),
-          const SizedBox(height: 7.5),
+          const Height(7.5),
           const Text('Font size - $fontSize'),
           Text('Text scale factor - $textScale'),
           const Text('Text height factor - $fontHeight'),
